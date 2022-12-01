@@ -19,7 +19,7 @@ output: html_document
 
 # **Chera Lab Journal**
 
-This is a template example for lab journaling. Students in Matt Crump's Human Cognition and Performance Lab will use this template to learn R, and other things. Students can replace this text with more fun things. People not in my lab can use this too.
+Это пример шаблона для ведения журнала лаборатории. Студенты лаборатории человеческого познания и производительности Мэтта Крампа будут использовать этот шаблон для изучения R и других вещей. Студенты могут заменить этот текст более забавными вещами. Люди, не работающие в моей лаборатории, тоже могут это использовать.
 
 ## How to use
 
