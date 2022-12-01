@@ -1,77 +1,23 @@
 ---
-title: "Начало работы в R (от Р. Кабакова)"
-output: github_document
+title: "IntroR"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
+
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr)
 require(ggplot2)
-```
-
-Оглавление
-
-[ГЛАВА 1.]\
-[Знакомство с R]\
-[1.1 Зачем использовать R?]\
-[1.2 Получение и установка R]\
-[1.3 Работа в R]\
-[1.3.1 Начало работы]\
-[1.3.2 Как получить помощь]\
-
-## I. GitHub Documents
-
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
-
-### II. Including Code
-
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
-```
-
-### Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-### GGPLOT
-
-```{r, label='ggplot2-chunk', message=FALSE, warning=FALSE}
-library(ggplot2)
-
-# Generate some sample data, then compute mean and standard deviation
-# in each group
-set.seed(1)
-df <- data.frame(
-  gp = factor(rep(letters[1:3], each = 10)),
-  y = rnorm(30)
-)
-ds <- do.call(rbind, lapply(split(df, df$gp), function(d) {
-  data.frame(mean = mean(d$y), sd = sd(d$y), gp = d$gp)
-}))
-
-# Alternatively we can fully specify the plot in each layer. This
-# is not useful here, but can be more clear when working with complex
-# mult-dataset graphics
-ggplot() +
-  geom_point(data = df, aes(gp, y)) +
-  geom_point(data = ds, aes(gp, mean), colour = 'red', size = 3) +
-  geom_errorbar(
-    data = ds,
-    aes(gp, mean, ymin = mean - sd, ymax = mean + sd),
-    colour = 'red',
-    width = 0.4
-  )
 ```
 
 # Часть I.
@@ -155,11 +101,11 @@ scatterplotMatrix(~ income + education + prestige | type, data=Duncan)
 
 Задача этой книги - сделать овладение R быстрым и простым. Мы рассмотрим достаточно много возможностей R, чтобы вы смогли начать обработку собственных данных, с указаниями на то, где можно получить дополнительную информацию. Давайте начнем с установки программы.
 
-### 1.2 Получение и установка R
+# 1.2 Получение и установка R
 
 R можно бесплатно скачать из «всеобъемлющего сетевого архива R» (Comprehensive R Archive Network, CRAN) по адресу <https://cran.r-project.org.> Предварительно скомпилированные загрузочные файлы доступны для Linux, Mac OS X и Windows. Следуйте инструкциям по установке программы в вашей операционной системе. Позже мы обсудим, как повышать функциональность программы при помощи дополнительных модулей, называемых «пакетами», - они также доступны в CRAN. В приложении H рассказано, как обновлять программу.
 
-### 1.3 Работа в R
+# 1.3 Работа в R
 
 R - это чувствительный к регистру клавиатуры интерпретируемый язык программирования. Вы можете либо вводить команды по одной в ответ на приглашение на ввод команды (\>), либо запускать набор команд из исходного файла. Типы данных очень разнообразны: векторы, матрицы, таблицы данных и списки (совокупность нескольких объектов). Мы обсудим все эти типы данных в главе 2.
 
@@ -230,7 +176,7 @@ plot(age, weight)
 demo(graphics)
 ```
 
-### 1.3.2 Как получить помощь
+# 1.3.2 Как получить помощь
 
 R обладает обширными справочными материалами. Научитесь ориентироваться в них, и это поможет вам при работе в программе. Встроенная система помощи содержит подробные разъяснения, ссылки на литературу и примеры для каждой функции из установленных пакетов. Справку можно вызвать при помощи функций, перечисленных в табл. 1.2.
 

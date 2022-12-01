@@ -8,4 +8,6 @@ navbar:
       href: Journal.html
     - text: "Ссылки"
       href: Links.html
+    - text: "Введение в R"
+      href: intro_r.html
 output_dir: "docs"
