@@ -1,11 +1,11 @@
-name: "CheraJournal"
+name: "MedR"
 navbar:
-  title: "Chera"
+  title: "Медицинский R"
   left:
-    - text: "Home"
+    - text: "Главная"
       href: index.html
-    - text: "Journal"
+    - text: "Содержание"
       href: Journal.html
-    - text: "Links"
+    - text: "Ссылки"
       href: Links.html
 output_dir: "docs"

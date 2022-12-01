@@ -1,5 +1,5 @@
 ---
-title: "CheraLabJournal"
+title: "MedR"
 output: html_document
 ---
 
@@ -17,11 +17,11 @@ output: html_document
 <div class="row" style="padding-top: 30px;">
 <div class="col-sm-6">
 
-# **Chera Lab Journal**
+# **Учебные материалы по R**
 
 Это пример шаблона для ведения журнала лаборатории. Студенты лаборатории человеческого познания и производительности Мэтта Крампа будут использовать этот шаблон для изучения R и других вещей. Студенты могут заменить этот текст более забавными вещами. Люди, не работающие в моей лаборатории, тоже могут это использовать.
 
-## How to use
+## Как использовать
 
 1. fork the repo for this website and follow instructions on read me to get set up. [https://github.com/CrumpLab/LabJournalWebsite](https://github.com/CrumpLab/LabJournalWebsite)
 
