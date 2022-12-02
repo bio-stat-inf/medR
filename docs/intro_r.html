@@ -35,6 +35,16 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.9/DiagrammeR.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -997,6 +1007,54 @@ demo(Hershey), demo(persp) и demo(image). Для того чтобы увиде
 </tr>
 </tbody>
 </table>
+</div>
+<div id="диаграмма-r-markdown" class="section level1">
+<h1>Диаграмма R Markdown</h1>
+<p>Диаграмма</p>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;st=&gt;start: Start
+op=&gt;operation: Your Operation
+cond=&gt;condition: Yes or No?
+e=&gt;end
+
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op
+&quot;)</code></pre>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"st=>start: Start\nop=>operation: Your Operation\ncond=>condition: Yes or No?\ne=>end\n\nst->op->cond\ncond(yes)->e\ncond(no)->op\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-mermaid-diagram" class="section level1">
+<h1>Simple mermaid diagram</h1>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;graph LR
+    A--&gt;B
+    &quot;, height = &#39;100%&#39;, width = &#39;100%&#39;)</code></pre>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:100%;height:100%;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"graph LR\n    A-->B\n    "},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>grViz(&quot;digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = &#39;@@1&#39;]
+      tab2 [label = &#39;@@2&#39;]
+      tab3 [label = &#39;@@3&#39;]
+      tab4 [label = &#39;@@4&#39;]
+      tab5 [label = &#39;@@5&#39;]
+
+      # edge definitions with the node IDs
+      tab1 -&gt; tab2;
+      tab2 -&gt; tab3;
+      tab2 -&gt; tab4 -&gt; tab5
+      }
+
+      [1]: &#39;Questionnaire sent to n=1000 participants&#39;
+      [2]: &#39;Participants came to clinic for evaluation n=700&#39;
+      [3]: &#39;Participants non-eligible for the study n=100&#39;
+      [4]: &#39;Participants eligible for the study n=600&#39;
+      [5]: &#39;Study sample n=600&#39;
+      &quot;)</code></pre>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab3 [label = \"Participants non-eligible for the study n=100\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab2 -> tab3;\n      tab2 -> tab4 -> tab5\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

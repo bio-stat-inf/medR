@@ -193,3 +193,116 @@ R обладает обширными справочными материала�
 | `data()`                             | Список всех демонстрационных данных, содержащихся в загруженных пакетах             |
 | `vignette()`                         | Список всех доступных руководств по загруженным пакетам                             |
 | `vignette("нечто")`                  | Список руководств по теме нечто                                                     |
+
+# Диаграмма R Markdown
+Диаграмма
+```{r}
+library(DiagrammeR)
+mermaid("
+graph TD
+A(Rounded)-->B[Rectangular]
+B-->C{A Rhombus}
+C-->D[Rectangle One]
+C-->E[Rectangle Two]
+")
+```
+```{r}
+library(DiagrammeR)
+mermaid("
+graph TD
+A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+")
+```
+
+
+```{r}
+library(DiagrammeR)
+mermaid("sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!")
+```
+
+# Simple mermaid diagram
+
+```{r}
+library(DiagrammeR)
+mermaid("graph LR
+    A-->B
+    ", height = '10%', width = '100%')
+```
+
+```{r}
+library(DiagrammeR)
+mermaid("graph TD
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D")
+```
+
+```{r}
+grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+
+      # edge definitions with the node IDs
+      tab1 -> tab2;
+      tab2 -> tab3;
+      tab2 -> tab4 -> tab5
+      }
+
+      [1]: 'Questionnaire sent to n=1000 participants'
+      [2]: 'Participants came to clinic for evaluation n=700'
+      [3]: 'Participants non-eligible for the study n=100'
+      [4]: 'Participants eligible for the study n=600'
+      [5]: 'Study sample n=600'
+      ")
+```
+
+## Flow chart
+
+```{r example, fig.align='center', fig.retina=3}
+
+suppressPackageStartupMessages(library(widgetframe))
+
+l=DiagrammeR::mermaid("
+graph LR;
+A((Orange)) --> B((Grey));
+
+classDef orange fill:#f96;
+classDef grey fill:#d3d3d3;
+class A orange;
+class B grey;
+")
+
+widgetframe::frameWidget(l)
+```
+
+## Flow chart
+
+```{r example, fig.align='center', fig.retina=3}
+mermaid("
+ graph TD
+    A{Does your flowchart have arrows?} --> B[No]
+    A --> C(yes)
+    B --> D(Add them already)
+    C --> E((Yay, what a great flowchart!))
+    D -.->|you can even add text to them| A
+")
+```
