@@ -1007,31 +1007,83 @@ demo(Hershey), demo(persp) и demo(image). Для того чтобы увиде
 </tr>
 </tbody>
 </table>
+<p>#Коэффициенты модели</p>
+<p>equatiomatic</p>
+<pre class="r"><code>library(equatiomatic)
+fit &lt;- lm(mpg ~ cyl + disp, mtcars)
+# show the theoretical model
+equatiomatic::extract_eq(fit)</code></pre>
+<p><span class="math display">\[
+\operatorname{mpg} = \alpha + \beta_{1}(\operatorname{cyl}) +
+\beta_{2}(\operatorname{disp}) + \epsilon
+\]</span></p>
+<pre class="r"><code># display the actual coefficients
+equatiomatic::extract_eq(fit, use_coefs = TRUE)</code></pre>
+<p><span class="math display">\[
+\operatorname{\widehat{mpg}} = 34.66 - 1.59(\operatorname{cyl}) -
+0.02(\operatorname{disp})
+\]</span></p>
 </div>
 <div id="диаграмма-r-markdown" class="section level1">
 <h1>Диаграмма R Markdown</h1>
 <p>Диаграмма</p>
 <pre class="r"><code>library(DiagrammeR)
-mermaid(&quot;st=&gt;start: Start
-op=&gt;operation: Your Operation
-cond=&gt;condition: Yes or No?
-e=&gt;end
-
-st-&gt;op-&gt;cond
-cond(yes)-&gt;e
-cond(no)-&gt;op
+mermaid(&quot;
+graph TD
+A(Rounded)--&gt;B[Rectangular]
+B--&gt;C{A Rhombus}
+C--&gt;D[Rectangle One]
+C--&gt;E[Rectangle Two]
 &quot;)</code></pre>
 <div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"st=>start: Start\nop=>operation: Your Operation\ncond=>condition: Yes or No?\ne=>end\n\nst->op->cond\ncond(yes)->e\ncond(no)->op\n"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"\ngraph TD\nA(Rounded)-->B[Rectangular]\nB-->C{A Rhombus}\nC-->D[Rectangle One]\nC-->E[Rectangle Two]\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;
+graph TD
+A[Hard edge] --&gt;|Link text| B(Round edge)
+    B --&gt; C{Decision}
+    C --&gt;|One| D[Result one]
+    C --&gt;|Two| E[Result two]
+&quot;)</code></pre>
+<div id="htmlwidget-33c396ee2e0b2eb271ec" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33c396ee2e0b2eb271ec">{"x":{"diagram":"\ngraph TD\nA[Hard edge] -->|Link text| B(Round edge)\n    B --> C{Decision}\n    C -->|One| D[Result one]\n    C -->|Two| E[Result two]\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &lt;br/&gt;prevail!
+    John--&gt;&gt;Alice: Great!
+    John-&gt;&gt;Bob: How about you?
+    Bob--&gt;&gt;John: Jolly good!&quot;)</code></pre>
+<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"sequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop Healthcheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts <br/>prevail!\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="simple-mermaid-diagram" class="section level1">
 <h1>Simple mermaid diagram</h1>
 <pre class="r"><code>library(DiagrammeR)
 mermaid(&quot;graph LR
     A--&gt;B
-    &quot;, height = &#39;100%&#39;, width = &#39;100%&#39;)</code></pre>
-<div id="htmlwidget-5b6d65f115da6722dd09" style="width:100%;height:100%;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"graph LR\n    A-->B\n    "},"evals":[],"jsHooks":[]}</script>
+    &quot;, height = &#39;10%&#39;, width = &#39;100%&#39;)</code></pre>
+<div id="htmlwidget-c28944b0981364d8e66d" style="width:100%;height:10%;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28944b0981364d8e66d">{"x":{"diagram":"graph LR\n    A-->B\n    "},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-mermaid-diagram-2" class="section level1">
+<h1>Simple mermaid diagram 2</h1>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;graph TD
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D&quot;)</code></pre>
+<div id="htmlwidget-8e6a813bd60417babd4d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e6a813bd60417babd4d">{"x":{"diagram":"graph TD\n    A-->B;\n    A-->C;\n    B-->D;\n    C-->D"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-grviz-1" class="section level1">
+<h1>Simple grViz 1</h1>
 <pre class="r"><code>grViz(&quot;digraph flowchart {
       # node definitions with substituted label text
       node [fontname = Helvetica, shape = rectangle]        
@@ -1053,8 +1105,131 @@ mermaid(&quot;graph LR
       [4]: &#39;Participants eligible for the study n=600&#39;
       [5]: &#39;Study sample n=600&#39;
       &quot;)</code></pre>
+<div id="htmlwidget-5cc920c6d4539ae12b9a" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5cc920c6d4539ae12b9a">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab3 [label = \"Participants non-eligible for the study n=100\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab2 -> tab3;\n      tab2 -> tab4 -> tab5\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-grviz-2" class="section level1">
+<h1>Simple grViz 2</h1>
+<pre class="r"><code>grViz(&quot;digraph dot {
+node [shape=rectange];
+
+d1 [shape=point,width=0.01,height=0.01];
+d2 [shape=point, width=0.01, height=0.01];
+{&#39;GE Раствор&#39;, &#39;GA Solution&#39;}-&gt;d1[dir=none];
+d1-&gt;&#39;Stir 10 mins at 500 r/min&#39;;
+&#39;Stir 10 mins at 500 r/min&#39;-&gt;d2[dir=none];
+subgraph {
+    rank=same;
+    d2; &#39;40oC&#39;;
+}
+d2-&gt;&#39;40oC&#39;[dir=none];
+d2-&gt;&#39;Homogenisation at 10000 r/min&#39;}&quot;)</code></pre>
+<div id="htmlwidget-8fa14313fa3a5a47aa96" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8fa14313fa3a5a47aa96">{"x":{"diagram":"digraph dot {\nnode [shape=rectange];\n\nd1 [shape=point,width=0.01,height=0.01];\nd2 [shape=point, width=0.01, height=0.01];\n{\"GE Раствор\", \"GA Solution\"}->d1[dir=none];\nd1->\"Stir 10 mins at 500 r/min\";\n\"Stir 10 mins at 500 r/min\"->d2[dir=none];\nsubgraph {\n    rank=same;\n    d2; \"40oC\";\n}\nd2->\"40oC\"[dir=none];\nd2->\"Homogenisation at 10000 r/min\"}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>#Flow grViz</p>
+<pre class="r"><code>grViz(&quot;
+digraph boxes_and_circles {
+
+  # a &#39;graph&#39; statement
+  graph [overlap = true, fontsize = 10]
+
+  # several &#39;node&#39; statements
+  node [shape = box,
+        fontname = Helvetica]
+  A; B; C; D; E; F
+
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  1; 2; 3; 4; 5; 6; 7; 8
+
+  # several &#39;edge&#39; statements
+  A-&gt;1 B-&gt;2 B-&gt;3 B-&gt;4 C-&gt;A
+  1-&gt;D E-&gt;A 2-&gt;4 1-&gt;5 1-&gt;F
+  E-&gt;6 4-&gt;6 5-&gt;7 6-&gt;7 3-&gt;8
+}
+&quot;)</code></pre>
 <div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab3 [label = \"Participants non-eligible for the study n=100\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab2 -> tab3;\n      tab2 -> tab4 -> tab5\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"\ndigraph boxes_and_circles {\n\n  # a \"graph\" statement\n  graph [overlap = true, fontsize = 10]\n\n  # several \"node\" statements\n  node [shape = box,\n        fontname = Helvetica]\n  A; B; C; D; E; F\n\n  node [shape = circle,\n        fixedsize = true,\n        width = 0.9] // sets as circles\n  1; 2; 3; 4; 5; 6; 7; 8\n\n  # several \"edge\" statements\n  A->1 B->2 B->3 B->4 C->A\n  1->D E->A 2->4 1->5 1->F\n  E->6 4->6 5->7 6->7 3->8\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>#Flow 2</p>
+<pre class="r"><code>grViz(&quot;
+      digraph boxes_and_circles {
+
+      # a &#39;graph&#39; statement
+      graph [overlap = true, fontsize = 10]
+
+      # several &#39;node&#39; statements
+      node [shape = box,
+      fontname = Helvetica]
+      A; B; C; D; E
+      
+      node [shape = box,
+      fontname = Helvetica,
+      width = 1]
+      F[label = &#39;@@2&#39;]
+
+      node [shape = circle,
+      fixedsize = true,
+      width = 0.9] // sets as circles
+      1; 2; 3; 4; 5; 6; 7; 8
+      
+      node [shape = diamond,
+      fixedsize = true,
+      width = 3, height = 1] // sets as 
+      9[label = &#39;@@1&#39;]
+
+      # several &#39;edge&#39; statements
+      9-&gt;1 [label=&#39;YES&#39;]
+      9-&gt;5 [label=&#39;No&#39;]
+      B-&gt;2 [label=&#39;NO&#39;] 
+      B-&gt;3 [label=&#39;...&#39;] 
+      B-&gt;4 C-&gt;9
+      1-&gt;D E-&gt;9 2-&gt;4 1-&gt;5 1-&gt;F
+      E-&gt;6 4-&gt;6 5-&gt;7 6-&gt;7 3-&gt;8
+      }
+      [1]: &#39;top нет сил&#39;
+      [2]: &#39;но это&#39;
+&quot;)</code></pre>
+<div id="htmlwidget-33c396ee2e0b2eb271ec" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33c396ee2e0b2eb271ec">{"x":{"diagram":"\n      digraph boxes_and_circles {\n\n      # a \"graph\" statement\n      graph [overlap = true, fontsize = 10]\n\n      # several \"node\" statements\n      node [shape = box,\n      fontname = Helvetica]\n      A; B; C; D; E\n      \n      node [shape = box,\n      fontname = Helvetica,\n      width = 1]\n      F[label = \"но это\"]\n\n      node [shape = circle,\n      fixedsize = true,\n      width = 0.9] // sets as circles\n      1; 2; 3; 4; 5; 6; 7; 8\n      \n      node [shape = diamond,\n      fixedsize = true,\n      width = 3, height = 1] // sets as \n      9[label = \"top нет сил\"]\n\n      # several \"edge\" statements\n      9->1 [label=\"YES\"]\n      9->5 [label=\"No\"]\n      B->2 [label=\"NO\"] \n      B->3 [label=\"...\"] \n      B->4 C->9\n      1->D E->9 2->4 1->5 1->F\n      E->6 4->6 5->7 6->7 3->8\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="flow-chart-2" class="section level2">
+<h2>Flow chart 2</h2>
+<pre class="r"><code>mermaid(&quot;
+ graph TD
+    A{Does your flowchart have arrows?} --&gt; B[No]
+    A --&gt; C(yes)
+    B --&gt; D(Add them already)
+    C --&gt; E((Yay, what a great flowchart!))
+    D -.-&gt;|you can even add text to them| A
+&quot;)</code></pre>
+<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"\n graph TD\n    A{Does your flowchart have arrows?} --> B[No]\n    A --> C(yes)\n    B --> D(Add them already)\n    C --> E((Yay, what a great flowchart!))\n    D -.->|you can even add text to them| A\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="flow-chart-3" class="section level2">
+<h2>Flow chart 3</h2>
+<pre class="r"><code>mermaid(&quot;
+ graph LR
+   X--&gt;D
+   Y--&gt;D
+   D--E
+   
+            sq1[shape one]-- This can&#39;t be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+&quot;)</code></pre>
+<div id="htmlwidget-c28944b0981364d8e66d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28944b0981364d8e66d">{"x":{"diagram":"\n graph LR\n   X-->D\n   Y-->D\n   D--E\n   \n            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]\n            cyr1((circle one))---cyr2((circle two));\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>mermaid(&quot;
+ graph LR
+   X---D
+   Y---D
+   D--&gt;E
+   
+            sq1[shape one]-- This can&#39;t be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+&quot;)</code></pre>
+<div id="htmlwidget-8e6a813bd60417babd4d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e6a813bd60417babd4d">{"x":{"diagram":"\n graph LR\n   X---D\n   Y---D\n   D-->E\n   \n            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]\n            cyr1((circle one))---cyr2((circle two));\n"},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

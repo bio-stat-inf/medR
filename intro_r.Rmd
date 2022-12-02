@@ -194,6 +194,20 @@ R обладает обширными справочными материала�
 | `vignette()`                         | Список всех доступных руководств по загруженным пакетам                             |
 | `vignette("нечто")`                  | Список руководств по теме нечто                                                     |
 
+#Коэффициенты модели
+
+equatiomatic
+
+```{r}
+library(equatiomatic)
+fit <- lm(mpg ~ cyl + disp, mtcars)
+# show the theoretical model
+equatiomatic::extract_eq(fit)
+
+# display the actual coefficients
+equatiomatic::extract_eq(fit, use_coefs = TRUE)
+```
+
 # Диаграмма R Markdown
 Диаграмма
 ```{r}
@@ -241,7 +255,7 @@ mermaid("graph LR
     A-->B
     ", height = '10%', width = '100%')
 ```
-
+# Simple mermaid diagram 2
 ```{r}
 library(DiagrammeR)
 mermaid("graph TD
@@ -250,7 +264,7 @@ mermaid("graph TD
     B-->D;
     C-->D")
 ```
-
+# Simple grViz 1
 ```{r}
 grViz("digraph flowchart {
       # node definitions with substituted label text
@@ -275,28 +289,94 @@ grViz("digraph flowchart {
       ")
 ```
 
-## Flow chart
+# Simple grViz 2
+```{r}
+grViz("digraph dot {
+node [shape=rectange];
 
-```{r example, fig.align='center', fig.retina=3}
-
-suppressPackageStartupMessages(library(widgetframe))
-
-l=DiagrammeR::mermaid("
-graph LR;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
+d1 [shape=point,width=0.01,height=0.01];
+d2 [shape=point, width=0.01, height=0.01];
+{'GE Раствор', 'GA Solution'}->d1[dir=none];
+d1->'Stir 10 mins at 500 r/min';
+'Stir 10 mins at 500 r/min'->d2[dir=none];
+subgraph {
+    rank=same;
+    d2; '40oC';
+}
+d2->'40oC'[dir=none];
+d2->'Homogenisation at 10000 r/min'}")
 ```
 
-## Flow chart
+#Flow grViz
+```{r}
+grViz("
+digraph boxes_and_circles {
 
-```{r example, fig.align='center', fig.retina=3}
+  # a 'graph' statement
+  graph [overlap = true, fontsize = 10]
+
+  # several 'node' statements
+  node [shape = box,
+        fontname = Helvetica]
+  A; B; C; D; E; F
+
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  1; 2; 3; 4; 5; 6; 7; 8
+
+  # several 'edge' statements
+  A->1 B->2 B->3 B->4 C->A
+  1->D E->A 2->4 1->5 1->F
+  E->6 4->6 5->7 6->7 3->8
+}
+")
+```
+#Flow 2
+```{r}
+grViz("
+      digraph boxes_and_circles {
+
+      # a 'graph' statement
+      graph [overlap = true, fontsize = 10]
+
+      # several 'node' statements
+      node [shape = box,
+      fontname = Helvetica]
+      A; B; C; D; E
+      
+      node [shape = box,
+      fontname = Helvetica,
+      width = 1]
+      F[label = '@@2']
+
+      node [shape = circle,
+      fixedsize = true,
+      width = 0.9] // sets as circles
+      1; 2; 3; 4; 5; 6; 7; 8
+      
+      node [shape = diamond,
+      fixedsize = true,
+      width = 3, height = 1] // sets as 
+      9[label = '@@1']
+
+      # several 'edge' statements
+      9->1 [label='YES']
+      9->5 [label='No']
+      B->2 [label='NO'] 
+      B->3 [label='...'] 
+      B->4 C->9
+      1->D E->9 2->4 1->5 1->F
+      E->6 4->6 5->7 6->7 3->8
+      }
+      [1]: 'top нет сил'
+      [2]: 'но это'
+")
+
+```
+## Flow chart 2
+
+```{r example3, fig.align='center', fig.retina=3}
 mermaid("
  graph TD
     A{Does your flowchart have arrows?} --> B[No]
@@ -306,3 +386,28 @@ mermaid("
     D -.->|you can even add text to them| A
 ")
 ```
+
+## Flow chart 3
+ 
+```{r example, fig.align='center', fig.retina=3}
+mermaid("
+ graph LR
+   X-->D
+   Y-->D
+   D--E
+   
+            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+")
+```
+
+```{r example2, fig.align='center', fig.retina=3}
+mermaid("
+ graph LR
+   X---D
+   Y---D
+   D-->E
+   
+            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+")
