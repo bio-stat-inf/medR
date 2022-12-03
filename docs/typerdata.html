@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Типы данных R</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Содержание</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Объекты, типы данных в R</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Типы данных R</h1>
+
+</div>
+
+
+<pre class="r"><code>library(dplyr)
+require(ggplot2)</code></pre>
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>Это документ R Markdown. Markdown — это простой синтаксис
+форматирования для создания документов HTML, PDF и MS Word. Для
+получения дополнительной информации об использовании R Markdown см. <a
+href="http://rmarkdown.rstudio.com"
+class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>Когда вы нажмете кнопку <strong>Knit</strong>, будет сгенерирован
+документ, который включает в себя как содержимое, так и выходные данные
+любых встроенных фрагментов кода R в документе. Вы можете встроить
+фрагмент кода R следующим образом:</p>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
+<div id="добавление-диаграмм" class="section level2">
+<h2>Добавление диаграмм</h2>
+<p>Вы также можете вставлять графики, например:</p>
+<p><img src="typerdata_files/figure-html/pressure-1.png" width="672" /></p>
+<p>Обратите внимание, что параметр <code>echo = FALSE</code> был
+добавлен в фрагмент кода, чтобы предотвратить печать кода R,
+сгенерировавшего график.</p>
+</div>
+<div id="добавление-спойлера" class="section level2">
+<h2>Добавление спойлера</h2>
+<p>Спойлер - это какой-нибудь длиинный дополнительный текст, который по
+умолчанию должен быть скрыт. Его можно показать, нажав на спойлер.</p>
+<details>
+<summary>
+Спойлер
+</summary>
+<p>Какой-нибудь длиинный дополнительный текст, который по умолчанию
+должен быть скрыт. Его можно показать, нажав на спойлер.</p>
+</details>
+<p>#Использование сочетаний клавиш</p>
+<p>Чтобы скопировать текст нажмите <kbd>Ctrl</kbd> + <kbd>C</kbd></p>
+<p>#Использование вкладок</p>
+<div id="вкладки" class="section level3 tabset">
+<h3 class="tabset">Вкладки</h3>
+<div id="первая-вкладка" class="section level4">
+<h4>Первая вкладка</h4>
+<p>Содержимое первой вкладки #### Вторая вкладка Содержимое второй
+вкладки #### Третья вкладка Содержимое третей вкладки</p>
+<p>#Вкладки Вы можете превратить параллельные разделы во вкладки в
+выводе <code>html_document</code>.</p>
+</div>
+</div>
+</div>
+<div id="results" class="section level2 tabset">
+<h2 class="tabset">Results</h2>
+<div id="plots" class="section level3">
+<h3>Plots</h3>
+<p>В этом разделе мы показываем точечную диаграмму.</p>
+<pre class="r"><code>par(mar = c(4, 4, .5, .1))
+plot(mpg ~ hp, data = mtcars, pch = 19)</code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-1-1.png" width="480" /></p>
+</div>
+<div id="tables" class="section level3">
+<h3>Tables</h3>
+<p>Мы показываем данные в этой вкладке.</p>
+<pre class="r"><code>head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+</div>
+</div>
+<div id="создание-набора-данных" class="section level1">
+<h1>Создание набора данных</h1>
+<p>В этой главе:</p>
+<ul>
+<li><p>Изучаем структуры данных в R.</p></li>
+<li><p>Вводим данные.</p></li>
+<li><p>Импортируем данные.</p></li>
+<li><p>Аннотируем наборы данных.</p></li>
+</ul>
+<p>Первый этап любого анализа данных – создание набора данных, в котором
+содержится информация для изучения, в подходящем формате. В R эта задача
+распадается на следующие: * выбор типа данных; * числовые данные *
+нечисловые данные * Ввод или импорт данных в выбранном формате.</p>
+<p>Первая часть этой главы (разделы 2.1–2.2) содержит описание
+многочисленных типов данных, используемых в R. В частности, в разделе
+2.2 обсуждаются векторы, факторы, матрицы, таблицы данных и списки.
+Знакомство с этими типами данных (и обозначениями, используемыми для
+доступа к отдельным их элементам) очень поможет вам в понимании того,
+как работает R. Возможно, вы захотите уделить этому разделу достаточно
+много времени.</p>
+<p>Вторая часть главы (раздел 2.3) посвящена разным способам импорта
+данных в R. Данные можно вводить вручную или импортировать из внешнего
+источника. Таким источником могут быть текстовые файлы, электронные
+таблицы, статистические программы и системы управления базами данных.
+Например, я обычно работаю с данными, которые изначально содержатся в
+базах данных языка структурированных запросов (Structured Query
+Language, SQL). Хотя иногда я получаю данные из старомодных дисковых
+операционных систем (Disk Operating System, DOS) и из современных баз
+данных SAS и SPSS. Вероятно, вам достаточно будет использовать один или
+два метода из описанных в этом разделе, так что просто выберите тот, что
+вам подходит. После того как набор данных создан, его, как правило,
+нужно аннотировать, добавив подписи для переменных и кодов данных.
+Третья часть главы (раздел 2.4) посвящена аннотированию наборов данных и
+обзору некоторых полезных функций для работы с ними (раздел 2.5).
+Давайте начнем с самого начала.</p>
+</div>
+<div id="что-такое-набор-данных" class="section level1">
+<h1>Что такое набор данных?</h1>
+<p>Набор данных – это, как правило, прямоугольный массив данных, в
+котором ряды соответствуют наблюдениям, а столбцы – признакам. В табл.
+2.1 представлен гипотетический набор данных о пациентах.</p>
+<p><strong>Таблица 1.</strong> Набор данных о пациентах</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">PatientID</th>
+<th align="left">AdmDate</th>
+<th align="left">Age</th>
+<th align="left">Diabetes</th>
+<th align="left">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">10/15/2009</td>
+<td align="left">25</td>
+<td align="left">Type1</td>
+<td align="left">Poor</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">11/01/2009</td>
+<td align="left">34</td>
+<td align="left">Type2</td>
+<td align="left">Improved</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">10/21/2009</td>
+<td align="left">28</td>
+<td align="left">Type1</td>
+<td align="left">Excellent</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">10/28/2009</td>
+<td align="left">52</td>
+<td align="left">Type1</td>
+<td align="left">Poor</td>
+</tr>
+</tbody>
+</table>
+<p><strong>PatientID</strong> – порядковый номер пациента;
+<strong>AdmDate</strong> (admission date) – дата поступления:
+месяц/день/год; <strong>Age</strong> – возраст;
+<strong>Diabetes</strong> – тип диабета (<em>Type1</em> – первый тип,
+<em>Type2</em> – второй тип); <strong>Status</strong> – состояние
+(<em>Poor</em> – плохое; <em>Improved</em> – улучшившееся;
+<em>Excellent</em> – превосходное).</p>
+<p>Представители разных профессий по-разному называют строки и столбцы в
+наборе данных. Статистики называют их наблюдениями
+(<em>observation</em>) и переменными (<em>variable</em>), аналитики,
+которые работают с базами данных, говорят о записях (<em>record</em>) и
+полях (<em>field</em>), а те, кто работает в области нахождения в данных
+скрытой информации (data mining) и машинного обучения (machine
+learning), называют их образцы (<em>example</em>) и свойства
+(<em>attribute</em>).<strong>D</strong> – это название строки или
+наблюдения,<br />
+<strong>AdmDate</strong> – переменная в формате даты,<br />
+<strong>Age</strong> – непрерывная (или количественная – continuous)
+переменная,<br />
+<strong>Diabetes</strong> – номинальная (nominal) переменная и<br />
+<strong>Status</strong> – это порядковая (или шкальная – ordered)
+переменная.</p>
+<p>R работает с самыми разными структурами данных, включая скаляры,
+векторы, массивы данных, таблицы данных и списки. Таблица 1 будет
+прочитана в R как <strong>таблица данных</strong>. Такое большое
+разнообразие поддерживаемых структур дает языку R большую гибкость в
+работе с данными.</p>
+</div>
+<div id="типы-данных-в-r" class="section level1">
+<h1>Типы данных в R</h1>
+<p>бывают:</p>
+<p><strong>числовыми</strong> (numeric),<br />
+<strong>текстовыми</strong> (character),<br />
+<strong>логическими</strong> (TRUE/FALSE, правда/ложь),<br />
+<strong>комплексными</strong> (мнимое число) и<br />
+<strong>необработанными</strong> (байты).</p>
+<p>Переменные <code>PatientID</code>, <code>AdmDate</code> и Age будут
+прочитаны R как числовые, а <code>Diabetes</code> и <code>Status</code>
+– как текстовые. Еще вам нужно будет «сообщить» программе, что
+<code>PatientID</code> – это названия наблюдений, что в
+<code>AdmDate</code> записаны даты и что <code>Diabetes</code> и
+<code>Status</code> – это номинальная и порядковая переменные
+соответственно. В R имена строк называются <strong>rownames</strong>, а
+категориальные (номинальные и порядковые) переменные –
+<strong>factor</strong> (фактор). Мы рассмотрим все по порядку в
+следующем разделе.</p>
+</div>
+<div id="структуры-данных" class="section level1">
+<h1>Структуры данных</h1>
+<p>R работает с самыми разными структурами данных, включая скаляры,
+векторы, матрицы, массивы данных, таблицы данных и списки. Они
+различаются типами данных, способом создания, сложностью устройства, а
+также способом обозначать и извлекать их отдельные элементы. Эти
+структуры данных схематически изображены на рис. 2.1.</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-2D4F5B81.png" alt="" />
+<p class="caption">Вектор</p>
+</div>
+</div>
+<p>а) Вектор</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-2D4F5B81.png" alt="" />
+<p class="caption">Вектор</p>
+</div>
+</div>
+<p>б) Матрица</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-6F4B9E86.png" alt="" />
+<p class="caption">Матрица</p>
+</div>
+</div>
+<p>в) Массив данных</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-6A40228A.png" alt="" />
+<p class="caption">Массив данных</p>
+</div>
+</div>
+<p>г) Таблица данных</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-6F4B9E86.png" alt="" />
+<p class="caption">Таблица данных</p>
+</div>
+</div>
+<p>д) Список</p>
+<div style="text-align: center;">
+<div class="figure">
+<img src="images/paste-BC5C1A28.png" alt="" />
+<p class="caption">Список</p>
+</div>
+</div>
+<p>Рис. 2.1. Типы структуры данных в R Структуры данных 55</p>
+<div id="некоторые-определения" class="section level2">
+<h2>Некоторые определения</h2>
+<p>Существует несколько присущих только R терминов, которые приводят в
+замешательство новых пользователей.</p>
+<p>В R <strong>объектом</strong> (object) называется все, что может быть
+представлено в виде переменных, включая константы, разные типы данных,
+функции и даже диаграммы.</p>
+<p>У объектов есть <em>вид</em> (определяет, в каком виде объект
+хранится в памяти) и <em>класс</em> (который указывает общим функциям
+типа print, как с ним обращаться).</p>
+<p><strong>Таблица данных</strong> (data frame) – это тип структуры
+данных в R, аналогичный тому виду, в котором хранятся данные в обычных
+статистических программах (например, в SAS, SPSS и STATA).
+<strong>Столбцы</strong> – это <strong>переменные</strong>, а
+<strong>строки</strong> – это <strong>наблюдения</strong>.</p>
+<p>В одной таблице данных могут содержаться переменные разных типов
+(например, числовые и текстовые). <strong>Таблицы данных</strong> – это
+основной тип структуры данных. <strong>Факторы</strong> – это
+номинальные или порядковые переменные. В R они хранятся и обрабатываются
+особым образом.</p>
+<p>Большинство остальных терминов должны быть вам уже знакомы, они
+широко используются в статистике и в вычислениях. Давайте рассмотрим все
+типы структуры данных по порядку, начиная с векторов.</p>
+</div>
+</div>
+<div id="векторы" class="section level1">
+<h1>Векторы</h1>
+<p><strong>Векторы</strong> (<strong>vector</strong>) – это одномерные
+массивы данных, которые могут содержать числовые, текстовые или
+логические значения. Для создания вектора применяется функция
+объединения <code>c()</code>. Вот примеры векторов каждого типа:</p>
+<pre class="r"><code>a &lt;- c(1, 2, 5, 3, 6, -2, 4) 
+b &lt;- c(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;) 
+c &lt;- c(TRUE, TRUE, TRUE, FALSE, TRUE, FALSE)</code></pre>
+<p>Здесь <strong>a</strong> – числовой вектор, <strong>b</strong> –
+текстовый вектор, <strong>c</strong> – логический вектор. Обратите
+внимание на то, что все элементы вектора должны быть одного типа
+(числовые, текстовые или логические). Нельзя смешивать данные разных
+типов в одном векторе.</p>
+<p>Примечание. Скаляры – это векторы, состоящие из одного элемента,
+например, <code>f &lt;- 3</code>, <code>g &lt;- "US"</code> и
+<code>h &lt;- TRUE</code>. Они используются для обозначения
+констант.</p>
+<p>Отдельные элементы вектора можно вызывать при помощи числового
+вектора, состоящего из номеров элементов и заключенного в квадратные
+скобки. Например, <code>a[c(2, 4)]</code> обозначает второй и четвертый
+элементы вектора <code>a</code>. Вот еще примеры:</p>
+<pre class="r"><code>a &lt;- c(1, 2, 5, 3, 6, -2, 4) 
+a[3]</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>a[c(1, 3, 5)]</code></pre>
+<pre><code>## [1] 1 5 6</code></pre>
+<pre class="r"><code>a[2:6]</code></pre>
+<pre><code>## [1]  2  5  3  6 -2</code></pre>
+<p>Знак двоеточия в последнем примере использован для создания
+последовательности чисел. Например, <code>a &lt;- c(2:6)</code> – это то
+же самое, что a <code>&lt;- c(2, 3, 4, 5, 6)</code>.</p>
+</div>
+<div id="матрицы" class="section level1">
+<h1>Матрицы</h1>
+<p><strong>Матрица</strong> (matrix) – это двумерный массив данных, в
+котором <em>каждый элемент имеет одинаковый тип</em> (числовой,
+текстовый или логический). Матрицы создают при помощи функции
+<code>matrix</code>. Общий формат таков:</p>
+<blockquote>
+<p><code>mymatrix &lt;- matrix(вектор, nrow=число_строк, ncol=число_столбцов, byrow=логическое_значение, dimnames=list(текст_вектор_названия_строк, текст_вектор_названия_столбцов))</code></p>
+</blockquote>
+<p>где <code>vector</code> содержит элементы матрицы, <code>nrow</code>
+и <code>ncol</code> определяют число строк и столбцов в матрице, а
+<code>dimnames</code> содержит названия строк и столбцов (их указывать
+не обязательно), которые хранятся в виде текстовых векторов. Параметр
+<code>byrow</code> определяет, как должна заполняться матрица – по
+строкам <code>(byrow=TRUE)</code> или по столбцам
+<code>(byrow=FALSE)</code>. По умолчанию матрица заполняется по
+столбцам.</p>
+<p>Приведенный ниже программный код иллюстрирует применение функции
+<code>matrix</code>.</p>
+<p>Программный код 2.1. Создание матрицы</p>
+<pre class="r"><code># Создаем матрицу  5х4
+y &lt;- matrix(1:20, nrow=5, ncol=4)
+y</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    6   11   16
+## [2,]    2    7   12   17
+## [3,]    3    8   13   18
+## [4,]    4    9   14   19
+## [5,]    5   10   15   20</code></pre>
+<pre class="r"><code># Таблица 2х2 заполнена рядами
+cells &lt;- c(1,26,24,68)
+rnames &lt;- c(&quot;R1&quot;, &quot;R2&quot;)
+cnames &lt;- c(&quot;C1&quot;, &quot;C2&quot;)
+mymatrix &lt;- matrix(cells, nrow=2, ncol=2, byrow=TRUE, 
+dimnames=list(rnames, cnames))
+mymatrix</code></pre>
+<pre><code>##    C1 C2
+## R1  1 26
+## R2 24 68</code></pre>
+<pre class="r"><code># Таблица 2х2 заполнена по столбцам
+mymatrix &lt;- matrix(cells, nrow=2, ncol=2, byrow=FALSE,
+dimnames=list(rnames, cnames))
+mymatrix</code></pre>
+<pre><code>##    C1 C2
+## R1  1 24
+## R2 26 68</code></pre>
+<p>Сначала вы создаете матрицу 5×4 (#1). Затем вы делаете матрицу 2×2 с
+названиями строк и столбцов и заполняете ее по строкам (#2). Наконец, вы
+создаете матрицу 2×2 и заполняете ее по столбцам (#3). Вы можете
+обозначать строки, столбцы и элементы матрицы при помощи индексов и
+квадратных скобок. Например, <span class="math inline">\(X[i,]\)</span>
+обозначает <span class="math inline">\(i\)</span>-ую строку матрицы
+<span class="math inline">\(X\)</span>, <span
+class="math inline">\(X[,j]\)</span> – обозначает ее <span
+class="math inline">\(j\)</span>-ый столбец, а <span
+class="math inline">\(X[i, j]\)</span> соответствует элементу этой
+матрицы, расположенному на пересечении этой строки и этого столбца. В
+качестве индексов <span class="math inline">\(i\)</span> и <span
+class="math inline">\(j\)</span> можно использовать числовые векторы,
+чтобы обозначить сразу несколько строк или столбцов, как это показано
+ниже.</p>
+<p>Программный код 2.2. Использование индексов при работе с
+матрицами</p>
+<pre class="r"><code>x &lt;- matrix(1:10, nrow=2) 
+x</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    3    5    7    9
+## [2,]    2    4    6    8   10</code></pre>
+<pre class="r"><code>x[2,]</code></pre>
+<pre><code>## [1]  2  4  6  8 10</code></pre>
+<pre class="r"><code>x[,2]</code></pre>
+<pre><code>## [1] 3 4</code></pre>
+<pre class="r"><code>x[1, c(4,5)]</code></pre>
+<pre><code>## [1] 7 9</code></pre>
+<pre class="r"><code>x[1, c(4,5)]</code></pre>
+<pre><code>## [1] 7 9</code></pre>
+<p>Сначала создана матрица 2×5, содержащая цифры от 1 до 10. По
+умолчанию матрица заполнена цифрами по столбцам. Затем выбраны все
+элементы во второй строке, а далее – все элементы во втором столбце.
+Потом выбран элемент, который находится в первой строке и в четвертом
+столбце. Наконец, выбраны элементы первой строки, которые находятся в
+четвертом и пятом столбцах. Матрицы имеют два измерения и, как и
+векторы, могут состоять только из одного типа данных. Если есть больше
+двух измерений, нужно использовать массивы данных (раздел 2.2.3). Данные
+разных типов можно хранить в таблицах (раздел 2.2.3).</p>
+</div>
+<div id="массивы" class="section level1">
+<h1>Массивы</h1>
+<p>Массивы данных (<strong>array</strong>) сходны с матрицами, но могут
+иметь больше двух измерений. Массивы данных создаются при помощи функции
+<code>array</code> по такому образцу:</p>
+<blockquote>
+<p><code>myarray &lt;- array(vector, dimensions, dimnames)</code></p>
+</blockquote>
+<p>где <strong>vector</strong> содержит сами данные,
+<strong>dimensions</strong> – это числовой вектор с указанием
+размерности для каждого измерения, а <strong>dimnames</strong> – это
+необязательный список названий измерений.</p>
+<p>Ниже в качестве примера представлен программный код, при помощи
+которого создан трехмерный (2×3×4) массив чисел.</p>
+<p>Программный код 2.3. Создание массива данных</p>
+<pre class="r"><code>dim1 &lt;- c(&quot;A1&quot;, &quot;A2&quot;) 
+dim2 &lt;- c(&quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;)
+dim3 &lt;- c(&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;, &quot;C4&quot;)
+z &lt;- array(1:24, c(2, 3, 4), dimnames=list(dim1, dim2, dim3))
+z</code></pre>
+<pre><code>## , , C1
+## 
+##    B1 B2 B3
+## A1  1  3  5
+## A2  2  4  6
+## 
+## , , C2
+## 
+##    B1 B2 B3
+## A1  7  9 11
+## A2  8 10 12
+## 
+## , , C3
+## 
+##    B1 B2 B3
+## A1 13 15 17
+## A2 14 16 18
+## 
+## , , C4
+## 
+##    B1 B2 B3
+## A1 19 21 23
+## A2 20 22 24</code></pre>
+<p>Очевидно, что массивы данных – это просто расширенные матрицы. Они
+могут быть полезны при написании программ для реализации новых
+статистических методов. Как и в матрицах, все элементы массива данных
+должны иметь одинаковый тип. Система обозначений элементов здесь такая
+же, как для матриц. В приведенном выше примере элемент
+<code>z[1,2,3]</code> – это 15.</p>
+</div>
+<div id="таблицы-данных" class="section level1">
+<h1>Таблицы данных</h1>
+<p>Таблица данных (data frame) – это более широко используемый по
+сравнению с матрицей объект, поскольку разные столбцы могут содержать
+разные типы данных (числовой, текстовый и т. д.). Таблица данных – это
+самая часто используемая структура данных в R. Набор данных про
+пациентов (табл. 2.1) состоит из числовых и текстовых данных. Эти данные
+нужно представить в виде таблицы данных, а не матрицы, поскольку здесь
+есть данные разных типов. Таблица данных создается при помощи функции
+<code>data.frame()</code>:</p>
+<blockquote>
+<p><code>mydata &lt;- data.frame(col1, col2, col3,…),</code></p>
+</blockquote>
+<p>где – <code>col1</code>, <code>col2</code>, <code>col3,</code>… это
+векторы любого типа (текстового, числового или логического), которые
+станут столбцами таблицы. Названия каждому столбцу можно присвоить при
+помощи функции names(). Проиллюстрируем сказанное при помощи примера
+программного кода.</p>
+<p>Программный код 2.4. Создание таблицы данных</p>
+<pre class="r"><code>patientID &lt;- c(1, 2, 3, 4)
+age &lt;- c(25, 34, 28, 52)
+diabetes &lt;- c(&quot;Type1&quot;, &quot;Type2&quot;, &quot;Type1&quot;, &quot;Type1&quot;)
+status &lt;- c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;, &quot;Poor&quot;)
+patientdata &lt;- data.frame(patientID, age, diabetes, status)
+patientdata</code></pre>
+<pre><code>##   patientID age diabetes    status
+## 1         1  25    Type1      Poor
+## 2         2  34    Type2  Improved
+## 3         3  28    Type1 Excellent
+## 4         4  52    Type1      Poor</code></pre>
+<p>Каждый столбец должен содержать данные только одного типа, при этом в
+одной таблице данных могут быть столбцы с данными разного типа.
+Поскольку таблицы данных очень близки к тому, что аналитики называют
+наборами данных, при обсуждении таблиц данных мы будем использовать
+термины столбцы и переменные в качестве синонимов.</p>
+<p>Существует несколько способов обозначить элементы таблицы данных.
+Можно использовать индексы, как мы делали это раньше (например, для
+матриц), или можно указывать номера столбцов. Приведенный ниже
+программный код на примере созданной раньше таблицы данных
+<code>patientdata</code> демонстрирует оба способа.</p>
+<p>Программный код 2.5. Обозначение элементов таблицы данных</p>
+<pre class="r"><code>patientdata[1:2] </code></pre>
+<pre><code>##   patientID age
+## 1         1  25
+## 2         2  34
+## 3         3  28
+## 4         4  52</code></pre>
+<pre class="r"><code>patientdata[c(&quot;diabetes&quot;, &quot;status&quot;)] </code></pre>
+<pre><code>##   diabetes    status
+## 1    Type1      Poor
+## 2    Type2  Improved
+## 3    Type1 Excellent
+## 4    Type1      Poor</code></pre>
+<pre class="r"><code>patientdata$age</code></pre>
+<pre><code>## [1] 25 34 28 52</code></pre>
+<p>Знак <code>$</code> из третьего примера раньше нам не встречался #1.
+Он используется, чтобы обозначить определенную переменную в таблице
+данных. Например, если вы захотите создать сводную таблицу типов диабета
+в зависимости от состояния больного, вы можете использовать следующий
+программный код:</p>
+<pre class="r"><code>table(patientdata$diabetes, patientdata$status)</code></pre>
+<pre><code>##        
+##         Excellent Improved Poor
+##   Type1         1        0    2
+##   Type2         0        1    0</code></pre>
+<p>Поскольку добавление <code>patientdata$</code> перед названием каждой
+переменной может быстро надоесть, существуют команды для быстрого вызова
+переменной. Для упрощения программного кода можно использовать функции
+<code>attach()</code> и <code>detach()</code> или
+<code>with()</code>.</p>
+<div id="attach-detach-и-with" class="section level2">
+<h2>Attach, detach и with</h2>
+<p>Функция <code>attach()</code> добавляет указанную таблицу данных к
+пути поиска R. Когда указывается имя переменной, программа ищет эту
+переменную в таблицах данных, включенных в траекторию поиска. В качестве
+примера можно взять таблицу данных mtcars из главы 1, используя
+следующий программный код, чтобы узнать основные статистики расхода
+топлива (<code>mpg</code>), а также изобразить значения этой переменной
+на диаграмме в зависимости от рабочего объема цилиндров двигателя
+(<code>disp</code>) и веса машины (<code>wt</code>).</p>
+<pre class="r"><code>summary(mtcars$mpg)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   15.43   19.20   20.09   22.80   33.90</code></pre>
+<pre class="r"><code>plot(mtcars$mpg, mtcars$disp)</code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="r"><code>plot(mtcars$mpg, mtcars$wt)</code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Это можно также записать в виде</p>
+<pre class="r"><code>attach(mtcars) </code></pre>
+<pre><code>## The following object is masked from package:ggplot2:
+## 
+##     mpg</code></pre>
+<pre class="r"><code>summary(mpg) </code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   15.43   19.20   20.09   22.80   33.90</code></pre>
+<pre class="r"><code>plot(mpg, disp) </code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>plot(mpg, wt) </code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<pre class="r"><code>detach(mtcars)</code></pre>
+<p>Функция <code>detach()</code> удаляет таблицу данных из пути поиска.
+Отметим, что эта функция ничего не делает с самим объектом. Ввод этой
+команды необязателен, но он полезен при программировании, и про него не
+следует забывать. Я буду иногда пренебрегать этим мудрым советом в
+следующих главах, чтобы сделать приводимые фрагменты программного кода
+короче и проще. Ограничение данного метода становится очевидным, если у
+нас есть несколько объектов с одинаковыми названиями. Рассмотрим такой
+программный код:</p>
+<pre class="r"><code>#mpg &lt;- c(25, 36, 47)
+#attach(mtcars)
+#plot(mpg, wt) 
+#mpg</code></pre>
+<p>Когда мы добавили к траектории поиска таблицу данных
+<code>mtcars</code>, в рабочем пространстве уже имелся объект с
+названием <code>mpg</code>. В подобных случаях преимущество получает
+объект, который был создан первым, а это не то, чего мы хотели. Команда
+<code>plot()</code> не выполняется, потому что <code>mpg</code> теперь
+состоит из трех элементов, а <code>d</code>– из 32 элементов.</p>
+<p>Функции <code>attach()</code> и <code>detach()</code> лучше всего
+использовать, когда вы работаете с одной таблицей данных, и вероятность
+того, что у вас будет несколько объектов с одинаковыми именами,
+мала.</p>
+<p>В любом случае обращайте внимание на предупреждения о том, что
+объекты маскируются одноименными объектами
+(<code>objects are masked</code>) (То есть становятся недоступными для
+непосредственного вызова. – Прим. пер.). Альтернативный подход
+заключается в использовании функции <code>with()</code>. Предыдущий
+пример можно записать так:</p>
+<p><code>with(mtcars, { summary(mpg, disp, wt) plot(mpg, disp) plot(mpg, wt) })</code></p>
+<p>В этом случае команды внутри фигурных скобок относятся к таблице
+данных mtcars. Теперь нам не придется заботиться о конфликте названий.
+Если нужно выполнить только одну команду (например,
+s<code>ummary(mpg))</code>, фигурные скобки необязательны. Ограничение
+функции <code>with()</code> заключается в том, что она не действует за
+пределами фигурных скобок. Рассмотрим следующий пример:</p>
+<pre class="r"><code>with(mtcars, {
+summary(mpg, disp, wt)
+plot(mpg, disp)
+plot(mpg, wt)
+})</code></pre>
+<p><img src="typerdata_files/figure-html/unnamed-chunk-23-1.png" width="672" /><img src="typerdata_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
+<p>Если требуется создать объекты, которые будут существовать вне
+конструкции <code>with()</code>, используйте специальный символ
+присвоения <code>&lt;&lt;-</code> вместо обычного <code>(&lt;-)</code>.
+Этот прием позволит сохранить созданный объект в рабочем пространстве
+вне конструкции <code>with()</code>. Это можно показать на примере
+такого программного кода:</p>
+<pre class="r"><code>#with(mtcars, { 
+#nokeepstats &lt;- summary(mpg)
+#keepstats &lt;&lt;- summary(mpg)
+#})
+#nokeepstats
+#keepstats</code></pre>
+<p>В большинстве руководств по R рекомендуется использовать
+<code>with()</code>, а не <code>attach()</code>. Я думаю, что выбор
+зависит от индивидуальных предпочтений и должен основываться на том,
+чего вы хотите достичь. В этой книге мы будем использовать обе
+команды.</p>
+<div id="названия-строк" class="section level3">
+<h3>Названия строк</h3>
+<p>В примере с данными о больных столбец <code>patientID</code>
+использовался для обозначения отдельных людей в наборе данных. В R
+названия строк могут быть назначены при помощи параметра
+<code>rowname</code> функции создания таблицы данных. Например,
+программный код</p>
+<pre class="r"><code>patientdata &lt;- data.frame(patientID, age, diabetes,
+status,row.names=patientID)</code></pre>
+<p>назначает <code>patientID</code> переменной, которая будет
+использоваться для обозначения строк при выводе данных и создании
+диаграмм в R.</p>
+</div>
+</div>
+</div>
+<div id="факторы" class="section level1">
+<h1>Факторы</h1>
+<p>Как мы уже узнали, переменные бывают <strong>номинальными</strong>,
+<strong>порядковыми</strong> или <strong>непрерывными</strong>.
+<strong>Номинальные переменные</strong> – это категориальные данные,
+которые невозможно упорядочить.</p>
+<p>Переменная <code>Diabetes</code> – это пример номинальных данных.
+Даже если мы обозначим <code>Type 1</code> (тип 1) единицей, а
+<code>Type 2</code> (тип 2) – двойкой, все равно эти цифры нельзя будет
+сравнивать в терминах «больше – меньше». <strong>Порядковые</strong>
+данные можно упорядочить, но не оценить количественно.</p>
+<p>Переменная <code>Status</code> – хороший пример порядковых данных.
+Понятно, что у больного с плохим (poor) самочувствием дела идут не так
+хорошо, как у больного, чье состояние улучшилось (improved), но не ясно,
+насколько.</p>
+<p><strong>Непрерывные</strong> переменные могут принимать любое
+значение в пределах определенного диапазона. Их значения можно
+упорядочить и понять, насколько одно из них больше другого. Возраст,
+выраженный в годах, является непрерывной переменной и может принимать
+такие значения, как 14.5 или 22.8, а также любые значения между этими
+двумя.</p>
+<p>Вы знаете, что пятнадцатилетний подросток старше четырнадцатилетнего
+на один год. <strong>Категориальные</strong> (номинальные и порядковые)
+данные называются в R <strong>факторами</strong>. Факторы очень важны в
+R, поскольку они определяют, как данные будут проанализированы и
+графически представлены. Вы будете видеть примеры этого на протяжении
+всей книги.</p>
+<p>Функция <code>factor()</code> сохраняет категориальные данные в виде
+вектора из целых чисел в диапазоне от одного до <code>k</code> (где
+<code>k</code> – число уникальных значений категориальной переменной) и
+в виде внутреннего вектора из цепочки символов (исходных значений
+переменной), соответствующим этим целым числам.</p>
+<p>К примеру, представьте, что у вас есть вектор
+<code>diabetes &lt;- c("Type1", "Type2", "Type1", "Type1")</code>.
+Команда <code>diabetes &lt;- factor(diabetes)</code> преобразует этот
+вектор в <code>(1, 2, 1, 1)</code> и устанавливает внутреннее
+соответствие 1=Type1 и 2=Type2 (присвоение числовых значений происходит
+в алфавитном порядке).</p>
+<p>Любой анализ, который вы будете проводить с вектором diabetes, будет
+воспринимать эту переменную как номинальную и выбирать статистические
+методы, подходящие для этого типа данных. При работе с векторами,
+которые представлены порядковыми данными, для функции factor() нужно
+добавлять параметр ordered=TRUE.</p>
+<p>Примененная к вектору
+<code>status &lt;- c("Poor", "Improved", "Excellent", "Poor")</code>
+команда <code>status &lt;- factor(status, ordered=TRUE)</code>
+преобразует этот вектор в вид <code>(3, 2, 1, 3)</code> и установит
+внутреннее соответствие как
+<code>1=Excellent, 2=Improved, 3=Poor</code>.</p>
+<p>Во время любой обработки этого вектора он будет воспринят как
+порядковая переменная с применением соответствующих статистических
+методов. По умолчанию уровни фактора присваиваются значениям вектора в
+алфавитном порядке. Это сработало для фактора status, поскольку порядок
+<code>"Excellent", "Improved", "Poor"</code> имеет смысл.</p>
+<p>Если бы вместо “Poor” стояло “Ailing” (чахнущий), то возникло бы
+затруднение, поскольку тогда порядок был бы такой:
+<code>"Ailing", "Excellent", "Improved"</code>.</p>
+<p>Сходная проблема возникла бы, если бы нам был нужен такой порядок:
+<code>"Poor", "Improved", "Excellent"</code>. Для упорядоченных факторов
+редко подходит алфавитный порядок уровней, предлагающийся по умолчанию.
+Установку по умолчанию можно изменить при помощи параметра levels.
+Например,</p>
+<pre class="r"><code>status &lt;- factor(status, order=TRUE,
+levels=c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;))</code></pre>
+<p>присвоит уровни значениям вектора следующим образом:
+<code>1=Poor, 2=Improved, 3=Excellent</code>. Проверьте, что все
+присвоенные уровни соответствуют реальным значениям данных. Все значения
+данных, которые не были указаны, будут обозначены как отсутствующие.
+Приведенный ниже программный код показывает, как назначение факторов и
+упорядоченных факторов влияет на анализ данных.</p>
+<p>Программный код 2.6. Использование факторов</p>
+<pre class="r"><code>#1 Вводим данные как векторы
+patientID &lt;- c(1, 2, 3, 4) 
+age &lt;- c(25, 34, 28, 52)
+diabetes &lt;- c(&quot;Type1&quot;, &quot;Type2&quot;, &quot;Type1&quot;, &quot;Type1&quot;)
+status &lt;- c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;, &quot;Poor&quot;)
+diabetes &lt;- factor(diabetes)
+status &lt;- factor(status, order=TRUE)
+patientdata &lt;- data.frame(patientID, age, diabetes, status)</code></pre>
+<pre class="r"><code>#2 Смотрим структуру объекта
+str(patientdata)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  4 variables:
+##  $ patientID: num  1 2 3 4
+##  $ age      : num  25 34 28 52
+##  $ diabetes : Factor w/ 2 levels &quot;Type1&quot;,&quot;Type2&quot;: 1 2 1 1
+##  $ status   : Ord.factor w/ 3 levels &quot;Excellent&quot;&lt;&quot;Improved&quot;&lt;..: 3 2 1 3</code></pre>
+<pre class="r"><code>#3 Смотрим сводную статистику для объекта
+summary(patientdata)</code></pre>
+<pre><code>##    patientID         age         diabetes       status 
+##  Min.   :1.00   Min.   :25.00   Type1:3   Excellent:1  
+##  1st Qu.:1.75   1st Qu.:27.25   Type2:1   Improved :1  
+##  Median :2.50   Median :31.00             Poor     :2  
+##  Mean   :2.50   Mean   :34.75                          
+##  3rd Qu.:3.25   3rd Qu.:38.50                          
+##  Max.   :4.00   Max.   :52.00</code></pre>
+<p>Сначала вы вводите данные как векторы (#1). Затем вы указываете, что
+<code>diabetes</code> – это фактор, а status – это упорядоченный фактор.
+Наконец, вы объединяете данные в таблицу.</p>
+<p>Функция <code>str(object)</code> выводит информацию об объекте (в
+нашем случае это таблица данных) (#2). Ясно видно, что
+<code>diabetes</code> – это фактор, а <code>status</code> – это
+упорядоченный фактор; также указано, как он закодирован внутри
+программы. Обратите внимание, что функция <code>summary()</code>
+обрабатывает переменные по-разному (#3).</p>
+<p>Для непрерывной переменной age вычислены <strong>минимум</strong>
+(<code>minimum, Min.</code>), <strong>максимум</strong>
+(<code>maximum, Max</code>.), <strong>среднее</strong>
+(<code>Mean</code>) и <strong>квартили</strong>
+(f<code>irst and third quartiles: 1st Qu., 3rd Qu.</code>), а для
+категориальных переменных <code>diabetes</code> и <code>status</code>
+подсчитана частота встречаемости каждого значения.</p>
+</div>
+<div id="списки" class="section level1">
+<h1>Списки</h1>
+<p><strong>Списки</strong> – это самый сложный тип данных в R.
+Фактически список – это упорядоченный набор объектов (компонентов).
+Список может объединять разные (возможно, не связанные между собой)
+объекты под одним именем. К примеру, список может представлять собой
+сочетание векторов, матриц, таблиц данных и даже других списков. Список
+можно создать при помощи функции list():</p>
+<blockquote>
+<p><code>mylist &lt;- list(объект 1, объект 2, …),</code></p>
+</blockquote>
+<p>где объекты – это любые структуры данных, которые мы обсуждали до
+этого. Объектам в списке можно присваивать имена:</p>
+<blockquote>
+<p><code>mylist &lt;- list(name1= объект 1, name2= объект 2, …)</code>.</p>
+</blockquote>
+<p>Пример работы со списками приведен ниже.</p>
+<p><strong>Программный код 2.7</strong>. Создание списка</p>
+<pre class="r"><code>g &lt;- &quot;My First List&quot;
+h &lt;- c(25, 26, 18, 39)
+j &lt;- matrix(1:10, nrow=5)
+k &lt;- c(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></pre>
+<pre class="r"><code>#1 Создаем список 
+mylist &lt;- list(title=g, ages=h, j, k)</code></pre>
+<pre class="r"><code>#2 Выводим на экран весь список
+mylist</code></pre>
+<pre><code>## $title
+## [1] &quot;My First List&quot;
+## 
+## $ages
+## [1] 25 26 18 39
+## 
+## [[3]]
+##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10
+## 
+## [[4]]
+## [1] &quot;one&quot;   &quot;two&quot;   &quot;three&quot;</code></pre>
+<pre class="r"><code>#3 Выводим на экран второй объект списка
+mylist[[2]]</code></pre>
+<pre><code>## [1] 25 26 18 39</code></pre>
+<pre class="r"><code>mylist[[&quot;ages&quot;]]</code></pre>
+<pre><code>## [1] 25 26 18 39</code></pre>
+<p>В приведенном примере вы создаете список из четырех компонентов:
+тестовая строка, числовой вектор, матрица и текстовый вектор. В виде
+списка можно сохранять любое число объектов. Можно обозначать элементы
+списка, указав их номер или название внутри двойных квадратных
+скобок.</p>
+<p>В этом примере и <code>mylist[[2]]</code>, и
+<code>mylist[["ages"]]</code> обозначают один и тот же числовой вектор
+из четырех элементов. Списки – это важный тип структуры данных в R по
+двум причинам. Во-первых, они позволяют вам без труда упорядочить и
+вызвать на экран разрозненную информацию. Во-вторых, результаты
+выполнения многих команд представляют собой списки. В этом случае
+пользователь извлекает из таких списков нужную информацию. Вы сможете
+увидеть многочисленные примеры функций, которые возвращают списки, в
+следующих главах.</p>
+<div id="информация-для-программистов" class="section level4">
+<h4><strong>Информация для программистов</strong></h4>
+<p>Для многих профессиональных программистов некоторые аспекты языка R
+кажутся необычными. Вот несколько особенностей языка R, о которых вам
+следует помнить:</p>
+<ul>
+<li>точка (<code>.</code>) в названиях объектов не имеет никакого
+специального значения. Однако знак доллара (<code>$</code>) имеет
+примерно такое же значение, как точка в других языках программирования,
+обозначая часть объекта. Например, <code>A$x</code> обозначает
+переменную x в таблице данных <code>A</code>;</li>
+<li>в R нет возможности создавать многострочные или блочные комментарии.
+Каждую строку комментария нужно начинать со знака <code>#</code>. При
+отладке программных кодов можно заключать участок кода, который должен
+быть пропущен программным интерпретатором, внутрь конструкции
+<code>if(FALSE){…}</code>. Замена <code>FALSE</code> на
+<code>TRUE</code> сделает возможным выполнение кода;</li>
+<li>присвоение значений несуществующему элементу вектора, матрицы,
+массива данных или списка расширит существующий объект, чтобы вместить
+новое значение.</li>
+</ul>
+<p>Рассмотрим следующий пример:</p>
+<pre class="r"><code>x &lt;- c(8, 6, 4)
+x[7] &lt;- 10
+x</code></pre>
+<pre><code>## [1]  8  6  4 NA NA NA 10</code></pre>
+<p>В результате присвоения размер вектора x увеличился с трех до семи
+элементов;</p>
+<ul>
+<li><p>в R нет скаляров. Они представлены в виде вектора, состоящего из
+одного элемента;</p></li>
+<li><p>нумерация в R начинается с <code>1</code>, а не с <code>0</code>.
+В приведенном выше векторе элемент <code>x[1]</code> – это
+<code>8</code>.</p></li>
+</ul>
+<p>Дальнейшую информацию можно получить в превосходном блоге Джона Кука
+(John Cook) «Программирование в R для тех, кто раньше работал с другими
+языками» (www.johndcook.com/R_language_for_programmers.html).</p>
+<p>Программисты, которым нужно руководство по стилю программирования,
+также могут заглянуть в «Руководство по стилю программирования в R» от
+Google (<a
+href="http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html"
+class="uri">http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html</a>).</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
