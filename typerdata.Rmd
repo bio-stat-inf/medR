@@ -14,7 +14,11 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}
@@ -23,6 +27,8 @@ require(ggplot2)
 ```
 
 ## R Markdown
+
+[Detailed Description learnr_page](./learnr_page/learnr_page.html)
 
 Это документ R Markdown. Markdown --- это простой синтаксис
 форматирования для создания документов HTML, PDF и MS Word. Для

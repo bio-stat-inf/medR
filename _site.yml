@@ -12,4 +12,6 @@ navbar:
       href: intro_r.html
     - text: "Объекты, типы данных в R"
       href: typerdata.html
+    - text: "Интерактивный учебник"
+      href: learnr_page/learnr_page.html
 output_dir: "docs"

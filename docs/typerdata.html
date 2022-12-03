@@ -333,6 +333,9 @@ div.tocify {
 <li>
   <a href="typerdata.html">Объекты, типы данных в R</a>
 </li>
+<li>
+  <a href="learnr_page/learnr_page.html">Интерактивный учебник</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -354,6 +357,8 @@ div.tocify {
 require(ggplot2)</code></pre>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
+<p><a href="./learnr_page/learnr_page.html">Detailed Description
+learnr_page</a></p>
 <p>Это документ R Markdown. Markdown — это простой синтаксис
 форматирования для создания документов HTML, PDF и MS Word. Для
 получения дополнительной информации об использовании R Markdown см. <a
@@ -888,11 +893,8 @@ patientdata</code></pre>
 <pre class="r"><code>plot(mtcars$mpg, mtcars$wt)</code></pre>
 <p><img src="typerdata_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>Это можно также записать в виде</p>
-<pre class="r"><code>attach(mtcars) </code></pre>
-<pre><code>## The following object is masked from package:ggplot2:
-## 
-##     mpg</code></pre>
-<pre class="r"><code>summary(mpg) </code></pre>
+<pre class="r"><code>attach(mtcars) 
+summary(mpg) </code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   10.40   15.43   19.20   20.09   22.80   33.90</code></pre>
 <pre class="r"><code>plot(mpg, disp) </code></pre>
