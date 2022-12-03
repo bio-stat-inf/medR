@@ -14,7 +14,7 @@ navbar:
       href: typerdata.html
     - text: "Типы данных (доп.)"
       href: typerdataM.html
-    - text: "Векторизация)"
+    - text: "Векторизация"
       href: apply_f.html
     - text: "Задания"
       href: learnr_page/learnr_page.html
