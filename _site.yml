@@ -10,8 +10,10 @@ navbar:
       href: Links.html
     - text: "Введение в R"
       href: intro_r.html
-    - text: "Объекты, типы данных в R"
+    - text: "Типы данных"
       href: typerdata.html
-    - text: "Интерактивный учебник"
+    - text: "Типы данных (доп.)"
+      href: typerdataM.html
+    - text: "Задания"
       href: learnr_page/learnr_page.html
 output_dir: "docs"

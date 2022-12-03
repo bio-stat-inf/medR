@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Типы данных R (М)</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Содержание</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Типы данных</a>
+</li>
+<li>
+  <a href="typerdataM.html">Типы данных (доп.)</a>
+</li>
+<li>
+  <a href="learnr_page/learnr_page.html">Задания</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Типы данных R (М)</h1>
+
+</div>
+
+
+<pre class="r"><code>library(dplyr)
+require(ggplot2)</code></pre>
+<div id="типы-данных-языка-r" class="section level1">
+<h1>Типы данных языка R</h1>
+<p>Все объекты данных (а, следовательно, и переменные) в R можно
+разделить на следующие классы (т.е. типы объектов):</p>
+<p><strong>numeric</strong> – объекты, к которым относятся целочисленные
+(<code>integer</code>) и действительные числа (<code>double</code>);</p>
+<p><strong>logical</strong> – логические объекты, которые принимают
+только два значения: <code>FALSE</code> (сокращенно <code>F</code>) и
+<code>TRUE</code> (<code>T</code>);</p>
+<p><strong>character</strong> – символьные объекты (значения переменных
+задаются в двойных, либо одинарных кавычках).</p>
+<p>В R можно создавать имена для различных объектов (функций или
+переменных) как на латинице, так и на кириллице, но следует учесть, что
+а (кириллица) и а (латиница) - это два разных объекта.</p>
+<p>Кроме того, среда R чувствительна к регистру, т.е. строчные и
+заглавные буквы в ней различаются. Имена переменных (идентификаторы) в R
+должны начинаться с буквы (или точки <code>.</code>) и состоять из букв,
+цифр, знаков точки и подчёркивания. При помощи команды
+<code>? &lt;имя&gt;</code> можно проверить, существует ли переменная или
+функция с указанными именем. Проверка на принадлежность переменной к
+определенному классу проверяется функциями
+<code>is.numeriс(&lt;имя_объекта&gt;)</code>,
+<code>is.integer(&lt;имя&gt;)</code>,
+<code>is.logical(&lt;имя&gt;)</code>,
+<code>is.character(&lt;имя&gt;)</code>, а для преобразования объекта в
+другой тип можно использовать функции
+<code>as.numeric(&lt;имя&gt;)</code>,
+<code>as.integer(&lt;имя&gt;)</code>,
+<code>as.logical(&lt;имя&gt;)</code>,
+<code>as.character(&lt;имя&gt;)</code>.</p>
+<p>В R существует ряд специальных объектов:</p>
+<ul>
+<li><code>Inf</code> - положительная или отрицательная бесконечность
+(обычно результат деления вещественного числа на 0);</li>
+<li><code>NA</code> - “отсутствующее значение” (Not Available);</li>
+<li><code>NaN</code> - “не число” (Not a Number).</li>
+</ul>
+<p>Проверить, относится ли переменная к какому-либо из этих специальных
+типов, можно, соответственно, функциями
+<code>is.finite(&lt;имя&gt;)</code>, <code>is.na(&lt;имя&gt;)</code> и
+<code>is.nan(&lt;имя&gt;)</code>.</p>
+<p><strong>Выражение</strong> (expression) языка R представляет собой
+сочетание таких элементов, как оператор присваивания, арифметические или
+логические операторы, имена объектов и имена функций. Результат
+выполнения выражения, как правило, сразу отображается в командном или
+графическом окне. Однако при выполнении операции присваивания результат
+сохраняется в соответствующем объекте и на экран не выводится.</p>
+<p>В качестве оператора присваивания в R можно использовать либо символ
+<code>"="</code>, либо пару символов <code>"&lt;-"</code> (присваивание
+определенного значения объекту слева) или <code>"-&gt;"</code>
+(присваивание значения объекту справа). Хорошим стилем программирования
+считается использование <code>"&lt;-"</code>.</p>
+<p>Выражения языка R организуются в скрипте по строкам. В одной строке
+можно ввести несколько команд, разделяя их символом <code>";"</code>.
+Одну команду можно также расположить на двух (и более) строках. Объекты
+типа <code>numeric</code> могут составлять выражения с использованием
+традиционных арифметических операций</p>
+<p><code>+</code> (сложение),<br />
+<code>-</code> (вычитание),<br />
+<code>*</code> (умножение),<br />
+<code>/</code> (деление),<br />
+<code>^</code> (возведение в степень),<br />
+<code>%/%</code> (целочисленное деление),<br />
+<code>%%</code> (остаток от деления).</p>
+<p>Операции имеют обычный приоритет, т.е. сначала выполняется возведение
+в степень, затем умножение или деление, потом уже сложение или
+вычитание. В выражениях могут использоваться круглые скобки и операции в
+них имеют наибольший приоритет.</p>
+<p><strong>Логические выражения</strong> могут составляться с
+использованием следующих логических операторов:</p>
+<p>“Равно” <code>==</code> °<br />
+“Не равно” <code>! =</code> °<br />
+“Меньше” <code>&lt;</code> °<br />
+“Больше” <code>&gt;</code> °<br />
+“Меньше либо равно” <code>&lt;=</code> °<br />
+“Больше либо равно” <code>&gt;=</code> °<br />
+“Логическое И” <code>&amp;</code> °<br />
+“Логическое ИЛИ” <code>|</code> °<br />
+“Логическое НЕ” <code>!</code></p>
+</div>
+<div id="векторы-и-матрицы" class="section level1">
+<h1>Векторы и матрицы</h1>
+<p><strong>Вектор</strong> представляет собой поименованный одномерный
+объект, содержащий набор однотипных элементов (числовые, логические,
+либо текстовые значения - никакие их сочетания не допускаются). Для
+создания векторов небольшой длины в R используется функция конкатенации
+<code>c()</code> (от “concatenate” - объединять, связывать). В качестве
+аргументов этой функции через запятую перечисляют объединяемые в вектор
+значения, например:</p>
+<pre class="r"><code>my.vector &lt;- c(1, 2, 3, 4, 5) 
+my.vector</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<p>Вектор можно создать также при помощи функции <code>scan()</code>,
+которая “считывает” последовательно вводимые с клавиатуры значения:</p>
+<pre class="r"><code>X &lt;- scan() </code></pre>
+<p>После каждого нового значения нажать клавишу “Ввод”</p>
+<p>1: 2.9<br />
+2: 3.1<br />
+3: 3.4<br />
+4: 3.4<br />
+5: 3.7<br />
+6: 3.7<br />
+7: 2.8<br />
+8: 2.5<br />
+9: #</p>
+<p>Выполнение команды <code>scan</code> завершают введением пустой
+строки. Программа сообщает о считывании 8 значений.</p>
+<pre class="r"><code>X</code></pre>
+<pre><code>## numeric(0)</code></pre>
+<p>Один из недостатков создания векторов при помощи функции
+<code>scan()</code> состоит в том, что если при вводе значений с
+клавиатуры допущена ошибка, то приходится, либо начать ввод заново, либо
+воспользоваться специальными инструментами корректировки (например,
+функцией <code>fix()</code>; здесь эти способы не рассматриваются). Для
+создания векторов, содержащих последовательную совокупность чисел,
+удобна функция <code>seq()</code> (от “sequence” - последовательность).
+Так, вектор с именем <code>S</code>, содержащий совокупность целых чисел
+от 1 до 7, можно создать следующим образом:</p>
+<pre class="r"><code>S &lt;- seq(1,7) 
+S</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6 7</code></pre>
+<p>Идентичный результат будет получен при помощи команды</p>
+<pre class="r"><code>S &lt;- 1:7 
+S</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6 7</code></pre>
+<p>В качестве дополнительного аргумента функции <code>seq()</code> можно
+задать шаг приращения чисел:</p>
+<pre class="r"><code>S &lt;- seq(from = 1, to = 5, by = 0.5) 
+S</code></pre>
+<pre><code>## [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</code></pre>
+<p>Векторы, содержащие одинаковые значения, создают при помощи функции
+<code>rep()</code> (от “repeat” - повторять). Например, для формирования
+текстового вектора <code>Text</code>, содержащего пять значений “test”,
+следует выполнить команду</p>
+<pre class="r"><code>Text &lt;- rep(&quot;test&quot;, 5) 
+Text</code></pre>
+<pre><code>## [1] &quot;test&quot; &quot;test&quot; &quot;test&quot; &quot;test&quot; &quot;test&quot;</code></pre>
+<p>Система R способна выполнять самые разнообразные операции над
+векторами. Так, несколько векторов можно объединить в один, используя
+уже рассмотренную выше функцию конкатенации:</p>
+<pre class="r"><code>v1 &lt;- c(1, 2, 3) 
+v2 &lt;- c(4, 5, 6) 
+V &lt;- c(v1, v2) 
+V</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+<p>Если попытаться объединить, например, текстовый вектор с числовым,
+сообщение об ошибке не появится - программа просто преобразует все
+значения в текстовые:</p>
+<pre class="r"><code># создаем текстовый вектор text.vect:
+text.vect &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+# объединяем числовой вектор v1 (см. выше)
+# с текстовым вектором text.vect:
+new.vect &lt;- c(v1, text.vect)
+# просмотр содержимого нового вектора new.vect:
+new.vect</code></pre>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code># все значения нового вектора взяты в кавычки,
+# что указывает на их текстовую природу;
+# для подтверждения этого воспользуемся командой mode(): 
+mode(new.vect)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># все верно: &quot;character&quot; значит &quot;текстовый&quot;</code></pre>
+<p>Для работы c определенным элементом вектора необходимо иметь способ
+отличать его от других элементов. Для этого при создании вектора всем
+его компонентам автоматически присваиваются индексные номера, начиная с
+1. Чтобы обратится к конкретному элементу необходимо указать имя вектора
+и индекс этого элемента в квадратных скобках:</p>
+<pre class="r"><code># создадим числовой вектор у, содержащий 5 числовых значений:
+y &lt;- c(5, 3, 2, 6, 1)
+# проверим, чему равен третий элемент вектора у:
+y[3]</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Используя индексные номера, можно выполнять различные операции с
+избранными элементами разных векторов:</p>
+<pre class="r"><code># создадим еще один числовой вектор z, содержащий 3 значения:
+z &lt;- c(0.5, 0.1, 0.6)
+# умножим первый элемент вектора у на третий элемент вектора z
+# (т.е. 5*0.6):
+y[1]*z[3]</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Индексирование является мощным инструментом, позволяющим создавать
+совокупности значений в соответствии с определенными критериями.
+Например, для вывода на экран 3-го, 4-го и 5-го значений вектора у
+необходимо выполнить команду</p>
+<pre class="r"><code>y[3:5]</code></pre>
+<pre><code>## [1] 2 6 1</code></pre>
+<p>Из этого же вектора мы можем выбрать, например, только первое и
+четвертое значения, используя уже известную нам функцию конкатенации
+<code>с()</code>:</p>
+<pre class="r"><code>y[c(1, 4)]</code></pre>
+<pre><code>## [1] 5 6</code></pre>
+<p>Похожим образом мы можем удалить первое и четвертое значения из
+вектора <code>у</code>, применив знак “минус” перед функцией
+конкатенации:</p>
+<pre class="r"><code>y[-c(1, 4)]</code></pre>
+<pre><code>## [1] 3 2 1</code></pre>
+<p>В качестве критерия для выбора значений может служить логическое
+выражение. Для примера выберем из вектора у все значения
+<code>&gt; 2</code>:</p>
+<pre class="r"><code>y[y&gt;2]</code></pre>
+<pre><code>## [1] 5 3 6</code></pre>
+<p>Индексирование является также удобным инструментом для внесения
+исправлений в имеющихся векторах. Например, так можно исправить второе
+значение созданного нами ранее вектора <code>z</code> с 0.1 на 0.3:</p>
+<pre class="r"><code>z[2] &lt;- 0.3
+z</code></pre>
+<pre><code>## [1] 0.5 0.3 0.6</code></pre>
+<p>Для упорядочения значений вектора по возрастанию или убыванию
+используют функцию <code>sort()</code> в сочетании с аргументом
+<code>decreasing = FALSE</code> или <code>decreasing = TRUE</code>
+соответственно (“decreasing” значит “убывающий”):</p>
+<pre class="r"><code>sort(z) # по умолчанию decreasing = FALSE</code></pre>
+<pre><code>## [1] 0.3 0.5 0.6</code></pre>
+<pre class="r"><code>sort(z, decreasing = TRUE)</code></pre>
+<pre><code>## [1] 0.6 0.5 0.3</code></pre>
+<p>Матрица представляет собой двумерный вектор. В R для создания матриц
+служит одноименная функция:</p>
+<pre class="r"><code>my.mat &lt;- matrix(seq(1, 16), nrow = 4, ncol = 4)
+my.mat</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    5    9   13
+## [2,]    2    6   10   14
+## [3,]    3    7   11   15
+## [4,]    4    8   12   16</code></pre>
+<p>Обратите внимание на то, что по умолчанию заполнение матрицы
+происходит по столбцам, т.е. первые четыре значения входят в первый
+столбец, следующие четыре значения - во второй столбец, и т.д. Такой
+порядок заполнения можно изменить, придав специальному аргументу
+<code>byrow</code> (от “by row” - по строкам) значение
+<code>TRUE</code>:</p>
+<pre class="r"><code>my.mat &lt;- matrix(seq(1, 16), nrow = 4, ncol = 4, byrow = TRUE)
+my.mat</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    4
+## [2,]    5    6    7    8
+## [3,]    9   10   11   12
+## [4,]   13   14   15   16</code></pre>
+<p>В качестве заголовков строк и столбцов создаваемой матрицы
+автоматически выводятся соответствующие индексные номера (строки: [1,],
+[2,], и т.д.; столбцы: [,1], [,2], и т.д.). Для придания
+пользовательских заголовков строкам и столбцам матриц используют функции
+<code>rownames()</code> и <code>colnames()</code> соответственно.
+Например, для обозначения строк матрицы my.mat буквами A, B, C и D
+необходимо выполнить следующее:</p>
+<pre class="r"><code>rownames(my.mat) &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;)
+my.mat</code></pre>
+<pre><code>##   [,1] [,2] [,3] [,4]
+## A    1    2    3    4
+## B    5    6    7    8
+## C    9   10   11   12
+## D   13   14   15   16</code></pre>
+<p>В матрице <code>my.mat</code> имеется 16 значений, которые как раз
+вмещаются в имеющиеся четыре строки и четыре столбца. Но что произойдет,
+если, например, попытаться вместить вектор из 12 чисел в матрицу того же
+размера? В подобных случаях R заполняет недостающие значения за счет
+“зацикливания” (recycling) короткого вектора. Вот как это выглядит на
+примере:</p>
+<pre class="r"><code>my.mat2 &lt;- matrix(seq(1, 12), nrow = 4, ncol = 4, byrow = TRUE)
+my.mat2</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    4
+## [2,]    5    6    7    8
+## [3,]    9   10   11   12
+## [4,]    1    2    3    4</code></pre>
+<p>Как видим, для заполнения ячеек последней строки матрицы
+<code>my.mat2</code> программа снова использовала числа 1, 2, 3, и 4.
+Альтернативный способ создания матриц заключается в применении функции
+<code>dim()</code> (от “dimension” - размерность). Так, матрицу
+<code>my.mat</code> мы могли бы сформировать из одномерного вектора
+следующим образом:</p>
+<pre class="r"><code>my.mat &lt;- 1:16
+# Задаем размерность 4x4 вектору my.mat:
+dim(my.mat) &lt;- c(4,4)</code></pre>
+<pre class="r"><code># Функция очень полезна. Она позволяет проверить размерность уже имеющейся матрицы (или таблицы данных):
+dim(my.mat)</code></pre>
+<pre><code>## [1] 4 4</code></pre>
+<p>Матрицу можно собрать также из нескольких векторов, используя функции
+<code>cbind()</code> (от colum и bind - столбец и связывать) или
+<code>rbind()</code> (от row и bind - строка и связывать):</p>
+<pre class="r"><code># Создадим четыре вектора одинаковой длины:
+a &lt;- c(1,2,3,4)
+b &lt;- c(5,6,7,8)
+c &lt;- c(9,10,11,12)
+d &lt;- c(13,14,15,16)
+# Объединим этим векторы при помощи функции cbind():
+cbind (a,b,c,d)</code></pre>
+<pre><code>##      a b  c  d
+## [1,] 1 5  9 13
+## [2,] 2 6 10 14
+## [3,] 3 7 11 15
+## [4,] 4 8 12 16</code></pre>
+<pre class="r"><code># Объединим те же векторы при помощи функции rbind():
+rbind(a, b, c, d)</code></pre>
+<pre><code>##   [,1] [,2] [,3] [,4]
+## a    1    2    3    4
+## b    5    6    7    8
+## c    9   10   11   12
+## d   13   14   15   16</code></pre>
+<p>Практически все векторные операции одинаково применимы в отношении
+матриц и массивов. Так, путем индексирования мы можем извлекать из
+матриц необходимые элементы и далее подвергать их требуемым
+преобразованиям. Рассмотрим лишь несколько примеров:</p>
+<pre class="r"><code>#Извлечем элемент матрицы my.mat, расположенный на
+#пересечении 2-й строки и 3-го столбца:
+my.mat[2, 3]</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>#Извлечем из матрицы все элементы, находящиеся в 4-м столбце
+#(для этого номера строк перед запятой можно не указывать): 
+my.mat[, 4]</code></pre>
+<pre><code>## [1] 13 14 15 16</code></pre>
+<pre class="r"><code>#Извлечем из матрицы все элементы, находящиеся в 1-й строке
+#(в этом случае нет необходимости указывать номера столбцов): 
+my.mat[1, ]</code></pre>
+<pre><code>## [1]  1  5  9 13</code></pre>
+<pre class="r"><code># Перемножим 1-й и 4-й столбцы матрицы (поэлементно):
+my.mat[,1]*my.mat[,4]</code></pre>
+<pre><code>## [1] 13 28 45 64</code></pre>
+<p>Отметим, наконец, что при необходимости матрицу можно транспонировать
+(т.е. поменять местами строки и столбцы) при помощи функции
+<code>t()</code> (от transpose):</p>
+<pre class="r"><code>t(my.mat)</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    4
+## [2,]    5    6    7    8
+## [3,]    9   10   11   12
+## [4,]   13   14   15   16</code></pre>
+</div>
+<div id="факторы" class="section level1">
+<h1>Факторы</h1>
+<p>Предположим, что в эксперименте по испытанию эффективности нового
+медицинского препарата было задействовано 10 пациентов-добровольцев, из
+которых шесть пациентов принимали новый препарат, а четверо остальных -
+плацебо (например, таблетки активированного угля). Для обозначения
+членов этих двух групп мы можем использовать коды 1 (препарат) и 0
+(плацебо). Соответственно, информацию о всех десяти участниках
+эксперимента мы могли бы сохранить в виде следующего вектора:</p>
+<pre class="r"><code>treatment &lt;- c(1, 1, 1, 1, 1, 1, 0, 0, 0, 0) 
+treatment</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 0 0 0 0</code></pre>
+<p>При таком подходе, однако, программа будет “рассматривать” вектор
+treatment в качестве числового (проверьте при помощи команды
+<code>class(treatment)</code>). Это будет ошибкой с нашей стороны,
+поскольку ноль и единица обозначают лишь два уровня номинальной
+переменной. С таким же успехом мы могли бы использовать, например, 10
+для обозначения контрольной группы пациентов (т.е. пациентов,
+принимавших плацебо) и 110 для обозначения пациентов, принимавших
+испытываемый препарат. Для преобразования числового (или текстового)
+вектора в фактор в R существует одноименная функция
+<code>factor()</code>:</p>
+<pre class="r"><code>treatment &lt;- factor(treatment, levels = c(0, 1)) 
+treatment</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 0 0 0 0
+## Levels: 0 1</code></pre>
+<p>Обратите внимание на то, что теперь при выводе содержимого объекта
+treatment программа подсказывает нам, что этот объект является фактором
+с двумя уровнями (<code>Levels: 0 1</code>). Дополнительно убедиться в
+этом можно при помощи все той же команды class(treatment):</p>
+<pre class="r"><code>class(treatment)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<p>Более надежным подходом, позволяющим не запутаться при выполнении
+анализа, является кодировка уровней факторов при помощи текстовых
+значений, а не чисел. Например, в нашем примере можно присвоить значение
+yes пациентам, принимавшим препарат, и значение no пациентам из
+контрольной группы. Мы можем перекодировать уровни уже имеющегося
+фактора treatment при помощи функции <code>levels()</code>:</p>
+<pre class="r"><code>levels(treatment) &lt;- c(&quot;no&quot;, &quot;yes&quot;) 
+treatment</code></pre>
+<pre><code>##  [1] yes yes yes yes yes yes no  no  no  no 
+## Levels: no yes</code></pre>
+<p>Заметьте, что при выводе содержимого вектора <code>treatment</code>
+коды пациентов не заключены в двойные кавычки, как это обычно бывает в
+случае с текстовыми значениями. Это является одним из внешних признаков
+того, что мы имеем дело именно с фактором, а не с текстовым вектором,
+содержащим шесть значений “<code>yes</code>” и четыре значения
+“<code>no</code>”. Те же факторы легко преобразовать обратно в числовой
+вектор, состоящий из порядковых номеров уровней факторов:</p>
+<pre class="r"><code>as.numeric(treatment)</code></pre>
+<pre><code>##  [1] 2 2 2 2 2 2 1 1 1 1</code></pre>
+<p>Существует также специальная команда для создания факторов:</p>
+<blockquote>
+<p><code>gl(n, k, length = n*k, labels = 1:n)</code> ,</p>
+</blockquote>
+<p>где <code>n</code> - количество уровней фактора; <code>k</code> -
+число повторов для каждого уровня; <code>length</code> - размер
+итогового объекта; <code>labels</code> - необязательный аргумент,
+который можно использовать для указания названий каждого уровня
+фактора.</p>
+<p>Например, выполнение следующей команды приведет к созданию вектора
+<code>my.fac</code>, являющегося фактором с двумя уровнями - Control и
+Treatment, причем каждая из меток “Control” и “Treatment” будет
+повторена по 8 раз:</p>
+<pre class="r"><code>my.fac = gl(2, 8, labels = c(&quot;Control&quot;, &quot;Treatment&quot;)) 
+my.fac</code></pre>
+<pre><code>##  [1] Control   Control   Control   Control   Control   Control   Control  
+##  [8] Control   Treatment Treatment Treatment Treatment Treatment Treatment
+## [15] Treatment Treatment
+## Levels: Control Treatment</code></pre>
+<p>Еще одна полезная команда создает факторы, разделив область вариации
+числового вектора <code>x</code> на интервалы:</p>
+<blockquote>
+<p><code>cut(x, breaks, labels)</code></p>
+</blockquote>
+<p>где в качестве аргумента <code>breaks</code> может выступать либо
+необходимое число интервалов, либо вектор, содержащий список “точек
+разрыва”, а <code>labels</code> определяет названия уровней:</p>
+<pre class="r"><code>x &lt;- c(1,2,3,4,5,2,3,4,5,6,7)
+cut(x, breaks=3)</code></pre>
+<pre><code>##  [1] (0.994,3] (0.994,3] (0.994,3] (3,5]     (3,5]     (0.994,3] (0.994,3]
+##  [8] (3,5]     (3,5]     (5,7.01]  (5,7.01] 
+## Levels: (0.994,3] (3,5] (5,7.01]</code></pre>
+<pre class="r"><code>cut(x, breaks=3, labels = letters[1:3])</code></pre>
+<pre><code>##  [1] a a a b b a a b b c c
+## Levels: a b c</code></pre>
+<pre class="r"><code>cut(x,breaks=quantile(x,c(0,.25,.50,.75,1)),
+labels=c(&quot;Q1&quot;,&quot;Q2&quot;,&quot;Q3&quot;,&quot;Q4&quot;),include.lowest=TRUE)</code></pre>
+<pre><code>##  [1] Q1 Q1 Q2 Q2 Q3 Q1 Q2 Q2 Q3 Q4 Q4
+## Levels: Q1 Q2 Q3 Q4</code></pre>
+<p>В третьем фрагменте кода числовой вектор “разрезан” по квартильным
+значениям, а параметр <code>include.lowest</code> указан, чтобы избежать
+появления неопределенности “<code>NA</code>” для значения
+<code>х = 1</code>.</p>
+</div>
+<div id="списки-и-таблицы-данных" class="section level1">
+<h1>Списки и таблицы данных</h1>
+<p>#Списки и таблицы В отличие от вектора или матрицы, которые могут
+содержать данные только одного типа, в список (list) или таблицу (data
+frame) можно включать сочетания любых типов данных. Это позволяет
+эффективно, т.е. в одном объекте, хранить разнородную информацию.</p>
+<p>Каждый компонент списка может являться переменной, вектором,
+матрицей, фактором или другим списком. Кроме того, эти элементы могут
+принадлежать к различным типам: числа, строки символов, булевы
+переменные. Списки являются наиболее общим средством хранения
+внутрисистемной информации: в частности, результаты большинства
+статистических анализов в программе R хранятся в объектах- списках. Для
+создания списков в R служит одноименная функция <code>list()</code>.
+Рассмотрим пример:</p>
+<pre class="r"><code># Сначала создадим три разнотипных вектора - с текстовыми,
+# числовыми и логическими значениями:
+vector1 &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
+vector2 &lt;- seq(1, 3, 0.5)
+vector3 &lt;- c(FALSE, TRUE)
+# Теперь объединим эти три вектора в один объект-список,
+# компонентам которого присвоим имена Text, Number и Logic: 
+my.list &lt;- list(Text=vector1, Number=vector2, Logic=vector3)
+# Просмотрим содержимое созданного списка:
+my.list</code></pre>
+<pre><code>## $Text
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;
+## 
+## $Number
+## [1] 1.0 1.5 2.0 2.5 3.0
+## 
+## $Logic
+## [1] FALSE  TRUE</code></pre>
+<p>К элементам списка можно получить доступ посредством трех различных
+операций индексации. Для обращения к поименованным компонентам применяют
+знак <code>$</code>. Так, для извлечения компонентов <code>Text</code>,
+<code>Number</code> и <code>Logic</code> из созданного нами списка
+<code>y.list</code> необходимо последовательно ввести следующие
+команды:</p>
+<pre class="r"><code>my.list$Text</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+<pre class="r"><code>my.list$Number</code></pre>
+<pre><code>## [1] 1.0 1.5 2.0 2.5 3.0</code></pre>
+<pre class="r"><code>my.list$Logic</code></pre>
+<pre><code>## [1] FALSE  TRUE</code></pre>
+<p>Имеется возможность извлекать из списка не только его поименованные
+компоненты-векторы, но и отдельные элементы, входящие в эти векторы. Для
+этого необходимо воспользоваться уже рассмотренным ранее способом -
+индексацией при помощи квадратных скобок. Единственная особенность
+работы со списками здесь состоит в том, что сначала необходимо указать
+имя компонента списка, используя знак <code>$</code>, а уже затем
+номер(а) отдельных элементов этого компонента:</p>
+<pre class="r"><code>my.list$Text[2]</code></pre>
+<pre><code>## [1] &quot;B&quot;</code></pre>
+<pre class="r"><code>my.list$Number[3:5]</code></pre>
+<pre><code>## [1] 2.0 2.5 3.0</code></pre>
+<pre class="r"><code>my.list$Logic[1]</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Извлечение компонентов списка можно осуществлять также с
+использованием двойных квадратных скобок, в которые заключается номер
+компонента списка:</p>
+<pre class="r"><code>my.list[[1]]</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+<pre class="r"><code>my.list[[2]]</code></pre>
+<pre><code>## [1] 1.0 1.5 2.0 2.5 3.0</code></pre>
+<pre class="r"><code>my.list[[3]]</code></pre>
+<pre><code>## [1] FALSE  TRUE</code></pre>
+<p>После двойных квадратных скобок с индексным номером компонента списка
+можно также указать номер(а) отдельных элементов этого компонента:</p>
+<pre class="r"><code>my.list[[1]][2]</code></pre>
+<pre><code>## [1] &quot;B&quot;</code></pre>
+<pre class="r"><code>my.list[[2]][3:5]</code></pre>
+<pre><code>## [1] 2.0 2.5 3.0</code></pre>
+<pre class="r"><code>my.list[[3]][1]</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Созданный нами список <code>my.list</code> содержал всего лишь три
+небольших вектора, и мы знали, какие это векторы, и на каком месте в
+списке они стоят. Однако на практике можно столкнуться с гораздо более
+сложно организованными списками, индексирование которых может быть
+затруднено из-за отсутствия представлений об их структуре. Для выяснения
+структуры объектов в языке R имеется специальная функция
+<code>str()</code> (от structure):</p>
+<pre class="r"><code>str(my.list)</code></pre>
+<pre><code>## List of 3
+##  $ Text  : chr [1:3] &quot;A&quot; &quot;B&quot; &quot;C&quot;
+##  $ Number: num [1:5] 1 1.5 2 2.5 3
+##  $ Logic : logi [1:2] FALSE TRUE</code></pre>
+<p>Из приведенного примера следует, что список <code>my.list</code>
+включает 3 компонента (List of 3) с именами <code>Text</code>,
+<code>Number</code> и <code>Logic</code> (перечислены в отдельных
+строках после знака <code>$</code>).</p>
+<p>Эти компоненты относятся к символьному (<code>chr</code>), числовому
+(<code>num</code>) и логическому (<code>logic</code>) типам векторов
+соответственно.</p>
+<p>Кроме того, команда <code>str()</code> выводит на экран первые
+несколько элементов каждого вектора. Таблица данных (data frame)
+представляет собой объект R, по структуре напоминающий лист электронной
+таблицы Microsoft Excel.</p>
+<p>Каждый столбец таблицы является вектором, содержащим данные
+определенного типа. При этом действует правило, согласно которому все
+столбцы должны иметь одинаковую длину (собственно, с “точки зрения” R
+таблица данных является частным случаем списка, в котором все
+компоненты- векторы имеют одинаковый размер).</p>
+<p>Таблицы данных - это основной класс объектов R, используемых для
+хранения данных. Обычно такие таблицы подготавливаются при помощи
+внешних приложений (особенно популярна и удобна программа Microsoft
+Excel) и затем загружаются в среду R. Подробнее об импортировании данных
+в R будет рассказано ниже. Тем не менее, небольшую таблицу можно собрать
+из нескольких векторов средствами самой системы R. Для этого используют
+функцию <code>data.frame()</code>. Предположим, у нас есть наблюдения по
+общей численности мужского (Male) и женского (Female) населения в трех
+городах <code>City1</code>, <code>City2</code>, и <code>City3</code>.
+Представим эти данные в виде одной таблицы с именем <code>CITY</code>.
+Для начала создадим текстовые векторы с названиями городов
+(<code>city</code>) и пола (<code>sex</code>), а также вектор со
+значениями численности представителей каждого пола
+(<code>number</code>):</p>
+<pre class="r"><code>city &lt;- c(&quot;City1&quot;, &quot;City1&quot;, &quot;City2&quot;, &quot;City2&quot;, &quot;City3&quot;, &quot;City3&quot;) 
+sex &lt;- c(&quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female&quot;) 
+number &lt;- c(12450, 10345, 5670, 5800, 25129, 26000)</code></pre>
+<p>Теперь объединим эти три вектора в одну таблицу данных и посмотрим,
+что получилось:</p>
+<pre class="r"><code>CITY &lt;- data.frame(City = city, Sex = sex, Number = number) 
+CITY</code></pre>
+<pre><code>##    City    Sex Number
+## 1 City1   Male  12450
+## 2 City1 Female  10345
+## 3 City2   Male   5670
+## 4 City2 Female   5800
+## 5 City3   Male  25129
+## 6 City3 Female  26000</code></pre>
+<p>Обратите внимание на синтаксис функции <code>data.frame()</code>: ее
+аргументы перечисляются в формате “заголовок столбца = добавляемый
+вектор”. В качестве заголовков столбцов могут выступать любые
+пользовательские имена, удовлетворяющие требованиям R (см. об этом
+подробнее в разделе 2.1). Извлечь отдельные компоненты таблиц для
+выполнения необходимых вычислений, как и в примерах со списками, можно с
+использованием знака <code>$</code>, квадратных скобок с указанием двух
+индексов [<code>&lt;номер_строки&gt;</code>,
+<code>&lt;номер_столбца&gt;</code>], двойных квадратных скобок
+<code>[[]]</code>, либо непосредственно по имени столбца:</p>
+<pre class="r"><code>CITY$Sex</code></pre>
+<pre><code>## [1] &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Female&quot;</code></pre>
+<pre class="r"><code>CITY$Number</code></pre>
+<pre><code>## [1] 12450 10345  5670  5800 25129 26000</code></pre>
+<pre class="r"><code># Идентичные результаты можно получить при помощи команд: CITY[,2]
+CITY[[3]]</code></pre>
+<pre><code>## [1] 12450 10345  5670  5800 25129 26000</code></pre>
+<pre class="r"><code>CITY[&quot;Sex&quot;]</code></pre>
+<pre><code>##      Sex
+## 1   Male
+## 2 Female
+## 3   Male
+## 4 Female
+## 5   Male
+## 6 Female</code></pre>
+<pre class="r"><code>CITY[&quot;Number&quot;]</code></pre>
+<pre><code>##   Number
+## 1  12450
+## 2  10345
+## 3   5670
+## 4   5800
+## 5  25129
+## 6  26000</code></pre>
+<p>После имени или индексного номера столбца можно указывать индексные
+номера отдельных ячеек таблицы, что позволяет извлекать содержимое этих
+ячеек:</p>
+<pre class="r"><code># Извлекаем 4-й элемент из столбца Number:
+CITY$Number[4]</code></pre>
+<pre><code>## [1] 5800</code></pre>
+<pre class="r"><code># Извлекаем элементы 1-3 из столбца Number:
+CITY$Number[1:3]</code></pre>
+<pre><code>## [1] 12450 10345  5670</code></pre>
+<pre class="r"><code># Извлекаем все значения численности, превышающие 10000
+CITY$Number[CITY$Number &gt; 10000]</code></pre>
+<pre><code>## [1] 12450 10345 25129 26000</code></pre>
+<pre class="r"><code># Извлекаем все значения численности мужского населения:
+CITY$Number[CITY$Sex == &quot;Male&quot;]</code></pre>
+<pre><code>## [1] 12450  5670 25129</code></pre>
+<pre class="r"><code># Повторяем те же команды, но с использованием []:
+CITY[4, 3]</code></pre>
+<pre><code>## [1] 5800</code></pre>
+<pre class="r"><code>CITY[1:3, 3]</code></pre>
+<pre><code>## [1] 12450 10345  5670</code></pre>
+<pre class="r"><code>CITY[CITY$Number &gt;10000, 3]</code></pre>
+<pre><code>## [1] 12450 10345 25129 26000</code></pre>
+<pre class="r"><code>CITY[CITY$Sex == &quot;Male&quot;, 3]</code></pre>
+<pre><code>## [1] 12450  5670 25129</code></pre>
+<p>При работе с большими таблицами данных бывает сложно визуально
+исследовать всё их содержимое перед началом анализа. Однако визуального
+просмотра содержимого таблиц и не требуется - полную сводную информацию
+о них (равно как и о других объектах R) можно легко получить при помощи
+упомянутой ранее функции <code>str()</code> :</p>
+<pre class="r"><code>str(CITY)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  3 variables:
+##  $ City  : chr  &quot;City1&quot; &quot;City1&quot; &quot;City2&quot; &quot;City2&quot; ...
+##  $ Sex   : chr  &quot;Male&quot; &quot;Female&quot; &quot;Male&quot; &quot;Female&quot; ...
+##  $ Number: num  12450 10345 5670 5800 25129 ...</code></pre>
+<p>Как следует из представленного отчета, объект <code>CITY</code>
+является таблицей данных, в состав которой входят три переменные с
+шестью наблюдениями каждая. Две из этих переменных - <code>City</code> и
+<code>Sex</code> - программа автоматически распознала как факторы с
+тремя и двумя уровнями соответственно. Переменная <code>Number</code>
+является количественной. Для удобства выводятся также несколько первых
+значений каждой переменной. Часто возникает необходимость выяснить лишь
+имена переменных, входящих в таблицу данных. Это можно сделать при
+помощи команды <code>names()</code>:</p>
+<pre class="r"><code>names(CITY)</code></pre>
+<pre><code>## [1] &quot;City&quot;   &quot;Sex&quot;    &quot;Number&quot;</code></pre>
+<p>Имеется также возможность быстро просмотреть несколько первых или
+несколько последних значений каждой переменной, входящей в состав
+таблицы данных. Для этого используются функции <code>head()</code> и
+<code>tail()</code> соответственно:</p>
+<pre class="r"><code>head(CITY, n = 3)</code></pre>
+<pre><code>##    City    Sex Number
+## 1 City1   Male  12450
+## 2 City1 Female  10345
+## 3 City2   Male   5670</code></pre>
+<pre class="r"><code>tail(CITY, n = 2)</code></pre>
+<pre><code>##    City    Sex Number
+## 5 City3   Male  25129
+## 6 City3 Female  26000</code></pre>
+<p>При необходимости внесения исправлений в таблицу можно
+воспользоваться встроенным в R редактором данных. Внешне этот редактор
+напоминает обычный лист Excel, однако имеет весьма ограниченные
+функциональные возможности. Все, что он позволяет делать - это добавлять
+новые или исправлять уже введенные значения переменных, изменять
+заголовки столбцов, а также добавлять новые строки и столбцы. Работая в
+стандартной версии R, редактор данных можно запустить из меню “Файлы
+&gt; Редактор данных”, либо выполнив команду <code>fix()</code> (fix -
+исправлять, чинить) из командной строки консоли R (например,
+<code>fix(CITY)</code>). После внесения исправлений редактор просто
+закрывают - все изменения будут сохранены автоматически.</p>
+<p>#Заполнение пустых значений Часто на практике некоторые значения в
+таблице отсутствуют, что может быть обусловлено множеством причин: на
+момент измерения прибор вышел из строя, по невнимательности персонала
+измерение не было занесено в протокол исследования, испытуемый отказался
+отвечать на определенный вопрос(ы) в анкете, была утеряна проба, и т.п.
+Ячейки с такими отсутствующими значениями (missing values) в таблицах
+данных R не могут быть просто пустыми - иначе столбцы таблицы окажутся
+разной длины. Для обозначения отсутствующих наблюдений в языке R, как
+указывалось ранее, имеется специальное значение - NA (not available - не
+доступно). В разделе 4.4 мы остановимся на решении проблемы заполнения
+пропусков подробнее. Здесь же отметим, что если значение NA имеет смысл
+нуля (например, экземпляров некого вида обнаружено не было), то легко
+произвести эту замену в таблице DF командой</p>
+<p><code>DF[is.na(DF)] &lt;- 0</code></p>
+</div>
+<div id="сортировка-таблиц" class="section level1">
+<h1>Сортировка таблиц</h1>
+<p>Сортировка строк таблицы по различным ключам не представляет труда.
+Для этого используется функция order():</p>
+<pre class="r"><code>DF &lt;- data.frame(X1=c(1,15,1,3), X2=c(1,0,7,0), X3=c(1,0,1,2), X4=c(7,4,41,0), X5=c(1,0,5,3))
+row.names(DF) &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)
+#   DF1 - таблица, столбцы которой отсортированы
+#   по убыванию суммы значений
+DF1 &lt;- DF[, rev(order(colSums(DF)))]
+#   DF2 - таблица, строки которой отсортированы в восходящем
+#   порядке по 1 столбцу, затем в нисходящем по второму
+DF2 &lt;- DF[order(DF$X1, -DF$X2), ]</code></pre>
+</div>
+<div id="объединение-таблиц" class="section level1">
+<h1>Объединение таблиц</h1>
+<p>Пусть мы имеем две таблицы:</p>
+<p>DF1</p>
+<pre class="r"><code>DF1 &lt;- data.frame(Y=c(12,12,12), N=c(22,23,24), A=c(0,1,0), B=c(1,3,0),C=c(0,0,1))
+DF1</code></pre>
+<pre><code>##    Y  N A B C
+## 1 12 22 0 1 0
+## 2 12 23 1 3 0
+## 3 12 24 0 0 1</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>Y</th>
+<th>N</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>12</td>
+<td>22</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>23</td>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>DF2</p>
+<pre class="r"><code>DF2 &lt;- data.frame(Y=c(13,13,13), N=c(22,23,24), A=c(0,0,1), B=c(1,3,0),D=c(2,0,1))
+DF2</code></pre>
+<pre><code>##    Y  N A B D
+## 1 13 22 0 1 2
+## 2 13 23 0 3 0
+## 3 13 24 1 0 1</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>Y</th>
+<th>N</th>
+<th>A</th>
+<th>B</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>13</td>
+<td>22</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>23</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>24</td>
+<td>1</td>
+<td>0</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>Объединить их столбцы можно с использованием известной нам
+функции:</p>
+<pre class="r"><code>cbind(DF1,DF2)</code></pre>
+<pre><code>##    Y  N A B C  Y  N A B D
+## 1 12 22 0 1 0 13 22 0 1 2
+## 2 12 23 1 3 0 13 23 0 3 0
+## 3 12 24 0 0 1 13 24 1 0 1</code></pre>
+<p>Для объединения строк мы должны предварительно преобразовать
+объединяемые таблицы к единому списку столбцов:</p>
+<pre class="r"><code>DF1[,names(DF2)[!(names(DF2) %in% names(DF1))]] &lt;- NA
+DF2[,names(DF1)[!(names(DF1) %in% names(DF2))]] &lt;- NA
+rbind(DF1,DF2)</code></pre>
+<pre><code>##    Y  N A B  C  D
+## 1 12 22 0 1  0 NA
+## 2 12 23 1 3  0 NA
+## 3 12 24 0 0  1 NA
+## 4 13 22 0 1 NA  2
+## 5 13 23 0 3 NA  0
+## 6 13 24 1 0 NA  1</code></pre>
+<p>Аналогичную операцию мы можем выполнить с помощью команды</p>
+<pre class="r"><code>merge(DF1, DF2,all = TRUE)</code></pre>
+<pre><code>##    Y  N A B  C  D
+## 1 12 22 0 1  0 NA
+## 2 12 23 1 3  0 NA
+## 3 12 24 0 0  1 NA
+## 4 13 22 0 1 NA  2
+## 5 13 23 0 3 NA  0
+## 6 13 24 1 0 NA  1</code></pre>
+<p>Функция <code>merge()</code> позволяет выполнять объединение таблиц
+всеми распространенными способами join-операций языка SQL.</p>
+</div>
+<div id="импортирование-данных-в-r" class="section level1">
+<h1>Импортирование данных в R</h1>
+<p>В предыдущих разделах было рассмотрено, как, работая непосредственно
+в системе R, можно создать небольшие по объему объекты для хранения
+данных (векторы, матрицы, списки, таблицы данных).</p>
+<p>Следует отметить, однако, что возможности системы R по вводу и
+редактированию данных умышленно ограничены ее создателями, которые
+предполагали, что для этого будут использоваться другие средства
+(например, программа Microsoft Excel или базы данных). Поэтому
+подлежащие анализу объемные таблицы данных обычно подготавливаются при
+помощи сторонних приложений, и только потом загружаются в рабочую среду
+R из внешних файлов. Хотя предпочтение при этом отдается текстовым
+файлам, выше был упомянут специальный пакет <code>foreign</code>,
+функции которого позволяют импортировать таблицы, сохраненные во
+множестве других распространенных форматов (Excel, SPSS, SAS, STAT A,
+Access, Matlab, SQL, Oracle, и т.п.; см. также руководство R Data
+Import/Export).</p>
+<p>Импортирование данных в систему R часто вызывает проблемы у тех, кто
+только начинает работать с этой программой. Тем не менее, ничего
+сложного в этом нет. Ниже будут подробно рассмотрены наиболее
+распространенные способы импорта таблиц данных в рабочую среду R, однако
+сначала стоит ознакомиться с правилами подготовки загружаемых
+файлов:</p>
+<ul>
+<li>В импортируемой таблице с данными не должно быть пустых ячеек. Если
+некоторые значения по тем или иным причинам отсутствуют, вместо них
+следует ввести NA.</li>
+<li>Импортируемую таблицу с данными рекомендуется преобразовать в
+простой текстовый файл с одним из допустимых расширений. На практике
+обычно используются файлы с расширением .txt, в которых значения
+переменных разделены знаками табуляции (tab-delimited files), а также
+файлы с расширением .csv (comma separated values), в которых значения
+переменных разделены запятыми или другим разделяющим символом.</li>
+<li>В качестве первой строки в импортируемой таблице рекомендуется
+ввести заголовки столбцов-переменных. Такая строка - удобный, но не
+обязательный элемент загружаемого файла. Если она отсутствует, то об
+этом необходимо сообщить в описании команды, которая будет управлять
+загрузкой файла (например, <code>read.table()</code> - см. ниже). Все
+последующие строки файла в качестве первого элемента могут содержать
+заголовки строк (если таковые предусмотрены), после которых следуют
+значения каждой из имеющихся в таблице переменных.</li>
+</ul>
+<p>Имена столбцов таблицы лучше присвоить с соблюдением правил
+идентификации переменных R, т.е. исключить пробелы и другие специальные
+символы, кроме точки и подчеркивания. Во избежание проблем, связанных с
+кодировкой, все текстовые величины в импортируемых файлах стоит
+создавать с использованием букв латинского алфавита. Подлежащий
+импортированию файл рекомендуется поместить в рабочую папку программы,
+т.е. папку, в которой R по умолчанию будет “пытаться найти” этот файл
+(см. раздел 1.1). Чтобы выяснить путь к рабочей папке R на своем
+компьютере используйте команду <code>getwd()</code> (get working
+directory - узнать рабочую директорию); например:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/Work/Documents/GitHub/medR&quot;</code></pre>
+<pre class="r"><code>#[1] &quot;C:/Temp/&quot;</code></pre>
+<p>Изменить рабочую директорию можно при помощи команды
+<code>setwd()</code> (set working directory - создать рабочую
+директорию):</p>
+<pre class="r"><code>#setwd(&quot;C:/My Documents&quot;)</code></pre>
+<p>При выполнении этой команды внешне ничего не произойдет, однако
+последующее применение команды <code>getwd()</code> покажет, что путь к
+рабочей папке изменился:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/Work/Documents/GitHub/medR&quot;</code></pre>
+<pre class="r"><code>#[1] &quot;C:/My Documents/&quot;</code></pre>
+<p>Ниже приведен фрагмент типичной таблицы данных, которая может быть
+успешно загружена для анализа в среду R:</p>
+<pre class="r"><code>Name&lt;-c(&quot;Ivan&quot;, &quot;Vitaliy&quot;, &quot;Sergey&quot;, &quot;Mikhail&quot;)
+Group&lt;-c(&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;)
+Variable1&lt;-c(102,98,45,50)
+Variable2&lt;-c(1.3,1.4,NA,3.2)
+Variable3&lt;-c(14,11,8,6)
+df &lt;- data.frame(Name, Group, Variable1, Variable2, Variable3)
+print (df)</code></pre>
+<pre><code>##      Name Group Variable1 Variable2 Variable3
+## 1    Ivan     A       102       1.3        14
+## 2 Vitaliy     A        98       1.4        11
+## 3  Sergey     B        45        NA         8
+## 4 Mikhail     B        50       3.2         6</code></pre>
+<p>Как видим, приведенный фрагмент имеет размерность 5x5, т.е. состоит
+из пяти строк и пяти столбцов. В первой строке представлены заголовки
+всех имеющихся в таблице столбцов, за исключением первого. Первый
+столбец,хотя и не имеет собственного заголовка, не является пустым - он
+содержит имена добровольцев, участвовавших в некотором эксперименте
+(<code>Ivan</code>, <code>Vitaliy</code> и т.д.). Второй столбец имеет
+заголовок <code>Group</code> и содержит метки, по которым можно выяснить
+принадлежность испытуемых к той или иной экспериментальной группе
+(<code>A</code>, <code>B</code> и т.д.). Мы уже знаем, что в терминах
+языка R переменная <code>Group</code> называется фактором. В последующих
+столбцах (с заголовками <code>Variable1</code>, <code>Variable2</code> и
+т.д.) содержатся значения измеренные в ходе исследования переменных. В
+приведенном фрагменте таблицы имеется одно отсутствующее значение,
+вместо которого введено <code>NA</code>. Пожалуй, одним из наиболее
+доступных и удобных средств подготовки данных для их последующего
+анализа при помощи R является программа Microsoft Excel. Для сохранения
+Excel-таблиц в виде txt- или csv-файлов обычно предлагают использовать
+опцию <strong>Сохранить как</strong> (Save as) в разделе
+<strong>Файл</strong> (File) главного меню этой программы. Другим
+простым и надежным способом экспорта данных из Excel является создание в
+редакторе <strong>Блокнот</strong> (Notepade) нового файла и перенос
+туда через буфер обмена всей таблицы или выделенной ее части. Основной
+функцией для импортирования данных в рабочую среду R является
+<code>read.table()</code>. Эта мощная функция позволяет достаточно тонко
+настроить процесс загрузки внешних файлов, в связи с чем, она имеет
+большое количество управляющих аргументов. Наиболее важные из этих
+аргументов перечислены ниже в таблице (подробнее см. файл помощи,
+доступный по команде <code>?read.table</code>).</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Аргумент</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>file</strong></td>
+<td>Служит для указания пути к импортируемому файлу. Путь приводят либо
+в абсолютном виде (например, <code>file = "C:/Temp/MyData. dat"</code>),
+либо указывают только имя импортируемого файла (например,
+<code>file = "MyData.txt"</code>), но при условии, что последний
+хранится в рабочей папке программы (см. выше). В качестве имени можно
+также указывать полную URL-ссылку на файл, который предполагается
+загрузить из Сети (например:
+<code>file = "&lt;http://somesite.net/YourData.csv&gt;"</code>). Начиная
+с версии R 2.10, появилась возможность импортировать архивированные
+файлы в zip-формате.</td>
+</tr>
+<tr class="even">
+<td><strong>header</strong></td>
+<td>Служит для сообщения программе о наличии в загружаемом файле строки
+с заголовками столбцов. По умолчанию принимает значение
+<code>FALSE</code>. Если строка с заголовками столбцов имеется, этому
+аргументу следует присвоить значение <code>TRUE</code>.</td>
+</tr>
+<tr class="odd">
+<td><strong>row.names</strong></td>
+<td>Служит для указания номера столбца, в котором содержатся имена строк
+(например, в рассмотренном выше примере это был первый столбец, поэтому
+<code>row.names = 1</code>). Важно помнить, что все имена строк должны
+быть уникальными, т.е. одинаковые имена для двух или более строк не
+допускаются.</td>
+</tr>
+<tr class="even">
+<td><strong>sep</strong></td>
+<td>Служит для указания разделителя значений переменных, используемого в
+файле (separator - разделитель). По умолчанию предполагается, что
+значения переменных разделены “пустым пространством”, например, в виде
+пробела или знака табуляции (<code>sep = ""</code>). В файлах формата
+csv значения переменных разделены запятыми, и поэтому для них
+<code>sep =","</code>.</td>
+</tr>
+<tr class="odd">
+<td><strong>dec</strong></td>
+<td>Служит для указания знака, используемого в файле для отделения целой
+части числа от дроби. По умолчанию <code>dec = "."</code>. Однако во
+многих странах в качестве десятичного знака применяют запятую, о чем
+важно вспомнить перед загрузкой файла и, при необходимости, использовать
+<code>dec = ","</code>. Следите, чтобы <code>dec</code> и
+<code>sep</code> не были бы одинаковыми.</td>
+</tr>
+<tr class="even">
+<td><strong>nrows</strong></td>
+<td>Выражается целым числом, указывающим количество строк, которое
+должно быть считано из загружаемой таблицы. Отрицательные и иные
+значения игнорируются. Пример: <code>nrows = 100</code>.</td>
+</tr>
+<tr class="odd">
+<td><strong>skip</strong></td>
+<td>Выражается целым числом, указывающим количество строк в файле,
+которое должно быть пропущено перед началом импортирования. Пример:
+<code>skip = 5</code></td>
+</tr>
+</tbody>
+</table>
+<p>Для загрузки тщательно подготовленных файлов (см. правила выше)
+достаточно использовать минимальный набор аргументов функции
+<code>read.table()</code>. В качестве примера предположим, что нам
+необходимо загрузить файл hydro_chem.txt, который хранится в рабочей
+папке R и содержит данные по химическому составу воды некоторого
+водоема. Загружаемую таблицу данных мы намерены сохранить в виде объекта
+с именем chem. Функции <code>read.table()</code> в этом случае может
+быть применена следующим образом:</p>
+<pre class="r"><code>#chem &lt;- read.table(file = &quot;hydro_chem.txt&quot;, header = TRUE)</code></pre>
+<p>Как отмечено выше, импортируемые в R файлы часто имеют формат
+<code>csv</code>. Для их загрузки можно воспользоваться той же функцией
+<code>read.table()</code>, но при этом следует указать символ, который
+используется в качестве разделителя значений переменных в файле
+(например, запятая):</p>
+<pre class="r"><code>#chem &lt;- read.table(file = &quot;hydro_chem.csv&quot;, header = TRUE, sep = &quot;,&quot;)</code></pre>
+<p>Аналогом read.table() для считывания csv-файлов является функция
+read.csv():</p>
+<pre class="r"><code>#chem &lt;- read.csv(file = &quot;hydro_chem.csv&quot;, header = TRUE)</code></pre>
+<p>Если подлежащий загрузке файл хранится в папке, отличной от рабочей
+папки R, то следует указать полный путь к нему. При этом пользователям
+операционной системы Windows необходимо помнить, что для указания полных
+путей к файлам в программе R используется не обратный одинарный слэш
+(<code>\</code>), а прямой одинарный (<code>/</code>) либо двойной
+обратный слеш (<code>\\</code>). Например, следующие две команды будут
+успешно восприняты R и приведут к идентичному результату - загрузке
+файла hydro_chem.txt и сохранению его в виде объекта chem:</p>
+<pre class="r"><code>#chem &lt;- read.csv(file = &quot;D:\\Documents\\hydrochem.txt&quot;, header = TRUE) 
+#chem &lt;- read.csv(file = &quot;D:/Documents/hydrochem.txt&quot;, header = TRUE)</code></pre>
+<p>Для интерактивного выбора загружаемого файла, который хранится вне
+рабочей папки R, можно применить вспомогательную функцию
+<code>file.choose()</code> (выбрать файл). Выполнение этой команды
+приводит к открытию обычного диалогового окна операционной системы
+Windows, в котором пользователь выбирает папку с необходимым файлом.
+Очень удобно совмещать file.choose() с командами
+<code>read.table()</code> или <code>read.csv()</code>, например:</p>
+<pre class="r"><code>#chem &lt;- read.table(file = file.choose(), header = TRUE, sep = &quot;,&quot;)</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
