@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>IntroR</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.9/DiagrammeR.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Содержание</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Типы данных</a>
+</li>
+<li>
+  <a href="typerdataM.html">Типы данных (доп.)</a>
+</li>
+<li>
+  <a href="apply_f.html">Векторизация)</a>
+</li>
+<li>
+  <a href="learnr_page/learnr_page.html">Задания</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">IntroR</h1>
+
+</div>
+
+
+<pre class="r"><code>library(dplyr)
+require(ggplot2)</code></pre>
+<div id="часть-i." class="section level1">
+<h1>Часть I.</h1>
+</div>
+<div id="начало-работы" class="section level1">
+<h1>НАЧАЛО РАБОТЫ</h1>
+<p>Испытайте R в действии! R - одно из наиболее популярных современных
+программных средств для анализа данных и их визуализации. Это бесплатная
+программа с открытым кодом, предназначенная для операционных систем
+Windows, Mac OS X и Linux. Благодаря этой книге вы приобретете навыки,
+необходимые для овладения этой многофункциональной программой и ее
+эффективного использования для обработки ваших собственных данных.</p>
+<p>Книга разделена на четыре части. Первая часть посвящена установке
+программы в ее базовой версии, знакомству с интерфейсом, импорту данных
+и преобразованию их в удобный для дальнейшего анализа вид.</p>
+<p><strong>Глава 1</strong> познакомит вас с программной средой R. Эта
+глава начинается с обзора программы R и ее особенностей, которые делают
+ее столь мощным программным средством для современного анализа данных.
+После краткого объяснения того, как скачать и установить программу,
+следует описание пользовательского интерфейса на ряде простых примеров.
+Затем вы научитесь тому, как увеличить функциональность базовой версии
+при помощи расширений системы команд (так называемых дополнительных
+пакетов), которые можно скачать бесплатно с сетевых хранилищ. В конце
+главы размещены примеры, которые позволят применить ваши новые
+умения.</p>
+<p>Как только вы познакомились с интерфейсом R, возникает следующая
+задача - загрузить ваши данные в программу. В современном богатом
+информацией мире данные могут поступать из разных источников и в разных
+форматах. <strong>В главе 2</strong> описано множество методов, которые
+можно использовать для импорта данных в R. Первая половина главы
+посвящена описанию форматов, в которых R хранит данные, и рассказу о
+том, как вводить данные вручную. Во второй части обсуждаются методы
+импорта данных из текстовых файлов, веб-страниц, электронных таблиц,
+других статистических программ и баз данных.</p>
+<p>Исходя из последовательности действий при обработке данных, возможно,
+следующим пунктом имело бы смысл обсудить управление данными и
+устранение ошибок в них. Однако многие пользователи, впервые
+познакомившиеся с R, больше интересуются ее мощными графическими
+возможностями. Чтобы не игнорировать этот интерес и не заставлять вас
+ждать, в <strong>главе 3</strong> мы немедленно переходим к графическому
+представлению данных. В этой главе обсуждается, как создавать диаграммы,
+изменять их параметры и сохранять диаграммы в разных форматах.
+Рассказано, как на диаграммах выбирать цвета, типы символов и линий,
+шрифты, делать заголовки, надписи и списки условных обозначений. В
+заключение описано, как объединить несколько диаграмм на одном
+изображении.</p>
+<p>После того как вам представилась возможность испытать графические
+возможности R, настало время вернуться к анализу данных. Они редко сразу
+поступают в готовом к использованию виде. Часто бывает необходимо
+потратить значительное количество времени, комбинируя данные из
+различных источников, устраняя ошибки (неправильно закодированные,
+несоответствующие, отсутствующие данные) и создавая новые
+(комбинированные, трансформированные, перекодированные) переменные,
+прежде чем вы сможете перейти к решению интересующих вас задач. В
+<strong>главе 4</strong> описаны все основные способы управления данными
+в R, включая сортировку, слияние и разделение наборов данных, а также
+трансформацию, перекодировку и удаление переменных.</p>
+<p><strong>Глава 5</strong> основана на материале, изложенном в главе 4.
+Здесь рассказано, как использовать числовые (арифметические,
+тригонометрические и статистические) и текстовые функции (разбиение
+строк, объединение и замену) в управлении данными. Для иллюстрации
+многих из описанных функций в этом разделе использованы много¬численные
+примеры. Далее разобраны управляющие конструкции (циклы, исполняемые при
+определенных условиях команды). После прочтения этого раздела вы
+научитесь создавать собственные функции в R. Это позволит расширить
+возможности R, объединив многие команды в одну легко настраиваемую
+функцию. В заключение обсуждаются мощные методы реорганизации и
+группировки данных, которые часто бывают полезными при подготовке данных
+к дальнейшему анализу.</p>
+<p>После прочтения главы 1 вы подробно познакомитесь с программированием
+в среде R. Вы приобретете навыки, необходимые для ввода данных и
+получения их из внешних источников, а также для устранения ошибок в
+данных. Кроме того, вы получите опыт создания, изменения параметров и
+сохранения различных типов диаграмм.</p>
+</div>
+<div id="глава-1" class="section level1">
+<h1>ГЛАВА 1.</h1>
+<div id="sec-знакомство-с-r" class="section level2">
+<h2>Знакомство с R</h2>
+<p>В этой главе:</p>
+<ul>
+<li>Устанавливаем R.</li>
+<li>Знакомимся с языком программирования R.</li>
+<li>Запускаем программу.</li>
+</ul>
+<p>За последнее время методы анализа данных принципиально изменились. С
+появлением персональных компьютеров и Интернета объемы данных
+значительно возросли. Коммерческие компании обладают терабайтами данных
+о потребителях, правительственные, академические и частные
+исследовательские институты оперируют обшир¬ными архивными данными и
+материалами обследований по многим направлениям. Извлечение информации
+(не говоря уже о знаниях) из этих огромных объемов данных превратилось в
+самостоятельную отрасль деятельности. В то же время представление
+информации в легкодоступном и усвояемом виде стало более сложной
+задачей.</p>
+<p>Развитие наук, посвященных анализу данных (статистика, психометрика,
+эконометрика, машинное самообучение) не отстает от взрывообразного роста
+объема данных. До эпохи персональных компьютеров и Интернета новые
+статистические методы разрабатывались учеными-теоретиками, которые
+публиковали свои результаты в виде статей в специализированных журналах.
+Могли пройти годы, прежде чем эти методы доходили до программистов и
+встраивались в широко доступные программы для статистической обработки
+данных. В наше время новые методы появляются ежедневно.
+Исследователи-статистики публикуют новые и усовершенствованные методы
+вместе с программным кодом, который их реализует, на легкодоступных
+веб-сайтах.</p>
+<p>Появление персональных компьютеров изменило подход к анализу данных
+еще одним образом. Когда анализ данных проводился в вычислительных
+центрах, компьютерное время было дорого и труднодоступно. Аналитики
+заранее тщательно устанавливали все параметры анализа. Когда анализ
+завершался, вывод результата занимал десятки или сотни страниц. Аналитик
+должен был просмотреть все их, оставляя нужное и отсеивая лишнее. Многие
+распространенные статистические программы были изобретены в ту эпоху и
+до сих пор в некоторой степени придерживаются этого алгоритма.</p>
+<p>С появлением дешевого и легкого доступа к анализу данных,
+предоставляемого персональными компьютерами, произошла смена парадигмы.
+Вместо того чтобы требовать предварительной установки всех параметров
+анализа, процесс стал в значительной степени интерактивным. При этом
+результат каждого этапа анализа служит данными для следующего этапа.
+Схема типичного анализа данных приведена на рис. 1.1. На любом этапе
+анализа могут быть произведены трансформация данных, вставка пропущенных
+значений, добавление или удаление переменных, после чего процесс
+продолжается. Завершается этот процесс тогда, когда аналитик считает,
+что он или она полностью исследовал(а) данные и ответил(а) на все
+относящиеся к делу вопросы, на которые можно было ответить.</p>
+<p>Рис. 1.1. Этапы типичного анализа данных Появление персональных
+компьютеров (а в особенности мониторов с высоким разрешением) также
+повлияло на то, как мы понимаем результаты и представляем их.
+Изображение действительно может стоить тысячи слов, а люди весьма
+успешно извлекают информацию из визуальных образов. Современные методы
+обработки данных все больше опираются на графические способы
+представления результатов. Итак, современному исследователю необходимо
+получать данные из разных источников (системы управления базами данных,
+текстовые файлы, статистические программы и электронные таблицы),
+объединять фрагменты данных, аннотировать их и удалять ошибки,
+анализировать их при помощи новейших методов, представлять результаты в
+легко поддающемся интерпретации и наглядном виде, а также включать
+результаты в привлекательные отчеты, которые могут быть распространены
+среди заинтересованных лиц и общественности.</p>
+<div id="зачем-использовать-r" class="section level3">
+<h3>1.1 Зачем использовать R?</h3>
+<p>R - это язык программирования и среда для статистических вычислений и
+графического анализа, сходный с языком S, первоначально разработанным в
+Белл Лабораториз (Bell Labs). Это программа для анализа данных с
+открытым кодом, которая поддерживается большим и активным
+исследовательским сообществом по всему миру. Однако существует много
+распространенных программ для статистической и графической обработки
+данных (таких как Microsoft Excel, SAS, IBM SPSS, Stata и Minitab).</p>
+<p><strong>Зачем переходить на R?</strong></p>
+<p>У R есть много особенностей, которые позволяют рекомендовать именно
+эту программу:</p>
+<ul>
+<li>большинство коммерческих статистических программ стоят тысячи, если
+не десятки тысяч долларов. R - это бесплатная программа! Если вы учитель
+или студент, выгода очевидна;</li>
+<li>R - это мощная статистическая программа, в которой реализованы все
+способы анализа данных;</li>
+<li>R имеет современные графические возможности. Если вам нужно
+визуализировать сложные данные, то учтите, что в R реализованы самые
+разнообразные и мощные методы анализа данных из доступных;</li>
+<li>получение данных из разных источников в пригодном для использования
+виде может быть сложной задачей. R может импортировать данные из самых
+разных источников, включая текстовые файлы, системы управления базами
+данных, другие статистические программы и специализированные хранилища
+данных. R может также записывать данные в форматах всех этих
+систем;</li>
+<li>R представляет собой не имеющую аналогов платформу для простого
+написания программ, реализующих новые статистические методы;</li>
+<li>в R реализованы сложные статистические процедуры, еще недоступные в
+других программах. На самом деле новые функции становятся доступными для
+скачивания еженедельно. Если вы работаете в SAS, представьте, насколько
+невероятно было бы получать новую SAS-процедуру каждые несколько
+дней;</li>
+<li>если вы не хотите учить новый язык, существует множество графических
+пользовательских интерфейсов, в которых мощь R реализована в форме меню
+и диалогов;</li>
+<li>R работает на разных операционных системах, включая Windows, Unix и
+Mac OS X. Она, скорее всего, запустится на любом компьютере, который у
+вас есть (я даже видел руководства по установке R на iPhone, что
+впечатляет, но вряд ли является хорошей идеей).</li>
+</ul>
+<p>Демонстрацию графических возможностей R можно видеть на рис. 1.2. Эта
+диаграмма, созданная при помощи одной строки программного кода,
+описывает зависимости между доходом, образованием и престижем для
+представителей рабочих, конторских и специальных профессий. Это матрица,
+составленная из диаграмм рассеяния, с обозначением разных групп при
+помощи цветов и символов, двумя типами аппроксимирующих линий - линейная
+регрессия и так называемое локально-взвешенное сглаживание (Locally
+Weighted Scatterplot Smoothing, LOESS), обозначающими границы
+доверительных интервалов эллипсами и двумя типами изображения плотности
+распределения точек на диаграмме (ядерная оценка функции плотности -
+kernel density estimation и график-щетка - rug plot). Кроме того, самый
+большой выброс на каждой диаграмме рассеяния автоматически подписан. Не
+беспокойтесь, если эти термины незнакомы вам. Мы подробно рассмотрим их
+в следующих главах. Сейчас просто поверьте мне, что это - замечательный
+график (и что статистики, которые читают это, просто пускают
+слюнки).</p>
+<pre class="r"><code>library(car)
+scatterplotMatrix(~ income + education + prestige | type, data=Duncan)</code></pre>
+<p><img src="intro_r_files/figure-html/scatterplotMatrix_demo-1.png" width="672" /></p>
+<p>Рис. 1.2. Взаимосвязь между уровнем дохода (income), образования
+(education) и престижа (prestige) для представителей рабочих
+(blue-collar: bc), конторских (white-collar: wc) и специальных (prof)
+профессий. Источник: дополнительный пакет car (команда
+scatterplotMatrix, созданная Джоном Фоксом (John Fox)).</p>
+<p>Диаграммы, подобные этой, сложно создавать в других статистических
+программах. В R их можно сделать при помощи одной-двух строк
+программного кода.</p>
+<p>Вот главное, что показывает этот график:</p>
+<ul>
+<li>между уровнями образования, дохода и престижа работы существует
+линейная связь;</li>
+<li>в среднем рабочие профессии характеризуются более низким уровнем
+образования и престижа, а специальные профессии - более высоким.
+Конторские профессии занимают промежуточное положение;</li>
+<li>существует несколько интересных исключений. Инженеры на железных
+дорогах (RR.engineer) зарабатывают много, но имеют низкое образование.
+Быть министром (minister) престижно, но не прибыльно;</li>
+<li>уровни образования и (в меньшей степени) престижа профессии
+распределены бимодально, то есть низкие и высокие значения этих
+показателей встречаются чаще, чем средние.</li>
+</ul>
+<p>Вы узнаете гораздо больше об этой диаграмме в главе 8. Сейчас важно
+понять, что в R можно создавать изящные, информативные, легко
+настраиваемые диаграммы простыми и логичными способами. Создание сходных
+диаграмм при помощи других статистических программ было бы сложным,
+долгим или невозможным.</p>
+<p>К сожалению, для языка R свойственна пологая кривая обучения.
+Поскольку он может делать так много всего, объем документации и файлов
+помощи очень велик. Кроме того, т.к. многие из этих опций реализованы в
+дополнительных модулях, созданных независимыми исследователями,
+справочная документация бывает разобщенной и труднодоступной. Научиться
+выполнять все виды анализа, реализованные в R, действительно очень
+непросто.</p>
+<p>Задача этой книги - сделать овладение R быстрым и простым. Мы
+рассмотрим достаточно много возможностей R, чтобы вы смогли начать
+обработку собственных данных, с указаниями на то, где можно получить
+дополнительную информацию. Давайте начнем с установки программы.</p>
+</div>
+</div>
+</div>
+<div id="получение-и-установка-r" class="section level1">
+<h1>1.2 Получение и установка R</h1>
+<p>R можно бесплатно скачать из «всеобъемлющего сетевого архива R»
+(Comprehensive R Archive Network, CRAN) по адресу <a
+href="https://cran.r-project.org."
+class="uri">https://cran.r-project.org.</a> Предварительно
+скомпилированные загрузочные файлы доступны для Linux, Mac OS X и
+Windows. Следуйте инструкциям по установке программы в вашей
+операционной системе. Позже мы обсудим, как повышать функциональность
+программы при помощи дополнительных модулей, называемых «пакетами», -
+они также доступны в CRAN. В приложении H рассказано, как обновлять
+программу.</p>
+</div>
+<div id="работа-в-r" class="section level1">
+<h1>1.3 Работа в R</h1>
+<p>R - это чувствительный к регистру клавиатуры интерпретируемый язык
+программирования. Вы можете либо вводить команды по одной в ответ на
+приглашение на ввод команды (&gt;), либо запускать набор команд из
+исходного файла. Типы данных очень разнообразны: векторы, матрицы,
+таблицы данных и списки (совокупность нескольких объектов). Мы обсудим
+все эти типы данных в главе 2.</p>
+<p>Основной функционал программы реализуется при помощи встроенных и
+создаваемых пользователем функций, и все объекты (наборы данных)
+хранятся в памяти программы до завершения интерактивной сессии. Основные
+функции доступны по умолчанию. Остальные функции содержатся в пакетах,
+которые могут активироваться в ходе работы с программой по мере
+необходимости.</p>
+<p>Командные строки состоят из функций и присвоений. R использует символ
+&lt;- для присвоений вместо обычного знака равенства. Например,
+командная строка</p>
+<p><code>x &lt;- rnorm(5)</code></p>
+<p>создает объект типа вектор, который называется x и содержит пять
+случайных элементов нормального распределения.</p>
+<p>Примечание. В R можно использовать знак равенства для присвоений.
+Однако немногие функции написаны таким образом. Поскольку это
+нестандартный синтаксис, в некоторых ситуациях он не будет работать, и
+программисты поднимут вас на смех. Можно писать присвоения в обратном
+порядке. Например, выражение <code>rnorm (5) -&gt; x</code> эквивалентно
+предыдущей командной строке. Опять же, так писать не принято, и я не
+рекомендую это делать.</p>
+<p>Комментарии предваряются символом #. Любой текст, который идет после
+#, игнорируется программой.</p>
+<div id="начало-работы-1" class="section level4">
+<h4>1.3.1 Начало работы</h4>
+<p>Если вы используете Windows, запустите R из стартового меню. В
+операционной системе Mac дважды щелкните на значок R в директории
+приложений. В Linux наберите «R» в командной строке терминала. Любое из
+этих действий запустит R (см. рис. 1.3 в качестве примера).</p>
+<p>Для того чтобы освоиться с интерфейсом, давайте потренируемся на
+простом выдуманном примере. Представьте, что вы изучаете физическое
+развитие и собрали данные о возрасте и весе 10 младенцев первого года
+жизни (см. табл. 1.1). Вы интересуетесь распределением значений веса и
+их зависимостью от возраста.</p>
+<div class="figure">
+<img src="InterfaceR_1.3.PNG" alt="" />
+<p class="caption">Рис. 1.3. Пример интерфейса R в операционной системе
+Windows</p>
+</div>
+<table>
+<caption>Таблица 1.1. Возраст и вес 10 младенцев <a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a></caption>
+<thead>
+<tr class="header">
+<th>Возраст (месяцы)</th>
+<th>Вес (кг)</th>
+<th>Возраст (месяцы)</th>
+<th>Вес (кг)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01</td>
+<td>4.4</td>
+<td>09</td>
+<td>7.3</td>
+</tr>
+<tr class="even">
+<td>03</td>
+<td>5.3</td>
+<td>03</td>
+<td>6.0</td>
+</tr>
+<tr class="odd">
+<td>05</td>
+<td>7.2</td>
+<td>09</td>
+<td>10.4</td>
+</tr>
+<tr class="even">
+<td>02</td>
+<td>5.2</td>
+<td>12</td>
+<td>10.2</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>8.5</td>
+<td>03</td>
+<td>6.1</td>
+</tr>
+</tbody>
+</table>
+<p>Программный код 1.1. Пример сессии в R</p>
+<pre class="r"><code>age &lt;- c(1,3,5,2,11,9,3,9,12,3)
+weight &lt;- c(4.4,5.3,7.2,5.2,8.5,7.3,6.0,10.4,10.2,6.1)</code></pre>
+<pre class="r"><code>mean(weight)</code></pre>
+<pre><code>## [1] 7.06</code></pre>
+<pre class="r"><code>sd(weight)</code></pre>
+<pre><code>## [1] 2.077498</code></pre>
+<pre class="r"><code>cor(age, weight)</code></pre>
+<pre><code>## [1] 0.9075655</code></pre>
+<pre class="r"><code>plot(age, weight)</code></pre>
+<p><img src="intro_r_files/figure-html/plot-1.png" width="672" /></p>
+<p>Рис. 1.4. Диаграмма рассеяния веса младенцев (weight, в килограммах)
+в зависимости от их возраста (age, в месяцах)</p>
+<p>Из программного кода 1.1 видно, что средний вес этих 10 младенцев
+составляет 7.06 кг, а стандартное отклонение равно 2.08 кг и что
+существует сильная линейная взаимосвязь между возрастом и весом
+(коэффициент корреляции равен 0.91). Эта взаимосвязь также видна на
+диаграмме рассеяния на рис. 1.4. Неудивительно, что по мере взросления
+младенцы в среднем становятся тяжелее.</p>
+<p>Диаграмма рассеяния на рис. 1.4 информативна, но выглядит не очень
+привлекательно. Из последующих глав вы узнаете, как модифицировать
+графики в соответствии с вашими потребностями.</p>
+<p>Совет. Чтобы получить представление о графических возможностях R,
+наберите в командной строке <code>demo(graphics)</code>. Некоторые из
+графиков, которые при этом появятся, представлены на рис. 1.5. Другие
+демонстрационные наборы графиков можно получить, напечатав
+demo(Hershey), demo(persp) и demo(image). Для того чтобы увидеть полный
+набор демонстрационных графиков, введите demo() без параметров.</p>
+<pre class="r"><code>demo(graphics)</code></pre>
+<pre><code>## 
+## 
+##  demo(graphics)
+##  ---- ~~~~~~~~
+## 
+## &gt; #  Copyright (C) 1997-2009 The R Core Team
+## &gt; 
+## &gt; require(datasets)
+## 
+## &gt; require(grDevices); require(graphics)
+## 
+## &gt; ## Here is some code which illustrates some of the differences between
+## &gt; ## R and S graphics capabilities.  Note that colors are generally specified
+## &gt; ## by a character string name (taken from the X11 rgb.txt file) and that line
+## &gt; ## textures are given similarly.  The parameter &quot;bg&quot; sets the background
+## &gt; ## parameter for the plot and there is also an &quot;fg&quot; parameter which sets
+## &gt; ## the foreground color.
+## &gt; 
+## &gt; 
+## &gt; x &lt;- stats::rnorm(50)
+## 
+## &gt; opar &lt;- par(bg = &quot;white&quot;)
+## 
+## &gt; plot(x, ann = FALSE, type = &quot;n&quot;)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-1.png" width="672" /></p>
+<pre><code>## 
+## &gt; abline(h = 0, col = gray(.90))
+## 
+## &gt; lines(x, col = &quot;green4&quot;, lty = &quot;dotted&quot;)
+## 
+## &gt; points(x, bg = &quot;limegreen&quot;, pch = 21)
+## 
+## &gt; title(main = &quot;Simple Use of Color In a Plot&quot;,
+## +       xlab = &quot;Just a Whisper of a Label&quot;,
+## +       col.main = &quot;blue&quot;, col.lab = gray(.8),
+## +       cex.main = 1.2, cex.lab = 1.0, font.main = 4, font.lab = 3)
+## 
+## &gt; ## A little color wheel.    This code just plots equally spaced hues in
+## &gt; ## a pie chart.    If you have a cheap SVGA monitor (like me) you will
+## &gt; ## probably find that numerically equispaced does not mean visually
+## &gt; ## equispaced.  On my display at home, these colors tend to cluster at
+## &gt; ## the RGB primaries.  On the other hand on the SGI Indy at work the
+## &gt; ## effect is near perfect.
+## &gt; 
+## &gt; par(bg = &quot;gray&quot;)
+## 
+## &gt; pie(rep(1,24), col = rainbow(24), radius = 0.9)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-2.png" width="672" /></p>
+<pre><code>## 
+## &gt; title(main = &quot;A Sample Color Wheel&quot;, cex.main = 1.4, font.main = 3)
+## 
+## &gt; title(xlab = &quot;(Use this as a test of monitor linearity)&quot;,
+## +       cex.lab = 0.8, font.lab = 3)
+## 
+## &gt; ## We have already confessed to having these.  This is just showing off X11
+## &gt; ## color names (and the example (from the postscript manual) is pretty &quot;cute&quot;.
+## &gt; 
+## &gt; pie.sales &lt;- c(0.12, 0.3, 0.26, 0.16, 0.04, 0.12)
+## 
+## &gt; names(pie.sales) &lt;- c(&quot;Blueberry&quot;, &quot;Cherry&quot;,
+## +              &quot;Apple&quot;, &quot;Boston Cream&quot;, &quot;Other&quot;, &quot;Vanilla Cream&quot;)
+## 
+## &gt; pie(pie.sales,
+## +     col = c(&quot;purple&quot;,&quot;violetred1&quot;,&quot;green3&quot;,&quot;cornsilk&quot;,&quot;cyan&quot;,&quot;white&quot;))</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-3.png" width="672" /></p>
+<pre><code>## 
+## &gt; title(main = &quot;January Pie Sales&quot;, cex.main = 1.8, font.main = 1)
+## 
+## &gt; title(xlab = &quot;(Don&#39;t try this at home kids)&quot;, cex.lab = 0.8, font.lab = 3)
+## 
+## &gt; ## Boxplots:  I couldn&#39;t resist the capability for filling the &quot;box&quot;.
+## &gt; ## The use of color seems like a useful addition, it focuses attention
+## &gt; ## on the central bulk of the data.
+## &gt; 
+## &gt; par(bg=&quot;cornsilk&quot;)
+## 
+## &gt; n &lt;- 10
+## 
+## &gt; g &lt;- gl(n, 100, n*100)
+## 
+## &gt; x &lt;- rnorm(n*100) + sqrt(as.numeric(g))
+## 
+## &gt; boxplot(split(x,g), col=&quot;lavender&quot;, notch=TRUE)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-4.png" width="672" /></p>
+<pre><code>## 
+## &gt; title(main=&quot;Notched Boxplots&quot;, xlab=&quot;Group&quot;, font.main=4, font.lab=1)
+## 
+## &gt; ## An example showing how to fill between curves.
+## &gt; 
+## &gt; par(bg=&quot;white&quot;)
+## 
+## &gt; n &lt;- 100
+## 
+## &gt; x &lt;- c(0,cumsum(rnorm(n)))
+## 
+## &gt; y &lt;- c(0,cumsum(rnorm(n)))
+## 
+## &gt; xx &lt;- c(0:n, n:0)
+## 
+## &gt; yy &lt;- c(x, rev(y))
+## 
+## &gt; plot(xx, yy, type=&quot;n&quot;, xlab=&quot;Time&quot;, ylab=&quot;Distance&quot;)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-5.png" width="672" /></p>
+<pre><code>## 
+## &gt; polygon(xx, yy, col=&quot;gray&quot;)
+## 
+## &gt; title(&quot;Distance Between Brownian Motions&quot;)
+## 
+## &gt; ## Colored plot margins, axis labels and titles.    You do need to be
+## &gt; ## careful with these kinds of effects.    It&#39;s easy to go completely
+## &gt; ## over the top and you can end up with your lunch all over the keyboard.
+## &gt; ## On the other hand, my market research clients love it.
+## &gt; 
+## &gt; x &lt;- c(0.00, 0.40, 0.86, 0.85, 0.69, 0.48, 0.54, 1.09, 1.11, 1.73, 2.05, 2.02)
+## 
+## &gt; par(bg=&quot;lightgray&quot;)
+## 
+## &gt; plot(x, type=&quot;n&quot;, axes=FALSE, ann=FALSE)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-6.png" width="672" /></p>
+<pre><code>## 
+## &gt; usr &lt;- par(&quot;usr&quot;)
+## 
+## &gt; rect(usr[1], usr[3], usr[2], usr[4], col=&quot;cornsilk&quot;, border=&quot;black&quot;)
+## 
+## &gt; lines(x, col=&quot;blue&quot;)
+## 
+## &gt; points(x, pch=21, bg=&quot;lightcyan&quot;, cex=1.25)
+## 
+## &gt; axis(2, col.axis=&quot;blue&quot;, las=1)
+## 
+## &gt; axis(1, at=1:12, lab=month.abb, col.axis=&quot;blue&quot;)
+## 
+## &gt; box()
+## 
+## &gt; title(main= &quot;The Level of Interest in R&quot;, font.main=4, col.main=&quot;red&quot;)
+## 
+## &gt; title(xlab= &quot;1996&quot;, col.lab=&quot;red&quot;)
+## 
+## &gt; ## A filled histogram, showing how to change the font used for the
+## &gt; ## main title without changing the other annotation.
+## &gt; 
+## &gt; par(bg=&quot;cornsilk&quot;)
+## 
+## &gt; x &lt;- rnorm(1000)
+## 
+## &gt; hist(x, xlim=range(-4, 4, x), col=&quot;lavender&quot;, main=&quot;&quot;)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-7.png" width="672" /></p>
+<pre><code>## 
+## &gt; title(main=&quot;1000 Normal Random Variates&quot;, font.main=3)
+## 
+## &gt; ## A scatterplot matrix
+## &gt; ## The good old Iris data (yet again)
+## &gt; 
+## &gt; pairs(iris[1:4], main=&quot;Edgar Anderson&#39;s Iris Data&quot;, font.main=4, pch=19)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-8.png" width="672" /></p>
+<pre><code>## 
+## &gt; pairs(iris[1:4], main=&quot;Edgar Anderson&#39;s Iris Data&quot;, pch=21,
+## +       bg = c(&quot;red&quot;, &quot;green3&quot;, &quot;blue&quot;)[unclass(iris$Species)])</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-9.png" width="672" /></p>
+<pre><code>## 
+## &gt; ## Contour plotting
+## &gt; ## This produces a topographic map of one of Auckland&#39;s many volcanic &quot;peaks&quot;.
+## &gt; 
+## &gt; x &lt;- 10*1:nrow(volcano)
+## 
+## &gt; y &lt;- 10*1:ncol(volcano)
+## 
+## &gt; lev &lt;- pretty(range(volcano), 10)
+## 
+## &gt; par(bg = &quot;lightcyan&quot;)
+## 
+## &gt; pin &lt;- par(&quot;pin&quot;)
+## 
+## &gt; xdelta &lt;- diff(range(x))
+## 
+## &gt; ydelta &lt;- diff(range(y))
+## 
+## &gt; xscale &lt;- pin[1]/xdelta
+## 
+## &gt; yscale &lt;- pin[2]/ydelta
+## 
+## &gt; scale &lt;- min(xscale, yscale)
+## 
+## &gt; xadd &lt;- 0.5*(pin[1]/scale - xdelta)
+## 
+## &gt; yadd &lt;- 0.5*(pin[2]/scale - ydelta)
+## 
+## &gt; plot(numeric(0), numeric(0),
+## +      xlim = range(x)+c(-1,1)*xadd, ylim = range(y)+c(-1,1)*yadd,
+## +      type = &quot;n&quot;, ann = FALSE)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-10.png" width="672" /></p>
+<pre><code>## 
+## &gt; usr &lt;- par(&quot;usr&quot;)
+## 
+## &gt; rect(usr[1], usr[3], usr[2], usr[4], col=&quot;green3&quot;)
+## 
+## &gt; contour(x, y, volcano, levels = lev, col=&quot;yellow&quot;, lty=&quot;solid&quot;, add=TRUE)
+## 
+## &gt; box()
+## 
+## &gt; title(&quot;A Topographic Map of Maunga Whau&quot;, font= 4)
+## 
+## &gt; title(xlab = &quot;Meters North&quot;, ylab = &quot;Meters West&quot;, font= 3)
+## 
+## &gt; mtext(&quot;10 Meter Contour Spacing&quot;, side=3, line=0.35, outer=FALSE,
+## +       at = mean(par(&quot;usr&quot;)[1:2]), cex=0.7, font=3)
+## 
+## &gt; ## Conditioning plots
+## &gt; 
+## &gt; par(bg=&quot;cornsilk&quot;)
+## 
+## &gt; coplot(lat ~ long | depth, data = quakes, pch = 21, bg = &quot;green3&quot;)</code></pre>
+<p><img src="intro_r_files/figure-html/demogr-11.png" width="672" /></p>
+<pre><code>## 
+## &gt; par(opar)</code></pre>
+</div>
+</div>
+<div id="как-получить-помощь" class="section level1">
+<h1>1.3.2 Как получить помощь</h1>
+<p>R обладает обширными справочными материалами. Научитесь
+ориентироваться в них, и это поможет вам при работе в программе.
+Встроенная система помощи содержит подробные разъяснения, ссылки на
+литературу и примеры для каждой функции из установленных пакетов.
+Справку можно вызвать при помощи функций, перечисленных в табл. 1.2.</p>
+<p>Таблица 1.2. Функции вызова справки в R</p>
+<table>
+<colgroup>
+<col width="44%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Функция</th>
+<th>Действие</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>help.start()</code></td>
+<td>Общая справка</td>
+</tr>
+<tr class="even">
+<td><code>help ("нечто")</code>ИЛИ <code>?нечто</code></td>
+<td>Справка по функции нечто (кавычки необязательны)</td>
+</tr>
+<tr class="odd">
+<td><code>help.search("нечто")</code> ИЛИ <code>??нечто</code></td>
+<td>Поиск в справке записей, содержащих нечто</td>
+</tr>
+<tr class="even">
+<td><code>example("нечто")</code></td>
+<td>Примеры использования функции нечто (кавычки необязательны)</td>
+</tr>
+<tr class="odd">
+<td><code>RSiteSearch("нечто")</code></td>
+<td>Поиск записей, содержащих нечто в онлайн-руководствах и
+заархиви-рованных рассылках</td>
+</tr>
+<tr class="even">
+<td><code>apropos("нечто", mode="function")</code></td>
+<td>Список всех доступных функций, в названии которых есть нечто</td>
+</tr>
+<tr class="odd">
+<td><code>data()</code></td>
+<td>Список всех демонстрационных данных, содержащихся в загруженных
+пакетах</td>
+</tr>
+<tr class="even">
+<td><code>vignette()</code></td>
+<td>Список всех доступных руководств по загруженным пакетам</td>
+</tr>
+<tr class="odd">
+<td><code>vignette("нечто")</code></td>
+<td>Список руководств по теме нечто</td>
+</tr>
+</tbody>
+</table>
+<p>#Коэффициенты модели</p>
+<p>equatiomatic</p>
+<pre class="r"><code>library(equatiomatic)
+fit &lt;- lm(mpg ~ cyl + disp, mtcars)
+# show the theoretical model
+equatiomatic::extract_eq(fit)</code></pre>
+<p><span class="math display">\[
+\operatorname{mpg} = \alpha + \beta_{1}(\operatorname{cyl}) +
+\beta_{2}(\operatorname{disp}) + \epsilon
+\]</span></p>
+<pre class="r"><code># display the actual coefficients
+equatiomatic::extract_eq(fit, use_coefs = TRUE)</code></pre>
+<p><span class="math display">\[
+\operatorname{\widehat{mpg}} = 34.66 - 1.59(\operatorname{cyl}) -
+0.02(\operatorname{disp})
+\]</span></p>
+</div>
+<div id="диаграмма-r-markdown" class="section level1">
+<h1>Диаграмма R Markdown</h1>
+<p>Диаграмма</p>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;
+graph TD
+A(Rounded)--&gt;B[Rectangular]
+B--&gt;C{A Rhombus}
+C--&gt;D[Rectangle One]
+C--&gt;E[Rectangle Two]
+&quot;)</code></pre>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"\ngraph TD\nA(Rounded)-->B[Rectangular]\nB-->C{A Rhombus}\nC-->D[Rectangle One]\nC-->E[Rectangle Two]\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;
+graph TD
+A[Hard edge] --&gt;|Link text| B(Round edge)
+    B --&gt; C{Decision}
+    C --&gt;|One| D[Result one]
+    C --&gt;|Two| E[Result two]
+&quot;)</code></pre>
+<div id="htmlwidget-33c396ee2e0b2eb271ec" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33c396ee2e0b2eb271ec">{"x":{"diagram":"\ngraph TD\nA[Hard edge] -->|Link text| B(Round edge)\n    B --> C{Decision}\n    C -->|One| D[Result one]\n    C -->|Two| E[Result two]\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &lt;br/&gt;prevail!
+    John--&gt;&gt;Alice: Great!
+    John-&gt;&gt;Bob: How about you?
+    Bob--&gt;&gt;John: Jolly good!&quot;)</code></pre>
+<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"sequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop Healthcheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts <br/>prevail!\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-mermaid-diagram" class="section level1">
+<h1>Simple mermaid diagram</h1>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;graph LR
+    A--&gt;B
+    &quot;, height = &#39;10%&#39;, width = &#39;100%&#39;)</code></pre>
+<div id="htmlwidget-c28944b0981364d8e66d" style="width:100%;height:10%;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28944b0981364d8e66d">{"x":{"diagram":"graph LR\n    A-->B\n    "},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-mermaid-diagram-2" class="section level1">
+<h1>Simple mermaid diagram 2</h1>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;graph TD
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D&quot;)</code></pre>
+<div id="htmlwidget-8e6a813bd60417babd4d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e6a813bd60417babd4d">{"x":{"diagram":"graph TD\n    A-->B;\n    A-->C;\n    B-->D;\n    C-->D"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-grviz-1" class="section level1">
+<h1>Simple grViz 1</h1>
+<pre class="r"><code>grViz(&quot;digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = &#39;@@1&#39;]
+      tab2 [label = &#39;@@2&#39;]
+      tab3 [label = &#39;@@3&#39;]
+      tab4 [label = &#39;@@4&#39;]
+      tab5 [label = &#39;@@5&#39;]
+
+      # edge definitions with the node IDs
+      tab1 -&gt; tab2;
+      tab2 -&gt; tab3;
+      tab2 -&gt; tab4 -&gt; tab5
+      }
+
+      [1]: &#39;Questionnaire sent to n=1000 participants&#39;
+      [2]: &#39;Participants came to clinic for evaluation n=700&#39;
+      [3]: &#39;Participants non-eligible for the study n=100&#39;
+      [4]: &#39;Participants eligible for the study n=600&#39;
+      [5]: &#39;Study sample n=600&#39;
+      &quot;)</code></pre>
+<div id="htmlwidget-5cc920c6d4539ae12b9a" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5cc920c6d4539ae12b9a">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab3 [label = \"Participants non-eligible for the study n=100\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab2 -> tab3;\n      tab2 -> tab4 -> tab5\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-grviz-2" class="section level1">
+<h1>Simple grViz 2</h1>
+<pre class="r"><code>grViz(&quot;digraph dot {
+node [shape=rectange];
+
+d1 [shape=point,width=0.01,height=0.01];
+d2 [shape=point, width=0.01, height=0.01];
+{&#39;GE Раствор&#39;, &#39;GA Solution&#39;}-&gt;d1[dir=none];
+d1-&gt;&#39;Stir 10 mins at 500 r/min&#39;;
+&#39;Stir 10 mins at 500 r/min&#39;-&gt;d2[dir=none];
+subgraph {
+    rank=same;
+    d2; &#39;40oC&#39;;
+}
+d2-&gt;&#39;40oC&#39;[dir=none];
+d2-&gt;&#39;Homogenisation at 10000 r/min&#39;}&quot;)</code></pre>
+<div id="htmlwidget-8fa14313fa3a5a47aa96" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8fa14313fa3a5a47aa96">{"x":{"diagram":"digraph dot {\nnode [shape=rectange];\n\nd1 [shape=point,width=0.01,height=0.01];\nd2 [shape=point, width=0.01, height=0.01];\n{\"GE Раствор\", \"GA Solution\"}->d1[dir=none];\nd1->\"Stir 10 mins at 500 r/min\";\n\"Stir 10 mins at 500 r/min\"->d2[dir=none];\nsubgraph {\n    rank=same;\n    d2; \"40oC\";\n}\nd2->\"40oC\"[dir=none];\nd2->\"Homogenisation at 10000 r/min\"}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>#Flow grViz</p>
+<pre class="r"><code>grViz(&quot;
+digraph boxes_and_circles {
+
+  # a &#39;graph&#39; statement
+  graph [overlap = true, fontsize = 10]
+
+  # several &#39;node&#39; statements
+  node [shape = box,
+        fontname = Helvetica]
+  A; B; C; D; E; F
+
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  1; 2; 3; 4; 5; 6; 7; 8
+
+  # several &#39;edge&#39; statements
+  A-&gt;1 B-&gt;2 B-&gt;3 B-&gt;4 C-&gt;A
+  1-&gt;D E-&gt;A 2-&gt;4 1-&gt;5 1-&gt;F
+  E-&gt;6 4-&gt;6 5-&gt;7 6-&gt;7 3-&gt;8
+}
+&quot;)</code></pre>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"\ndigraph boxes_and_circles {\n\n  # a \"graph\" statement\n  graph [overlap = true, fontsize = 10]\n\n  # several \"node\" statements\n  node [shape = box,\n        fontname = Helvetica]\n  A; B; C; D; E; F\n\n  node [shape = circle,\n        fixedsize = true,\n        width = 0.9] // sets as circles\n  1; 2; 3; 4; 5; 6; 7; 8\n\n  # several \"edge\" statements\n  A->1 B->2 B->3 B->4 C->A\n  1->D E->A 2->4 1->5 1->F\n  E->6 4->6 5->7 6->7 3->8\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>#Flow 2</p>
+<pre class="r"><code>grViz(&quot;
+      digraph boxes_and_circles {
+
+      # a &#39;graph&#39; statement
+      graph [overlap = true, fontsize = 10]
+
+      # several &#39;node&#39; statements
+      node [shape = box,
+      fontname = Helvetica]
+      A; B; C; D; E
+      
+      node [shape = box,
+      fontname = Helvetica,
+      width = 1]
+      F[label = &#39;@@2&#39;]
+
+      node [shape = circle,
+      fixedsize = true,
+      width = 0.9] // sets as circles
+      1; 2; 3; 4; 5; 6; 7; 8
+      
+      node [shape = diamond,
+      fixedsize = true,
+      width = 3, height = 1] // sets as 
+      9[label = &#39;@@1&#39;]
+
+      # several &#39;edge&#39; statements
+      9-&gt;1 [label=&#39;YES&#39;]
+      9-&gt;5 [label=&#39;No&#39;]
+      B-&gt;2 [label=&#39;NO&#39;] 
+      B-&gt;3 [label=&#39;...&#39;] 
+      B-&gt;4 C-&gt;9
+      1-&gt;D E-&gt;9 2-&gt;4 1-&gt;5 1-&gt;F
+      E-&gt;6 4-&gt;6 5-&gt;7 6-&gt;7 3-&gt;8
+      }
+      [1]: &#39;top нет сил&#39;
+      [2]: &#39;но это&#39;
+&quot;)</code></pre>
+<div id="htmlwidget-33c396ee2e0b2eb271ec" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33c396ee2e0b2eb271ec">{"x":{"diagram":"\n      digraph boxes_and_circles {\n\n      # a \"graph\" statement\n      graph [overlap = true, fontsize = 10]\n\n      # several \"node\" statements\n      node [shape = box,\n      fontname = Helvetica]\n      A; B; C; D; E\n      \n      node [shape = box,\n      fontname = Helvetica,\n      width = 1]\n      F[label = \"но это\"]\n\n      node [shape = circle,\n      fixedsize = true,\n      width = 0.9] // sets as circles\n      1; 2; 3; 4; 5; 6; 7; 8\n      \n      node [shape = diamond,\n      fixedsize = true,\n      width = 3, height = 1] // sets as \n      9[label = \"top нет сил\"]\n\n      # several \"edge\" statements\n      9->1 [label=\"YES\"]\n      9->5 [label=\"No\"]\n      B->2 [label=\"NO\"] \n      B->3 [label=\"...\"] \n      B->4 C->9\n      1->D E->9 2->4 1->5 1->F\n      E->6 4->6 5->7 6->7 3->8\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="flow-chart-2" class="section level2">
+<h2>Flow chart 2</h2>
+<pre class="r"><code>mermaid(&quot;
+ graph TD
+    A{Does your flowchart have arrows?} --&gt; B[No]
+    A --&gt; C(yes)
+    B --&gt; D(Add them already)
+    C --&gt; E((Yay, what a great flowchart!))
+    D -.-&gt;|you can even add text to them| A
+&quot;)</code></pre>
+<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"\n graph TD\n    A{Does your flowchart have arrows?} --> B[No]\n    A --> C(yes)\n    B --> D(Add them already)\n    C --> E((Yay, what a great flowchart!))\n    D -.->|you can even add text to them| A\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="flow-chart-3" class="section level2">
+<h2>Flow chart 3</h2>
+<pre class="r"><code>mermaid(&quot;
+ graph LR
+   X--&gt;D
+   Y--&gt;D
+   D--E
+   
+            sq1[shape one]-- This can&#39;t be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+&quot;)</code></pre>
+<div id="htmlwidget-c28944b0981364d8e66d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28944b0981364d8e66d">{"x":{"diagram":"\n graph LR\n   X-->D\n   Y-->D\n   D--E\n   \n            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]\n            cyr1((circle one))---cyr2((circle two));\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>mermaid(&quot;
+ graph LR
+   X---D
+   Y---D
+   D--&gt;E
+   
+            sq1[shape one]-- This can&#39;t be a shape. So sad. --- sq2[shape two]
+            cyr1((circle one))---cyr2((circle two));
+&quot;)</code></pre>
+<div id="htmlwidget-8e6a813bd60417babd4d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e6a813bd60417babd4d">{"x":{"diagram":"\n graph LR\n   X---D\n   Y---D\n   D-->E\n   \n            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]\n            cyr1((circle one))---cyr2((circle two));\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Примечание. Это выдуманные данные. Сначала вы вводите
+данные о возрасте и весе в виде векторов, используя функцию с(), которая
+преобразует свои аргументы в вектор или список. Затем вычисляете среднее
+арифметическое и стандартное отклонение для значений веса, а также
+коэффициент корреляции между возрастом и весом и графически изображаете
+взаимосвязь между этими двумя переменными для визуального изучения
+тренда. Функция <code>q(),</code> как показано в приведенном ниже
+программном коде, завершает сессию и позволяет вам выйти из программы.<a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
