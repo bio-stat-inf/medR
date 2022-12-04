@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Статистика частот</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Содержание</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Типы данных</a>
+</li>
+<li>
+  <a href="typerdataM.html">Типы данных (доп.)</a>
+</li>
+<li>
+  <a href="apply_f.html">Векторизация</a>
+</li>
+<li>
+  <a href="freq_r.html">Частоты</a>
+</li>
+<li>
+  <a href="learnr_page/learnr_page.html">Задания</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Статистика частот</h1>
+
+</div>
+
+
+<pre class="r"><code>#library(dplyr)
+#require(ggplot2)
+library(gmodels)</code></pre>
+<div id="таблицы-частот-и-таблицы-сопряженности" class="section level1">
+<h1>Таблицы частот и таблицы сопряженности</h1>
+<p>В этом разделе мы рассмотрим таблицы частот и таблицы сопряженности
+для категориальных переменных, а также познакомимся с тестами на
+независимость, мерами связи и способами графического представления
+результатов. Мы будем использовать команды, реализованные в базовой
+версии R, наряду с командами из пакетов <code>vcd</code> и
+<code>gmodels</code>. В представленных ниже примерах A, B и C обозначают
+категориальные переменные. В примерах этого раздела использован набор
+данных <code>Arthritis</code> из пакета <code>vcd</code>. Эти данные
+опубликованы Kock &amp; Edward (1988) и представляют собой результаты
+клинического исследования нового способа лечения ревматоидного артрита
+двойным слепым методом.</p>
+<p>Вот первые несколько наблюдений:</p>
+<pre class="r"><code>library(vcd)
+head(Arthritis)</code></pre>
+<pre><code>##   ID Treatment  Sex Age Improved
+## 1 57   Treated Male  27     Some
+## 2 46   Treated Male  29     None
+## 3 77   Treated Male  30     None
+## 4 17   Treated Male  32   Marked
+## 5 36   Treated Male  46   Marked
+## 6 23   Treated Male  58   Marked</code></pre>
+<p>Способ лечения (Treatment: плацебо – Placebo и лекарство – Treated),
+пол (Sex: мужской – Male и женский – Female) и степень улучшения
+состояния больных (Improved: None – нет, Some – некоторое, Marked –
+заметное) – это категориальные факторы. В следующем подразделе мы
+создадим таблицы частот и сопряженности для этих данных.</p>
+</div>
+<div id="создание-таблиц-частот" class="section level1">
+<h1>Создание таблиц частот</h1>
+<p>В R реализовано несколько методов создания таблиц частот и
+сопряженности. Самые важные функции перечислены в табл. 7.1.</p>
+<p><strong>Таблица 7.1.</strong> Функции для создания и преобразования
+таблиц сопряженности</p>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Функция</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>table(*var1*, *var2*, ..., *varN*)</code></td>
+<td>Создает N-мерную таблицу сопряженности для N категориальных
+переменных (факторов)</td>
+</tr>
+<tr class="even">
+<td><code>xtabs(formula, data)</code></td>
+<td>Создает N-мерную таблицу сопряженности на основе формулы и матрицы
+или таблицы данных</td>
+</tr>
+<tr class="odd">
+<td><code>prop.table(*table*, *margins*)</code></td>
+<td>Представляет значения таблицы в виде долей от значений крайнего поля
+таблицы, задаваемого параметром <em>margins</em></td>
+</tr>
+<tr class="even">
+<td><code>margin.table(*table*, *margins*)</code></td>
+<td>Суммирует значения таблицы по строкам или столбцам
+<code>(определяется параметром *margins*)</code></td>
+</tr>
+<tr class="odd">
+<td><code>addmargins(table, margins)</code></td>
+<td>Вычисляет описательные статистики <em>margins</em> (суммы по
+умолчанию) для таблицы</td>
+</tr>
+<tr class="even">
+<td><code>ftable(*table*)</code></td>
+<td>Создает компактную «плоскую» таблицу сопряженности</td>
+</tr>
+</tbody>
+</table>
+<p>В следующих подразделах мы будем использовать все эти функции для
+исследования категориальных переменных. Мы начнем с вычисления простых
+частот, потом построим таблицы сопряженности для двух переменных и
+закончим созданием таблиц сопряженности для нескольких переменных. В
+качестве первого шага мы создадим таблицу при помощи функций
+<em>table()</em> и <em>xtabs()</em>, а затем будем изменять эту таблицу
+при помощи других функций.</p>
+</div>
+<div id="таблицы-для-одной-переменной" class="section level1">
+<h1>Таблицы для одной переменной</h1>
+<p>Частоты значений одной переменной можно рассчитать при помощи функции
+<code>table()</code>. Вот пример:</p>
+<pre class="r"><code>mytable &lt;- with(Arthritis, table(Improved)) 
+mytable</code></pre>
+<pre><code>## Improved
+##   None   Some Marked 
+##     42     14     28</code></pre>
+<p>Эти частоты можно преобразовать в доли от целого при помощи команды
+<code>prop.table()</code>:</p>
+<pre class="r"><code>prop.table(mytable)</code></pre>
+<pre><code>## Improved
+##      None      Some    Marked 
+## 0.5000000 0.1666667 0.3333333</code></pre>
+<p>Или в проценты, используя prop.table()<em>100: Или в проценты,
+используя prop.table()</em>100:</p>
+<pre class="r"><code>prop.table(mytable)*100</code></pre>
+<pre><code>## Improved
+##     None     Some   Marked 
+## 50.00000 16.66667 33.33333</code></pre>
+<p>Отсюда видно, что у половины пациентов после лечения произошло
+определенное улучшение состояния <code>(16.7 + 33.3)</code>.</p>
+</div>
+<div id="таблицы-для-двух-переменных" class="section level1">
+<h1>Таблицы для двух переменных</h1>
+<p>В случае двух переменных формат применения функции table() таков:</p>
+<blockquote>
+<p><code>mytable &lt;- table(A, B)</code></p>
+</blockquote>
+<p>где A – это переменная, значениям которой соответствуют строки
+таблицы сопряженности, а B – столбцы. В качестве альтернативы можно
+воспользоваться функцией <code>xtabs()</code>, которая позволяет при
+создании таблицы сопряженности вводить данные в виде формулы. Вот формат
+ее применения:</p>
+<blockquote>
+<p><code>mytable &lt;- xtabs(~ A + B, data=mydata)</code></p>
+</blockquote>
+<p>где <code>mydata</code> – это матрицы или таблица данных. В общем
+случае переменные, для которых строится таблица сопряженности, находятся
+в правой части формулы (то есть справа от знака <code>~</code>) и
+разделяются знаками <code>+</code>. Если переменная находится в левой
+части формулы, предполагается, что это вектор с частотами значений
+(удобно, если вы их уже вычислили).</p>
+<p>Для набора данных <code>Arthritis</code> у вас получится такая
+таблица:</p>
+<pre class="r"><code>mytable &lt;- xtabs(~ Treatment+Improved, data=Arthritis)
+mytable</code></pre>
+<pre><code>##          Improved
+## Treatment None Some Marked
+##   Placebo   29    7      7
+##   Treated   13    7     21</code></pre>
+<p>При помощи команд <code>margin.table()</code> и
+<code>prop.table()</code> можно рассчитать соответственно частоты и доли
+от целого по столбцам или строкам. При суммировании и вычислении долей
+по строкам получится следующее:</p>
+<pre class="r"><code>margin.table(mytable, 1)</code></pre>
+<pre><code>## Treatment
+## Placebo Treated 
+##      43      41</code></pre>
+<pre class="r"><code>prop.table(mytable, 1)</code></pre>
+<pre><code>##          Improved
+## Treatment      None      Some    Marked
+##   Placebo 0.6744186 0.1627907 0.1627907
+##   Treated 0.3170732 0.1707317 0.5121951</code></pre>
+<p>Индекс 1 относится к первой переменной в формате применения функции
+<code>table()</code>. Рассматривая полученную таблицу, вы можете
+заметить, что у 51% пациентов, получавших настоящее лекарство, наступило
+заметное улучшение. Для сравнения: такой эффект наступил только у 16%
+получавших плацебо пациентов. Вычисление сумм и долей от целого для
+столбцов выглядит так:</p>
+<pre class="r"><code>margin.table(mytable, 2)</code></pre>
+<pre><code>## Improved
+##   None   Some Marked 
+##     42     14     28</code></pre>
+<pre class="r"><code>prop.table(mytable, 2)</code></pre>
+<pre><code>##          Improved
+## Treatment      None      Some    Marked
+##   Placebo 0.6904762 0.5000000 0.2500000
+##   Treated 0.3095238 0.5000000 0.7500000</code></pre>
+<p>В этом случае индекс 2 относится ко второй переменной в формате
+применения функции <code>table()</code>. Доли от целого для ячеек
+таблицы рассчитываются так:</p>
+<pre class="r"><code>prop.table(mytable)</code></pre>
+<pre><code>##          Improved
+## Treatment       None       Some     Marked
+##   Placebo 0.34523810 0.08333333 0.08333333
+##   Treated 0.15476190 0.08333333 0.25000000</code></pre>
+<p>Можно использовать функцию <code>addmargins()</code> для добавления
+сумм по столбцам или строкам:</p>
+<pre class="r"><code>addmargins(mytable)</code></pre>
+<pre><code>##          Improved
+## Treatment None Some Marked Sum
+##   Placebo   29    7      7  43
+##   Treated   13    7     21  41
+##   Sum       42   14     28  84</code></pre>
+<pre class="r"><code>addmargins(prop.table(mytable))</code></pre>
+<pre><code>##          Improved
+## Treatment       None       Some     Marked        Sum
+##   Placebo 0.34523810 0.08333333 0.08333333 0.51190476
+##   Treated 0.15476190 0.08333333 0.25000000 0.48809524
+##   Sum     0.50000000 0.16666667 0.33333333 1.00000000</code></pre>
+<p>При использовании функции <code>addmargins()</code> по умолчанию
+вычисляются суммы и для столбцов, и для строк таблицы. В
+противоположность этому команда</p>
+<pre class="r"><code>addmargins(prop.table(mytable, 1), 2)</code></pre>
+<pre><code>##          Improved
+## Treatment      None      Some    Marked       Sum
+##   Placebo 0.6744186 0.1627907 0.1627907 1.0000000
+##   Treated 0.3170732 0.1707317 0.5121951 1.0000000</code></pre>
+<p>позволяет вычислить сумму только для строк. Аналогично команда</p>
+<pre class="r"><code>addmargins(prop.table(mytable, 2), 1)</code></pre>
+<pre><code>##          Improved
+## Treatment      None      Some    Marked
+##   Placebo 0.6904762 0.5000000 0.2500000
+##   Treated 0.3095238 0.5000000 0.7500000
+##   Sum     1.0000000 1.0000000 1.0000000</code></pre>
+<p>вычисляет суммы только для столбцов. Из этой таблицы видно, что 25%
+пациентов, чье состояние заметно улучшилось после лечения, получали
+плацебо.</p>
+<p><strong>Замечание.</strong> Функция <code>table()</code> по умолчанию
+игнорирует пропущенные значения. Для добавления пропущенных значений в
+таблицу сопряженности в качестве одного из значений используйте опцию
+<code>useNA="ifany"</code>.</p>
+<p>Третий способ создания таблиц сопряженности для двух переменных
+заключается в использовании функции <code>CrossTable()</code> из пакета
+<code>gmodels</code>. Эта функция создает такую же таблицу, как функции
+PROC FREQ в SAS или CROSSTABS в SPSS. Пример представлен в программном
+коде 7.11.</p>
+<p><strong>Программный код 7.11.</strong> Построение таблицы
+сопряженности для двух переменных при помощи функции
+<code>CrossTable()</code>:</p>
+<pre class="r"><code>library(gmodels)
+CrossTable(Arthritis$Treatment, Arthritis$Improved)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## | Chi-square contribution |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  84 
+## 
+##  
+##                     | Arthritis$Improved 
+## Arthritis$Treatment |      None |      Some |    Marked | Row Total | 
+## --------------------|-----------|-----------|-----------|-----------|
+##             Placebo |        29 |         7 |         7 |        43 | 
+##                     |     2.616 |     0.004 |     3.752 |           | 
+##                     |     0.674 |     0.163 |     0.163 |     0.512 | 
+##                     |     0.690 |     0.500 |     0.250 |           | 
+##                     |     0.345 |     0.083 |     0.083 |           | 
+## --------------------|-----------|-----------|-----------|-----------|
+##             Treated |        13 |         7 |        21 |        41 | 
+##                     |     2.744 |     0.004 |     3.935 |           | 
+##                     |     0.317 |     0.171 |     0.512 |     0.488 | 
+##                     |     0.310 |     0.500 |     0.750 |           | 
+##                     |     0.155 |     0.083 |     0.250 |           | 
+## --------------------|-----------|-----------|-----------|-----------|
+##        Column Total |        42 |        14 |        28 |        84 | 
+##                     |     0.500 |     0.167 |     0.333 |           | 
+## --------------------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<p>У функции <code>CrossTable()</code> есть опции вычислять проценты (по
+строкам, по столбцам, по ячейкам); округлять числа до заданного числа
+знаков после запятой; проводить тесты хи-квадрат, Фишера и Мак-Немара на
+независимость; вычислять ожидаемые значения и остатки (по Пирсону,
+стандартизованные, скорректированные стандартизованные); учитывать
+пропущенные значения; добавлять подписи в виде названий строк и
+столбцов; форматировать результат в стиле SAS и SPSS. Более подробную
+информацию можно получить, набрав <code>help(CrossTable)</code>.</p>
+<p>Если у нас есть больше двух категориальных переменных, нужно строить
+многомерные таблицы сопряженности. Давайте теперь рассмотрим их.</p>
+<div id="многомерные-таблицы" class="section level3">
+<h3>Многомерные таблицы</h3>
+<p>Функции <code>table()</code> и <code>xtabs()</code> можно
+использовать для создания многомерных таблиц сопряженности для трех и
+более категориальных переменных. Функции <code>margin.table()</code>,
+<code>prop.table()</code> и <code>addmargins()</code> тоже можно
+применять к многомерным таблицам.</p>
+<p>Кроме того, функция <code>ftable()</code> позволяет выводить
+многомерные таблицы на экран в компактном и привлекательном виде. Пример
+приведен в программном коде 7.12.</p>
+<p><strong>Программный код 7.12.</strong> Трехмерная таблица
+сопряженности</p>
+<p><strong>#1</strong> Групповые частоты</p>
+<pre class="r"><code>mytable &lt;- xtabs(~ Treatment+Sex+Improved, data=Arthritis)
+mytable</code></pre>
+<pre><code>## , , Improved = None
+## 
+##          Sex
+## Treatment Female Male
+##   Placebo     19   10
+##   Treated      6    7
+## 
+## , , Improved = Some
+## 
+##          Sex
+## Treatment Female Male
+##   Placebo      7    0
+##   Treated      5    2
+## 
+## , , Improved = Marked
+## 
+##          Sex
+## Treatment Female Male
+##   Placebo      6    1
+##   Treated     16    5</code></pre>
+<pre class="r"><code>ftable(mytable)</code></pre>
+<pre><code>##                  Improved None Some Marked
+## Treatment Sex                             
+## Placebo   Female            19    7      6
+##           Male              10    0      1
+## Treated   Female             6    5     16
+##           Male               7    2      5</code></pre>
+<p><strong>#2</strong> Сумма частот по строками столбцам</p>
+<pre class="r"><code>margin.table(mytable, 1)</code></pre>
+<pre><code>## Treatment
+## Placebo Treated 
+##      43      41</code></pre>
+<pre class="r"><code>margin.table(mytable, 2)</code></pre>
+<pre><code>## Sex
+## Female   Male 
+##     59     25</code></pre>
+<pre class="r"><code>margin.table(mytable, 3)</code></pre>
+<pre><code>## Improved
+##   None   Some Marked 
+##     42     14     28</code></pre>
+<p><strong>#3</strong> Сумма частот всех сочетаний значений столбцов
+Treatment и Improved</p>
+<pre class="r"><code>margin.table(mytable, c(1, 3))</code></pre>
+<pre><code>##          Improved
+## Treatment None Some Marked
+##   Placebo   29    7      7
+##   Treated   13    7     21</code></pre>
+<p><strong>#4</strong> Сумма частот всех сочетаний значений столбцов
+Treatment и Sex</p>
+<pre class="r"><code>ftable(prop.table(mytable, c(1, 2)))</code></pre>
+<pre><code>##                  Improved       None       Some     Marked
+## Treatment Sex                                             
+## Placebo   Female          0.59375000 0.21875000 0.18750000
+##           Male            0.90909091 0.00000000 0.09090909
+## Treated   Female          0.22222222 0.18518519 0.59259259
+##           Male            0.50000000 0.14285714 0.35714286</code></pre>
+<pre class="r"><code>ftable(addmargins(prop.table(mytable, c(1, 2)), 3))</code></pre>
+<pre><code>##                  Improved       None       Some     Marked        Sum
+## Treatment Sex                                                        
+## Placebo   Female          0.59375000 0.21875000 0.18750000 1.00000000
+##           Male            0.90909091 0.00000000 0.09090909 1.00000000
+## Treated   Female          0.22222222 0.18518519 0.59259259 1.00000000
+##           Male            0.50000000 0.14285714 0.35714286 1.00000000</code></pre>
+<p>Выражение <strong>#1</strong> позволяет вычислить частоты для всех
+сочетаний трех факторов. Также видно, что команда <code>ftable()</code>
+позволяет представить результаты в более компактном и привлекательном
+виде.</p>
+<p>Выражение <strong>#2</strong> рассчитывает частоты для отдельных
+факторов. Поскольку исходная таблица была создана при помощи формулы
+<code>~ Treatment+Sex+Improved</code>, то индекс 1 соответствует
+переменной <code>Treatment</code>, индекс 2 – переменной
+<code>Sex</code>, а индекс 3 – переменной <code>Improved</code>.</p>
+<p>Выражение <strong>#3</strong> позволяет вычислить частоты
+встречаемости всех сочетаний значений <code>Treatment</code> и
+<code>Improved</code>, объединив данные для мужчин и женщин. Доля
+пациентов с разной степенью улучшения для каждого сочетания типа лечения
+и пола вычислена при помощи команды <code>q</code>. Здесь видно, что
+заметное улучшение наступило у 36% мужчин и 69% женщин, которые получали
+настоящее лекарство. В общем случае частоты вычисляются так, чтобы их
+сумма для всех значений не указанного внутри команды
+<code>prop.table()</code> фактора (в данном случае
+<code>Improved</code>) была равна единице. Это видно в последнем
+примере, где мы суммируем частоты по строкам.</p>
+<p>Если вы хотите представить результат в процентах, а не долях единицы,
+можете умножить все значения полученной таблицы на 100.</p>
+<p>Например, команда</p>
+<pre class="r"><code>ftable(addmargins(prop.table(mytable, c(1, 2)), 3)) * 100</code></pre>
+<pre><code>##                  Improved       None       Some     Marked        Sum
+## Treatment Sex                                                        
+## Placebo   Female           59.375000  21.875000  18.750000 100.000000
+##           Male             90.909091   0.000000   9.090909 100.000000
+## Treated   Female           22.222222  18.518519  59.259259 100.000000
+##           Male             50.000000  14.285714  35.714286 100.000000</code></pre>
+<p>создает такую таблицу:</p>
+<p>В то время как таблицы сопряженности содержат информацию о частотах
+всех сочетаний значений факторов, вам, возможно, также интересно,
+связаны ли эти факторы между собой или они независимы. Тесты на
+независимость обсуждаются в следующем разделе.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

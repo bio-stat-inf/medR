@@ -16,6 +16,8 @@ navbar:
       href: typerdataM.html
     - text: "Векторизация"
       href: apply_f.html
+    - text: "Частоты"
+      href: freq_r.html
     - text: "Задания"
       href: learnr_page/learnr_page.html
 output_dir: "docs"
