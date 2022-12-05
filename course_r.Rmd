@@ -1,0 +1,110 @@
+---
+title: "R курсы в swirl "
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
+```
+
+```{r packages, message=FALSE, warning=FALSE}
+library(swirl)
+library(swirlify)
+```
+
+# Вы обучающийся!
+
+Пакет swirl R позволяет весело и легко освоить программирование R и науку о данных. Если вы новичок в R, не бойтесь. На этой странице мы расскажем вам о каждом шаге, необходимом для того, чтобы начать использовать swirl уже сегодня!
+
+# Шаг 1: Установите R 
+
+Чтобы запустить `swirl`, на вашем компьютере должна быть установлена R 3.1.0 или более поздней версии R. Если вы используете операционную систему Linux, посетите нашу страницу Установка [swirl в Linux](https://github.com/swirldev/swirl/wiki/Installing-swirl-on-Linux).
+Если вам нужно установить R, вы можете сделать это [здесь](http://cran.rstudio.com/).
+Чтобы получить помощь по установке R, посмотрите одно из следующих видео (любезно предоставлено Роджером Пэном из Johns Hopkins Biostatistics): 
+Установка R в [Windows](http://youtu.be/mfGFv-iB724) 
+Установка R на [Mac](http://youtu.be/Icawuhf0Yqo)
+
+# Шаг 2 (рекомендуется): Установите RStudio
+В дополнение к R настоятельно рекомендуется установить RStudio, что сделает ваш опыт работы с R намного более приятным.
+
+Если вам нужно установить RStudio, вы можете сделать это [здесь](http://www.rstudio.com/products/rstudio/download/). Выберите подходящий установщик для вашей операционной системы
+
+# Шаг 3: установите `swirl`
+Откройте RStudio (или просто R, если у вас нет RStudio) и введите в консоль следующее:
+
+
+> `install.packages("swirl")`
+
+Обратите внимание, что символ `>`  в начале строки - это приглашение R для ввода чего-либо в консоль. Мы включаем это здесь, чтобы вы знали, что эта команда должна быть введена в консоль, а не где-либо еще. Часть, которую вы вводите, начинается после `>`.
+
+# Шаг 4: Начните использовать `swirl`
+Это единственный шаг, который вы будете повторять каждый раз, когда захотите запустить `swirl`. Сначала вы загрузите пакет с помощью  функции `library()`. Затем вы вызовете функцию, которая запускает волшебство! Введите следующее, нажимая Enter после каждой строки:
+
+```{r}
+library("swirl") 
+```
+
+>`swirl()`
+
+# Шаг 5: Установите интерактивный курс
+При первом запуске `swirl` вам будет предложено установить курс. Вы можете либо установить один из рекомендуемых курсов, либо посетить наш [репозиторий курсов](https://github.com/swirldev/swirl_courses#swirl-courses), чтобы узнать о дополнительных возможностях. В сети курсов Swirl [`Swirl Course Network`](http://swirlstats.com/scn/) доступно еще больше курсов.
+
+Если вы хотите установить курс, который не является частью нашего репозитория курсов, введите `?InstallCourses` в командной строке R, чтобы получить список функций, которые помогут вам это сделать.
+
+# Шаг 6: Получайте удовольствие!
+Пожалуйста, посетите нашу [страницу справки](https://swirlstats.com/help.html), если у вас возникли проблемы выполнения любого из этих шагов.
+
+
+# Перенос курса
+
+Если в состав курса входит несколько уроков, упаковать их можно вместе, указав апосле `set_lesson`
+YAML файл первого урока (возможно любого). 
+`Press Enter to select the YAML file for the lesson you want to work on...`
+Курс будет упакован в ту же папку, что и папка курса 
+
+
+`library(swirl)`
+`library(swirlify)`
+`swirl_courses_dir()`
+`#[1] "C:/Users/Work/Documents/R/win-library/4.0/swirl/Courses"`
+`## Not run: `
+`# Set any lesson in the course you want to pack`
+`set_lesson()`
+`# Pack the course`
+`pack_course()`
+`# Export the .swc file to a directory that you specify`
+`pack_course(file.path("~", "Desktop"))`
+`# Unpack a course and interactively choose a .swc file`
+`unpack_course()`
+
+`# Unpack a course where the .swc file is explicitly specified`
+`unpack_course(file.path("~", "Desktop", "R_Programming.swc"))`
+
+`# Unpack a course and specify where the .swc file is located and where the`
+`# course should be exported.`
+`unpack_course(file.path("~", "Desktop", "R_Programming.swc"), file.path("~", "Developer", "swirl"))`
+
+`## End(Not run)`
+
+# Совместное использование вашего курса в виде файла
+
+Мы разработали `.swc` тип файла, чтобы вы могли поделиться своим курсом в виде одного файла. Создать `.swc`файл для вашего курса очень просто:
+
+Установите **любой** урок в **курсе, которым вы хотите поделиться**, в качестве текущего урока `set_lesson()`.
+Создайте `.swc` файл с помощью этой `pack_course()` функции. Ваш `.swc` файл появится в том же каталоге, что и каталог, содержащий папку курса. У вас также есть возможность экспортировать `.swc` файл в другой каталог, указав `export_path` аргумент.
+Теперь вы можете поделиться своим `.swc` файлом, как и любым другим файлом (через электронную почту, службы обмена файлами и т. Д.). 
+Учащиеся могут установить ваш курс из `.swc` файла, загрузив файл, а затем используя `install_course()` функцию в `swirl`, которая предложит им интерактивно выбрать загруженный файл

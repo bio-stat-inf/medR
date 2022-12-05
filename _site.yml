@@ -4,7 +4,7 @@ navbar:
   left:
     - text: "Главная"
       href: index.html
-    - text: "Содержание"
+    - text: "Журнал R заданий"
       href: Journal.html
     - text: "Ссылки"
       href: Links.html
@@ -19,5 +19,5 @@ navbar:
     - text: "Частоты"
       href: freq_r.html
     - text: "Задания"
-      href: learnr_page/learnr_page.html
+      href: course_r.html
 output_dir: "docs"

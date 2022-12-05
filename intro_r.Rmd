@@ -1,5 +1,5 @@
 ---
-title: "IntroR"
+title: "Введение в R"
 output:
   html_document:
     toc: true

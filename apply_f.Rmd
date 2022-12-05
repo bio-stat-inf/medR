@@ -1,5 +1,5 @@
 ---
-title: "Apply"
+title: "Функции"
 output:
   html_document:
     toc: true

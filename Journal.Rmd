@@ -1,5 +1,5 @@
 ---
-title: "Journal"
+title: "Журнал заданий R"
 output:
   html_document:
     toc: true
@@ -14,30 +14,30 @@ output:
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
-IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
+ВАЖНО: Вы можете удалить все здесь и начать заново. Возможно, вы захотите начать с того, что не будете удалять ничего выше этой строки, пока не узнаете, что этот код делает.
 
+Это файл .RMD. Это обычный текст со специальными функциями. Каждый раз, когда вы пишете просто так, он будет скомпилирован в обычный текст на веб-сайте. Если вы поместите \# перед своим текстом, он создаст заголовок верхнего уровня.
 
-This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
-
-# My first post
-
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
-
-Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
-
-## Second level header
-
-You can add more headers by adding more hashtags. These won't be put into the table of contents
-
-### third level header
-
-Here's an even lower level header
-
-# My second post (note the order)
+# Мой первый пост
 
 2018 | 7 | 23 Last compiled: `r Sys.Date()`
 
-I'm writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom
+Обратите внимание, что все, что вы определяете как заголовок верхнего уровня, автоматически помещается в панель содержания слева.
+
+## Заголовок второго уровня
+
+Вы можете добавить больше заголовков, добавив больше хэштегов. Они не будут помещены в оглавление
+
+### заголовок третьего уровня
+
+Вот заголовок еще более низкого уровня
+
+# Мой второй пост (обратите внимание на порядок)
+
+2018 | 7 | 23 Last compiled: `r Sys.Date()`
+
+
+Я пишу этот урок сверху вниз. И вот как это будет напечатано. Итак, обратите внимание, что второй пост является вторым в списке. Если вы хотите, чтобы ваш последний пост был вверху, создайте новый пост, начиная сверху. Если вы хотите, чтобы сначала был самый старый, сделайте это, а затем продолжайте добавлять в конец
 
 # Добавление текста в таблицу содержания
 
@@ -48,34 +48,35 @@ samples <- rnorm(100, mean=0, sd=1)
 hist(samples)
 ```
 
-# Adding R stuff
+# Добавление материала R
 
-So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the sam place. 
+Пока что это просто блог, где вы можете писать простым текстом и размещать свои записи на веб-странице. Одной из основных целей этого задания является запись вашего прогресса в изучении R. Причина, по которой я прошу вас использовать этот процесс, заключается в том, что вы можете создать веб-сайт и журнал, а также изучать R в R-studio. Это делает все действительно удобно и в том же месте.
 
-So, let's say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation =1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:
+Итак, допустим, вы изучаете, как построить гистограмму в R. Например, может быть, вы хотите выбрать 100 чисел из нормального распределения со средним значением = 0 и стандартным отклонением = 1, а затем вы хотите построить гистограмму. Вы можете сделать это прямо здесь, используя блок кода r, например:
+
 
 ```{r}
 samples <- rnorm(100, mean=0, sd=1)
 hist(samples)
 ```
 
-When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag), from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You learn all of these things and more can be customized in each R code block.
+Когда вы будете создавать этот документ R Markdown, вы увидите, что гистограмма печатается на странице вместе с кодом R. Этот документ можно настроить так, чтобы скрыть код R на веб-странице, просто удалите комментарий (хэштег) из опции cold folding  в заголовке yaml вверху. Чтобы позволить увидеть код вам и мне увидеть код, лучше оставить его таким, какой он есть. Вы узнаете обо всех этих вещах и многом другом, которые можно настроить в каждом блоке кода R.
 
-# The big idea
+# Идея
 
-Use this lab journal to record what you do in R. This way I will be able to see what you are doing and help you along the way. You will also be creating a repository of all the things you do. You can make posts about everything. Learning specific things in R (project unrelated), and doing things for the project that we will discuss at the beginning of the Fall semester. You can get started now by fiddling around with googling things, and trying stuff out in R. I've placed some helpful starting links in the links page on this website
+Используйте этот лабораторный журнал, чтобы записывать, что вы делаете в R. Так я смогу видеть, что вы делаете, и помогать вам на этом пути. Вы также будете создавать хранилище всех объектов, которые вы делаете. Вы можете делать записи-посты обо всем. Изучение конкретных задач в R (не связанных с проектом) и выполнение действий для проекта, мы обсудим в начале обучения. Вы можете начать прямо сейчас, погуглив и попробовав что-то в R. Я разместил несколько полезных стартовых ссылок на странице ссылок на этом веб-сайте.
 
-# What can you do right now by yourself?
+# Что вы можете сделать прямо сейчас самостоятельно?
 
-It's hard to learn programming when you don't have specific problems that you are trying to solve. Everything just seems abstract.
+Трудно изучать программирование, когда у вас нет конкретных задач, которые вы пытаетесь решить. Просто все кажется абстрактным.
 
-I wrote an [introductory programming book that introduces R](https://crumplab.github.io/programmingforpsych/), and gives some [concrete problems for you to solve](https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html). 
+[Вводная книгу по программированию R] (https://crumplab.github.io/programmingforpsych/) дает некоторые [конкретные задачи, которые вам нужно решить] (https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html).
 
-To get the hang of journaling and solving the problems to learn programming, my suggestion is that you use this .Rmd file to solve the problems. It would look like this:
+Чтобы научиться вести журнал выполнения своих работ с помощью R и решать задачи для изучения программирования, ghtlkfuftncz использовать этот файл .Rmd для решения задач. Это будет выглядеть так:
 
-# Problem 1
+# Задача 1
 
-Do simple math with numbers, addition, subtraction, multiplication, division
+Выполните простые математические действия с числами, сложение, вычитание, умножение, деление
 
 ```{r}
 1+2
@@ -85,9 +86,9 @@ Do simple math with numbers, addition, subtraction, multiplication, division
 
 ```
 
-# Problem 2
+# Задача 2
 
-Put numbers into variables, do simple math on the variables
+Поместите числа в переменные, сделайте простую математику с переменными
 
 ```{r}
 a<-1
@@ -102,36 +103,35 @@ d/e
 
 ```
 
-# Problem 3
+# Задача 3
 
-Write code that will place the numbers 1 to 100 separately into a variable using for loop. Then, again using the seq function.
+Напишите код, который будет помещать числа от 1 до 100 отдельно в переменную, используя цикл for. Затем, снова используя функцию seq.
 
 ```{r}
-# for loop solution
-# i becomes the number 1 to 100 at each step of the loop
-
+# для решения с помощью цикла for
+# i становится числом от 1 до 100 на каждом шаге цикла
 
 a <- length(100) # make empty variable, set length to 100
 for (i in 1:100){
-  a[i] <-i #assigns the number in i, to the ith index of a
+  a[i] <-i # в i присваивает число  i-му индексу a
 }
 
 print(a)
 
-# for loop solution #2
+# цикл for решения #2
 
-a<-c() #create empty variable using combine command
+a<-c() #создайте пустую переменную используя комбинацию команд
 for (i in 1:100){
-  a<-c(a,i) # keeps combining a with itself and the new number in i
+  a<-c(a,i) # продолжает комбинировать `a` с собой и новым числом в `i`
 }
 print(a)
 
-# seq solution
-a <- seq(1,100,1) # look up help for seq using ?seq() in console
+# решение с помощью 
+a <- seq(1,100,1) # найдите справку для seq, используя ?seq() в консоли
 print(a)
 
 ```
 
-# Replace this with problem 4
+# Замените это на задачу 4
 
-And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.
+И продолжайте. Попробуйте решить проблемы с помощью разных скриптов, которые предлагают одно и то же решение. Удачи, счастливого кодирования.

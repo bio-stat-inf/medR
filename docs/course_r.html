@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R курсы в swirl</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Журнал R заданий</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Типы данных</a>
+</li>
+<li>
+  <a href="typerdataM.html">Типы данных (доп.)</a>
+</li>
+<li>
+  <a href="apply_f.html">Векторизация</a>
+</li>
+<li>
+  <a href="freq_r.html">Частоты</a>
+</li>
+<li>
+  <a href="course_r.html">Задания</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">R курсы в swirl</h1>
+
+</div>
+
+
+<pre class="r"><code>library(swirl)
+library(swirlify)</code></pre>
+<div id="вы-обучающийся" class="section level1">
+<h1>Вы обучающийся!</h1>
+<p>Пакет swirl R позволяет весело и легко освоить программирование R и
+науку о данных. Если вы новичок в R, не бойтесь. На этой странице мы
+расскажем вам о каждом шаге, необходимом для того, чтобы начать
+использовать swirl уже сегодня!</p>
+</div>
+<div id="шаг-1-установите-r" class="section level1">
+<h1>Шаг 1: Установите R</h1>
+<p>Чтобы запустить <code>swirl</code>, на вашем компьютере должна быть
+установлена R 3.1.0 или более поздней версии R. Если вы используете
+операционную систему Linux, посетите нашу страницу Установка <a
+href="https://github.com/swirldev/swirl/wiki/Installing-swirl-on-Linux">swirl
+в Linux</a>. Если вам нужно установить R, вы можете сделать это <a
+href="http://cran.rstudio.com/">здесь</a>. Чтобы получить помощь по
+установке R, посмотрите одно из следующих видео (любезно предоставлено
+Роджером Пэном из Johns Hopkins Biostatistics): Установка R в <a
+href="http://youtu.be/mfGFv-iB724">Windows</a> Установка R на <a
+href="http://youtu.be/Icawuhf0Yqo">Mac</a></p>
+</div>
+<div id="шаг-2-рекомендуется-установите-rstudio" class="section level1">
+<h1>Шаг 2 (рекомендуется): Установите RStudio</h1>
+<p>В дополнение к R настоятельно рекомендуется установить RStudio, что
+сделает ваш опыт работы с R намного более приятным.</p>
+<p>Если вам нужно установить RStudio, вы можете сделать это <a
+href="http://www.rstudio.com/products/rstudio/download/">здесь</a>.
+Выберите подходящий установщик для вашей операционной системы</p>
+</div>
+<div id="шаг-3-установите-swirl" class="section level1">
+<h1>Шаг 3: установите <code>swirl</code></h1>
+<p>Откройте RStudio (или просто R, если у вас нет RStudio) и введите в
+консоль следующее:</p>
+<blockquote>
+<p><code>install.packages("swirl")</code></p>
+</blockquote>
+<p>Обратите внимание, что символ <code>&gt;</code> в начале строки - это
+приглашение R для ввода чего-либо в консоль. Мы включаем это здесь,
+чтобы вы знали, что эта команда должна быть введена в консоль, а не
+где-либо еще. Часть, которую вы вводите, начинается после
+<code>&gt;</code>.</p>
+</div>
+<div id="шаг-4-начните-использовать-swirl" class="section level1">
+<h1>Шаг 4: Начните использовать <code>swirl</code></h1>
+<p>Это единственный шаг, который вы будете повторять каждый раз, когда
+захотите запустить <code>swirl</code>. Сначала вы загрузите пакет с
+помощью функции <code>library()</code>. Затем вы вызовете функцию,
+которая запускает волшебство! Введите следующее, нажимая Enter после
+каждой строки:</p>
+<pre class="r"><code>library(&quot;swirl&quot;) </code></pre>
+<blockquote>
+<p><code>swirl()</code></p>
+</blockquote>
+</div>
+<div id="шаг-5-установите-интерактивный-курс" class="section level1">
+<h1>Шаг 5: Установите интерактивный курс</h1>
+<p>При первом запуске <code>swirl</code> вам будет предложено установить
+курс. Вы можете либо установить один из рекомендуемых курсов, либо
+посетить наш <a
+href="https://github.com/swirldev/swirl_courses#swirl-courses">репозиторий
+курсов</a>, чтобы узнать о дополнительных возможностях. В сети курсов
+Swirl <a
+href="http://swirlstats.com/scn/"><code>Swirl Course Network</code></a>
+доступно еще больше курсов.</p>
+<p>Если вы хотите установить курс, который не является частью нашего
+репозитория курсов, введите <code>?InstallCourses</code> в командной
+строке R, чтобы получить список функций, которые помогут вам это
+сделать.</p>
+</div>
+<div id="шаг-6-получайте-удовольствие" class="section level1">
+<h1>Шаг 6: Получайте удовольствие!</h1>
+<p>Пожалуйста, посетите нашу <a
+href="https://swirlstats.com/help.html">страницу справки</a>, если у вас
+возникли проблемы выполнения любого из этих шагов.</p>
+</div>
+<div id="перенос-курса" class="section level1">
+<h1>Перенос курса</h1>
+<p>Если в состав курса входит несколько уроков, упаковать их можно
+вместе, указав апосле <code>set_lesson</code> YAML файл первого урока
+(возможно любого).
+<code>Press Enter to select the YAML file for the lesson you want to work on...</code>
+Курс будет упакован в ту же папку, что и папка курса</p>
+<p><code>library(swirl)</code> <code>library(swirlify)</code>
+<code>swirl_courses_dir()</code>
+<code>#[1] "C:/Users/Work/Documents/R/win-library/4.0/swirl/Courses"</code>
+<code>## Not run:</code>
+<code># Set any lesson in the course you want to pack</code>
+<code>set_lesson()</code> <code># Pack the course</code>
+<code>pack_course()</code>
+<code># Export the .swc file to a directory that you specify</code>
+<code>pack_course(file.path("~", "Desktop"))</code>
+<code># Unpack a course and interactively choose a .swc file</code>
+<code>unpack_course()</code></p>
+<p><code># Unpack a course where the .swc file is explicitly specified</code>
+<code>unpack_course(file.path("~", "Desktop", "R_Programming.swc"))</code></p>
+<p><code># Unpack a course and specify where the .swc file is located and where the</code>
+<code># course should be exported.</code>
+<code>unpack_course(file.path("~", "Desktop", "R_Programming.swc"), file.path("~", "Developer", "swirl"))</code></p>
+<p><code>## End(Not run)</code></p>
+</div>
+<div id="совместное-использование-вашего-курса-в-виде-файла"
+class="section level1">
+<h1>Совместное использование вашего курса в виде файла</h1>
+<p>Мы разработали <code>.swc</code> тип файла, чтобы вы могли поделиться
+своим курсом в виде одного файла. Создать <code>.swc</code>файл для
+вашего курса очень просто:</p>
+<p>Установите <strong>любой</strong> урок в <strong>курсе, которым вы
+хотите поделиться</strong>, в качестве текущего урока
+<code>set_lesson()</code>. Создайте <code>.swc</code> файл с помощью
+этой <code>pack_course()</code> функции. Ваш <code>.swc</code> файл
+появится в том же каталоге, что и каталог, содержащий папку курса. У вас
+также есть возможность экспортировать <code>.swc</code> файл в другой
+каталог, указав <code>export_path</code> аргумент. Теперь вы можете
+поделиться своим <code>.swc</code> файлом, как и любым другим файлом
+(через электронную почту, службы обмена файлами и т. Д.). Учащиеся могут
+установить ваш курс из <code>.swc</code> файла, загрузив файл, а затем
+используя <code>install_course()</code> функцию в <code>swirl</code>,
+которая предложит им интерактивно выбрать загруженный файл</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
