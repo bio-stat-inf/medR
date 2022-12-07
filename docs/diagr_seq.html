@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Диаграммы последовательности</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.9.9000/DiagrammeR.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Медицинский R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Главная</a>
+</li>
+<li>
+  <a href="Journal.html">Журнал R заданий</a>
+</li>
+<li>
+  <a href="Links.html">Ссылки</a>
+</li>
+<li>
+  <a href="intro_r.html">Введение в R</a>
+</li>
+<li>
+  <a href="typerdata.html">Типы данных</a>
+</li>
+<li>
+  <a href="typerdataM.html">Типы данных (доп.)</a>
+</li>
+<li>
+  <a href="apply_f.html">Векторизация</a>
+</li>
+<li>
+  <a href="freq_r.html">Частоты</a>
+</li>
+<li>
+  <a href="diagr_seq.html">Диаграммы</a>
+</li>
+<li>
+  <a href="course_r.html">Задания</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Диаграммы последовательности</h1>
+
+</div>
+
+
+<pre class="r"><code>library(dplyr)
+require(DiagrammeR)</code></pre>
+<div id="диаграммы-последовательности" class="section level1">
+<h1>Диаграммы последовательности</h1>
+<p>На диаграммах последовательности отображается жизненный цикл одного
+объекта или нескольких, а также их взаимодействие. Диаграммы
+последовательности состоят из актеров в виде прямоугольников и
+взаимодействий в виде вертикальных «линий жизни».</p>
+<p>В Mermaid диаграммы последовательности задаются с помощью ключевого
+слова <code>sequenceDiagram</code>:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    Alice-&gt;&gt;John: Hello John, how are you?
+    John--&gt;&gt;Alice: Great!
+    Alice-&gt;&gt;John: See you later!
+  
+&quot;)</code></pre>
+<div id="htmlwidget-64a16421a779f30a4236" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-64a16421a779f30a4236">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>John: Hello John, how are you?\n    John-->>Alice: Great!\n    Alice->>John: See you later!\n  \n"},"evals":[],"jsHooks":[]}</script>
+<p>Актеров можно объявлять неявно сразу во время указания отношений, а
+можно сначала объявить всех участников с помощью ключевого слова
+participant, а потом отмечать отношения.</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant Ваня
+    participant Петя
+    Ваня-&gt;&gt;Петя: Привет, Петя
+    Петя-&gt;&gt;Ваня: Привет, Ваня
+&quot;)</code></pre>
+<div id="htmlwidget-d8e768d813ae9d4dd1a7" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d8e768d813ae9d4dd1a7">{"x":{"diagram":"\nsequenceDiagram\n    participant Ваня\n    participant Петя\n    Ваня->>Петя: Привет, Петя\n    Петя->>Ваня: Привет, Ваня\n"},"evals":[],"jsHooks":[]}</script>
+<p>Каждый раз писать имя актера может быть не удобно и долго, особенно
+если схема состоит из десятка разных актеров. Для этих целей в Mermaid
+есть псевдонимы. Имя актера можно сократить до нескольких букв или
+буквенных идентификаторов.</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-&gt;&gt;P: Привет, Петя
+    P-&gt;&gt;V: Привет, Ваня
+&quot;)</code></pre>
+<div id="htmlwidget-446bb7871f73f4662a0b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-446bb7871f73f4662a0b">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    P->>V: Привет, Ваня\n"},"evals":[],"jsHooks":[]}</script>
+<p>Связи и сообщения могут отображаться в виде сплошных или пунктирных
+линий. Общий вид выглядит следующим образом:</p>
+<blockquote>
+<p><code>[Актер][Стрелка][Актер]:Текст сообщения</code></p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th>Тип</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-&gt;</td>
+<td>Сплошная линия без стрелки</td>
+</tr>
+<tr class="even">
+<td>–&gt;</td>
+<td>Пунктирная линия без стрелки</td>
+</tr>
+<tr class="odd">
+<td>-&gt;&gt;</td>
+<td>Сплошная линия со стрелкой</td>
+</tr>
+<tr class="even">
+<td>–&gt;&gt;</td>
+<td>Пунктирная линия со стрелкой</td>
+</tr>
+<tr class="odd">
+<td>-x</td>
+<td>Сплошная линия с крестиком на конце</td>
+</tr>
+<tr class="even">
+<td>–x</td>
+<td>Пунктирная линия с крестиком на конце</td>
+</tr>
+</tbody>
+</table>
+<p>Актера явно можно активировать и деактивировать, отмечая область его
+действия. Осуществляется это с помощью ключевых слов activate и
+deactivate. Активации можно накладывать друг на друга.</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-&gt;&gt;P: Привет, Петя
+    activate P
+    P-&gt;&gt;V: Привет, Ваня
+    deactivate P
+&quot;)</code></pre>
+<div id="htmlwidget-8ea2b955eacbc6ead60b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8ea2b955eacbc6ead60b">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    activate P\n    P->>V: Привет, Ваня\n    deactivate P\n"},"evals":[],"jsHooks":[]}</script>
+<p>Доступна и сокращенная запись в виде знаков «+/-» на конце стрелок,
+результат рендеринга будет идентичен:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-)+P: Привет, Петя
+    P-&gt;&gt;-V: Привет, Ваня
+&quot;)</code></pre>
+<div id="htmlwidget-44261066026804efb876" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44261066026804efb876">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V-)+P: Привет, Петя\n    P->>-V: Привет, Ваня\n"},"evals":[],"jsHooks":[]}</script>
+<p>Диаграммы последовательности можно снабжать заметками с помощью
+общего вида записи:</p>
+<blockquote>
+<p><code>Note [ right of | left of | over ] [Актер]:</code> Текст
+заметки</p>
+</blockquote>
+<p>Если ключевые слова <code>right of</code> и <code>left</code> of уже
+встречались нам, то слово over новое. Оно позволяет размещать заметку
+сразу на нескольких актерах.</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-&gt;&gt;+P: Привет, Петя
+    P-&gt;&gt;-V: Привет, Ваня
+    Note over V,P: Заметка
+&quot;)</code></pre>
+<div id="htmlwidget-b4ae6515054cefe76a1f" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b4ae6515054cefe76a1f">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>+P: Привет, Петя\n    P->>-V: Привет, Ваня\n    Note over V,P: Заметка\n"},"evals":[],"jsHooks":[]}</script>
+<p>Часто одно и то же действие происходит в цикле и активируется с
+определенным интервалом. В Mermaid циклы задаются с помощью ключевого
+слова loop:</p>
+<blockquote>
+<p><code>loop Текст цикла' '… действие …' 'end</code></p>
+</blockquote>
+<p>К примеру:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-&gt;&gt;P: Привет, Петя
+    loop Каждое утро
+    P-&gt;&gt;V: Привет, Ваня
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-ee5944087ceaf6c0f538" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ee5944087ceaf6c0f538">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    loop Каждое утро\n    P->>V: Привет, Ваня\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<p>Альтернативные сценарии и условия обозначаются следующей
+конструкцией:</p>
+<blockquote>
+<p><code>alt Описание</code></p>
+<p><code>… действие …</code></p>
+<p><code>else</code></p>
+<p><code>… действие …</code></p>
+<p><code>end</code></p>
+</blockquote>
+<p>Необязательные опциональные сценарии задаются без else:</p>
+<blockquote>
+<p><code>opt Описание</code><br />
+<code>… действие …' 'end</code></p>
+</blockquote>
+<p>Пример:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    V-&gt;&gt;P: Петя, как дела?
+    alt Если хорошо
+        P-&gt;&gt;V: Все отлично!
+    else
+        P-&gt;&gt;V: Все плохо :с
+    end
+    opt Если все сильно раздражает
+    P-&gt;&gt;V: Отвали, Ваня!
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-e96c1a2b302b8710e0fc" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e96c1a2b302b8710e0fc">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Петя, как дела?\n    alt Если хорошо\n        P->>V: Все отлично!\n    else\n        P->>V: Все плохо :с\n    end\n    opt Если все сильно раздражает\n    P->>V: Отвали, Ваня!\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<p>Можно указать параллельные действия. Для этого есть ключевое слово
+par:</p>
+<blockquote>
+<p><code>par [Действие 1]… описание … and [Действие 2]… описание …and [Действие N]… описание …end</code></p>
+</blockquote>
+<p>К примеру так:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    participant I as Ирина
+
+    par Ваня и Петя
+        V-&gt;&gt;P: Привет, Петя
+    and Ваня и Ирина 
+        V-&gt;&gt;I: Привет, Ирина
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-d254982999211174116b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d254982999211174116b">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<p>Фону можно добавлять кастомизированные цвета с помощью RGB и RGBA
+кодов:</p>
+<blockquote>
+<p><code>rect rgb(0, 255, 0)' '… содержимое …' 'endrect rgba(0, 0, 255, .1)' '… содержимое …' 'end</code></p>
+</blockquote>
+<p>К примеру:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant V as Ваня
+    participant P as Петя
+    participant I as Ирина
+
+    rect rgb(191, 223, 255)
+    par Ваня и Петя
+        V-&gt;&gt;P: Привет, Петя
+    and Ваня и Ирина 
+        V-&gt;&gt;I: Привет, Ирина
+    end
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-19dfe118ce1660f0ab2c" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-19dfe118ce1660f0ab2c">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    rect rgb(191, 223, 255)\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<p>Действия на диаграмме можно автоматически пронумеровать с помощью
+ключевого слова <code>autonumber</code> в начале кода:</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram;
+    participant V as Ваня
+    participant P as Петя
+    participant I as Ирина
+
+    autonumber
+    par Ваня и Петя
+        V-&gt;&gt;P: Привет, Петя
+    and Ваня и Ирина 
+        V-&gt;&gt;I: Привет, Ирина
+    end
+    loop Каждые полчаса
+        V-&gt;&gt;I: Сколько времени?
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-4c11cd214e69cccf8b3e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4c11cd214e69cccf8b3e">{"x":{"diagram":"\nsequenceDiagram;\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    autonumber\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n    loop Каждые полчаса\n        V->>I: Сколько времени?\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram;
+    participant V as Ваня
+    participant P as Петя
+    participant I as Ирина
+
+    V-&gt;&gt;P: Привет, Петя
+    V-&gt;&gt;I: Привет, Ирина
+    loop Каждые полчаса
+        V-&gt;&gt;I: Сколько времени?
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-6ca3562b3886bb6f5084" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ca3562b3886bb6f5084">{"x":{"diagram":"\nsequenceDiagram;\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    V->>P: Привет, Петя\n    V->>I: Привет, Ирина\n    loop Каждые полчаса\n        V->>I: Сколько времени?\n    end\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="basic-sequence-diagram" class="section level1">
+<h1>4.4 Basic Sequence Diagram</h1>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    Alice -&gt;&gt; Bob: Hello Bob, how are you?
+    Bob--&gt;&gt;John: How about you John?
+    Bob--x Alice: I am good thanks!
+    Bob-x John: I am good thanks!
+    Note right of John: Bob thinks a long&lt;br/&gt;long time, so long&lt;br/&gt;that the text does&lt;br/&gt;not fit on a row.
+
+    Bob--&gt;Alice: Checking with John...
+    Alice-&gt;John: Yes... John, how are you?
+&quot;)</code></pre>
+<div id="htmlwidget-4606d5859f4290fde747" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4606d5859f4290fde747">{"x":{"diagram":"\nsequenceDiagram\n    Alice ->> Bob: Hello Bob, how are you?\n    Bob-->>John: How about you John?\n    Bob--x Alice: I am good thanks!\n    Bob-x John: I am good thanks!\n    Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.\n\n    Bob-->Alice: Checking with John...\n    Alice->John: Yes... John, how are you?\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="message-to-self-in-loop" class="section level1">
+<h1>4.5 Message to Self in Loop</h1>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts&lt;br/&gt;prevail...
+    John--&gt;&gt;Alice: Great!
+    John-&gt;&gt;Bob: How about you?
+    Bob--&gt;&gt;John: Jolly good!
+&quot;)</code></pre>
+<div id="htmlwidget-4de0326781115ec06bde" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4de0326781115ec06bde">{"x":{"diagram":"\nsequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop Healthcheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts<br/>prevail...\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!\n"},"evals":[],"jsHooks":[]}</script>
+<p>2.6 Loops Express loops in a sequence diagram by the notation
+loop</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    Alice-&gt;John: Hello John, how are you?
+    loop Every minute
+        John--&gt;Alice: Great!
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-96a5541be132f71c6ecd" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-96a5541be132f71c6ecd">{"x":{"diagram":"\nsequenceDiagram\n    Alice->John: Hello John, how are you?\n    loop Every minute\n        John-->Alice: Great!\n    end\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="alt" class="section level1">
+<h1>2.7 Alt</h1>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    Alice-&gt;&gt;John: Hello John, how are you?
+    alt is sick
+        John-&gt;&gt;Alice: Not so good :(
+    else is well
+        John-&gt;&gt;Alice: Feeling fresh like a daisy
+    end
+    opt Extra response
+        John-&gt;&gt;Alice: Thanks for asking
+    end
+&quot;)</code></pre>
+<div id="htmlwidget-0a4f162b83504a28dcf4" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0a4f162b83504a28dcf4">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>John: Hello John, how are you?\n    alt is sick\n        John->>Alice: Not so good :(\n    else is well\n        John->>Alice: Feeling fresh like a daisy\n    end\n    opt Extra response\n        John->>Alice: Thanks for asking\n    end\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="activations" class="section level1">
+<h1>2.4 Activations</h1>
+<p>Activate and deactivate an actor.</p>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+participant Event as Very long name goes here
+participant API as Some API
+participant API2 as A different API
+participant Client as Another very long name goes here
+
+activate Event
+Event -&gt;&gt; Event: Something important happens
+Note over Event,Client: Some explanation goes here
+activate Client
+Event --x Client: Publish event
+deactivate Event
+
+deactivate Client
+&quot;)</code></pre>
+<div id="htmlwidget-1729eb23f7e2c4a4f6d9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1729eb23f7e2c4a4f6d9">{"x":{"diagram":"\nsequenceDiagram\nparticipant Event as Very long name goes here\nparticipant API as Some API\nparticipant API2 as A different API\nparticipant Client as Another very long name goes here\n\nactivate Event\nEvent ->> Event: Something important happens\nNote over Event,Client: Some explanation goes here\nactivate Client\nEvent --x Client: Publish event\ndeactivate Event\n\ndeactivate Client\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>mermaid(&quot;
+sequenceDiagram
+    Alice-&gt;&gt;+John: Hello John, how are you?
+    Alice-&gt;&gt;+John: John, can you hear me?
+    John--&gt;&gt;-Alice: Hi Alice, I can hear you!
+    John--&gt;&gt;-Alice: I feel great!
+&quot;)</code></pre>
+<div id="htmlwidget-0e1d82917cec68872bd8" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0e1d82917cec68872bd8">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>+John: Hello John, how are you?\n    Alice->>+John: John, can you hear me?\n    John-->>-Alice: Hi Alice, I can hear you!\n    John-->>-Alice: I feel great!\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

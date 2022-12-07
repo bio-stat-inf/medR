@@ -18,6 +18,8 @@ navbar:
       href: apply_f.html
     - text: "Частоты"
       href: freq_r.html
+    - text: "Диаграммы"
+      href: diagr_seq.html
     - text: "Задания"
       href: course_r.html
 output_dir: "docs"
