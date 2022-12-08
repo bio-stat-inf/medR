@@ -43,7 +43,7 @@
 <script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/chromatography-0.1/chromatography.js"></script>
-<script src="site_libs/DiagrammeR-binding-1.0.9/DiagrammeR.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.9.9000/DiagrammeR.js"></script>
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
 
@@ -1232,8 +1232,8 @@ digraph boxes_and_circles {
     C --&gt; E((Yay, what a great flowchart!))
     D -.-&gt;|you can even add text to them| A
 &quot;)</code></pre>
-<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"\n graph TD\n    A{Does your flowchart have arrows?} --> B[No]\n    A --> C(yes)\n    B --> D(Add them already)\n    C --> E((Yay, what a great flowchart!))\n    D -.->|you can even add text to them| A\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5b6d65f115da6722dd09" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b6d65f115da6722dd09">{"x":{"diagram":"\n graph TD\n    A{Does your flowchart have arrows?} --> B[No]\n    A --> C(yes)\n    B --> D(Add them already)\n    C --> E((Yay, what a great flowchart!))\n    D -.->|you can even add text to them| A\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="flow-chart-3" class="section level2">
 <h2>Flow chart 3</h2>
@@ -1259,6 +1259,58 @@ digraph boxes_and_circles {
 &quot;)</code></pre>
 <div id="htmlwidget-8e6a813bd60417babd4d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
 <script type="application/json" data-for="htmlwidget-8e6a813bd60417babd4d">{"x":{"diagram":"\n graph LR\n   X---D\n   Y---D\n   D-->E\n   \n            sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]\n            cyr1((circle one))---cyr2((circle two));\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(DiagrammeR)
+mermaid(&quot;
+graph LR
+    A[Christmas] --&gt;|Get money| B(Go shopping)
+    B --&gt; C{Let me think}
+    C --&gt;|One| D[Laptop]
+    C --&gt;|Two| E[iPhone]
+    C --&gt;|Three| F
+    subgraph F
+    b1--&gt;b2
+    end
+    &quot;)</code></pre>
+<div id="htmlwidget-33c396ee2e0b2eb271ec" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33c396ee2e0b2eb271ec">{"x":{"diagram":"\ngraph LR\n    A[Christmas] -->|Get money| B(Go shopping)\n    B --> C{Let me think}\n    C -->|One| D[Laptop]\n    C -->|Two| E[iPhone]\n    C -->|Three| F\n    subgraph F\n    b1-->b2\n    end\n    "},"evals":[],"jsHooks":[]}</script>
+<p>4.2 Flowchart with Decision</p>
+<pre class="r"><code>mermaid(&quot;
+    graph LR;
+      subgraph one
+        main---MainMenu
+        MainMenu((MainMenu))---Game
+        Game---Level
+        Game---Player
+      end
+      subgraph two
+        Screen
+      end
+      one--&gt;two 
+      main--&gt;Screen
+&quot;)</code></pre>
+<div id="htmlwidget-24021a938c54a907c1d6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24021a938c54a907c1d6">{"x":{"diagram":"\n    graph LR;\n      subgraph one\n        main---MainMenu\n        MainMenu((MainMenu))---Game\n        Game---Level\n        Game---Player\n      end\n      subgraph two\n        Screen\n      end\n      one-->two \n      main-->Screen\n"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>mermaid(&quot;
+graph TD
+A[Christmas] --&gt;|Get money| B(Go shopping)
+subgraph Nerve wracking
+B --&gt; C{Roll a dice}
+end
+subgraph Don&#39;t look
+  C --&gt;|One| D[Laptop]
+  C --&gt;|Two| E[iPhone]
+  subgraph High Probability
+    C--&gt;|Three| G
+    C--&gt;|Four| G
+    C--&gt;|Five| G[A gift card]
+  end
+  subgraph Low Probability
+    C --&gt;|Six| F[fa:fa-car Car]
+  end
+end
+&quot;)</code></pre>
+<div id="htmlwidget-c28944b0981364d8e66d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28944b0981364d8e66d">{"x":{"diagram":"\ngraph TD\nA[Christmas] -->|Get money| B(Go shopping)\nsubgraph Nerve wracking\nB --> C{Roll a dice}\nend\nsubgraph Don't look\n  C -->|One| D[Laptop]\n  C -->|Two| E[iPhone]\n  subgraph High Probability\n    C-->|Three| G\n    C-->|Four| G\n    C-->|Five| G[A gift card]\n  end\n  subgraph Low Probability\n    C -->|Six| F[fa:fa-car Car]\n  end\nend\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">

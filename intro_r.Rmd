@@ -379,7 +379,7 @@ grViz("
 ```
 ## Flow chart 2
 
-```{r example3, fig.align='center', fig.retina=3}
+```{r example32, fig.align='center', fig.retina=3}
 mermaid("
  graph TD
     A{Does your flowchart have arrows?} --> B[No]
@@ -414,3 +414,59 @@ mermaid("
             sq1[shape one]-- This can't be a shape. So sad. --- sq2[shape two]
             cyr1((circle one))---cyr2((circle two));
 ")
+```
+
+```{r example3, fig.align='center', fig.retina=3}
+library(DiagrammeR)
+mermaid("
+graph LR
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F
+    subgraph F
+    b1-->b2
+    end
+    ")
+```
+4.2 Flowchart with Decision
+```{r}
+
+mermaid("
+    graph LR;
+      subgraph one
+        main---MainMenu
+        MainMenu((MainMenu))---Game
+        Game---Level
+        Game---Player
+      end
+      subgraph two
+        Screen
+      end
+      one-->two 
+      main-->Screen
+")
+```
+
+```{r}
+mermaid("
+graph TD
+A[Christmas] -->|Get money| B(Go shopping)
+subgraph Nerve wracking
+B --> C{Roll a dice}
+end
+subgraph Don't look
+  C -->|One| D[Laptop]
+  C -->|Two| E[iPhone]
+  subgraph High Probability
+    C-->|Three| G
+    C-->|Four| G
+    C-->|Five| G[A gift card]
+  end
+  subgraph Low Probability
+    C -->|Six| F[fa:fa-car Car]
+  end
+end
+")
+```

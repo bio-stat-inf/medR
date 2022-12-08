@@ -93,30 +93,8 @@ sequenceDiagram
 действия. Осуществляется это с помощью ключевых слов activate и
 deactivate. Активации можно накладывать друг на друга.
 
-```{r}
-mermaid("
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V->>P: Привет, Петя
-    activate P
-    P->>V: Привет, Ваня
-    deactivate P
-")
-```
-
 Доступна и сокращенная запись в виде знаков «+/-» на конце стрелок,
 результат рендеринга будет идентичен:
-
-```{r}
-mermaid("
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V-)+P: Привет, Петя
-    P->>-V: Привет, Ваня
-")
-```
 
 Диаграммы последовательности можно снабжать заметками с помощью общего
 вида записи:
@@ -126,16 +104,6 @@ sequenceDiagram
 Если ключевые слова `right of` и `left` of уже встречались нам, то слово
 over новое. Оно позволяет размещать заметку сразу на нескольких актерах.
 
-```{r}
-mermaid("
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V->>+P: Привет, Петя
-    P->>-V: Привет, Ваня
-    Note over V,P: Заметка
-")
-```
 
 Часто одно и то же действие происходит в цикле и активируется с
 определенным интервалом. В Mermaid циклы задаются с помощью ключевого
@@ -197,22 +165,6 @@ sequenceDiagram
 
 > `par [Действие 1]… описание … and [Действие 2]… описание …and [Действие N]… описание …end`
 
-К примеру так:
-
-```{r}
-mermaid("
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    par Ваня и Петя
-        V->>P: Привет, Петя
-    and Ваня и Ирина 
-        V->>I: Привет, Ирина
-    end
-")
-```
 
 Фону можно добавлять кастомизированные цвета с помощью RGB и RGBA кодов:
 
@@ -220,44 +172,9 @@ sequenceDiagram
 
 К примеру:
 
-```{r}
-mermaid("
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    rect rgb(191, 223, 255)
-    par Ваня и Петя
-        V->>P: Привет, Петя
-    and Ваня и Ирина 
-        V->>I: Привет, Ирина
-    end
-    end
-")
-```
 
 Действия на диаграмме можно автоматически пронумеровать с помощью
 ключевого слова `autonumber` в начале кода:
-
-```{r}
-mermaid("
-sequenceDiagram;
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    autonumber
-    par Ваня и Петя
-        V->>P: Привет, Петя
-    and Ваня и Ирина 
-        V->>I: Привет, Ирина
-    end
-    loop Каждые полчаса
-        V->>I: Сколько времени?
-    end
-")
-```
 
 ```{r}
 mermaid("
@@ -337,41 +254,6 @@ sequenceDiagram
     opt Extra response
         John->>Alice: Thanks for asking
     end
-")
- 
-```
-
-# 2.4 Activations
-
-Activate and deactivate an actor.
-
-```{r}
-mermaid("
-sequenceDiagram
-participant Event as Very long name goes here
-participant API as Some API
-participant API2 as A different API
-participant Client as Another very long name goes here
-
-activate Event
-Event ->> Event: Something important happens
-Note over Event,Client: Some explanation goes here
-activate Client
-Event --x Client: Publish event
-deactivate Event
-
-deactivate Client
-")
- 
-```
-
-```{r}
-mermaid("
-sequenceDiagram
-    Alice->>+John: Hello John, how are you?
-    Alice->>+John: John, can you hear me?
-    John-->>-Alice: Hi Alice, I can hear you!
-    John-->>-Alice: I feel great!
 ")
  
 ```

@@ -471,28 +471,8 @@ sequenceDiagram
 <p>Актера явно можно активировать и деактивировать, отмечая область его
 действия. Осуществляется это с помощью ключевых слов activate и
 deactivate. Активации можно накладывать друг на друга.</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V-&gt;&gt;P: Привет, Петя
-    activate P
-    P-&gt;&gt;V: Привет, Ваня
-    deactivate P
-&quot;)</code></pre>
-<div id="htmlwidget-8ea2b955eacbc6ead60b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8ea2b955eacbc6ead60b">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    activate P\n    P->>V: Привет, Ваня\n    deactivate P\n"},"evals":[],"jsHooks":[]}</script>
 <p>Доступна и сокращенная запись в виде знаков «+/-» на конце стрелок,
 результат рендеринга будет идентичен:</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V-)+P: Привет, Петя
-    P-&gt;&gt;-V: Привет, Ваня
-&quot;)</code></pre>
-<div id="htmlwidget-44261066026804efb876" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-44261066026804efb876">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V-)+P: Привет, Петя\n    P->>-V: Привет, Ваня\n"},"evals":[],"jsHooks":[]}</script>
 <p>Диаграммы последовательности можно снабжать заметками с помощью
 общего вида записи:</p>
 <blockquote>
@@ -502,16 +482,6 @@ sequenceDiagram
 <p>Если ключевые слова <code>right of</code> и <code>left</code> of уже
 встречались нам, то слово over новое. Оно позволяет размещать заметку
 сразу на нескольких актерах.</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    V-&gt;&gt;+P: Привет, Петя
-    P-&gt;&gt;-V: Привет, Ваня
-    Note over V,P: Заметка
-&quot;)</code></pre>
-<div id="htmlwidget-b4ae6515054cefe76a1f" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b4ae6515054cefe76a1f">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>+P: Привет, Петя\n    P->>-V: Привет, Ваня\n    Note over V,P: Заметка\n"},"evals":[],"jsHooks":[]}</script>
 <p>Часто одно и то же действие происходит в цикле и активируется с
 определенным интервалом. В Mermaid циклы задаются с помощью ключевого
 слова loop:</p>
@@ -528,8 +498,8 @@ sequenceDiagram
     P-&gt;&gt;V: Привет, Ваня
     end
 &quot;)</code></pre>
-<div id="htmlwidget-ee5944087ceaf6c0f538" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ee5944087ceaf6c0f538">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    loop Каждое утро\n    P->>V: Привет, Ваня\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-390ddd73576602a97a6e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-390ddd73576602a97a6e">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Привет, Петя\n    loop Каждое утро\n    P->>V: Привет, Ваня\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <p>Альтернативные сценарии и условия обозначаются следующей
 конструкцией:</p>
 <blockquote>
@@ -559,70 +529,21 @@ sequenceDiagram
     P-&gt;&gt;V: Отвали, Ваня!
     end
 &quot;)</code></pre>
-<div id="htmlwidget-e96c1a2b302b8710e0fc" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e96c1a2b302b8710e0fc">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Петя, как дела?\n    alt Если хорошо\n        P->>V: Все отлично!\n    else\n        P->>V: Все плохо :с\n    end\n    opt Если все сильно раздражает\n    P->>V: Отвали, Ваня!\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0b1e37aadb8c13f52a23" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0b1e37aadb8c13f52a23">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    V->>P: Петя, как дела?\n    alt Если хорошо\n        P->>V: Все отлично!\n    else\n        P->>V: Все плохо :с\n    end\n    opt Если все сильно раздражает\n    P->>V: Отвали, Ваня!\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <p>Можно указать параллельные действия. Для этого есть ключевое слово
 par:</p>
 <blockquote>
 <p><code>par [Действие 1]… описание … and [Действие 2]… описание …and [Действие N]… описание …end</code></p>
 </blockquote>
-<p>К примеру так:</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    par Ваня и Петя
-        V-&gt;&gt;P: Привет, Петя
-    and Ваня и Ирина 
-        V-&gt;&gt;I: Привет, Ирина
-    end
-&quot;)</code></pre>
-<div id="htmlwidget-d254982999211174116b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d254982999211174116b">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <p>Фону можно добавлять кастомизированные цвета с помощью RGB и RGBA
 кодов:</p>
 <blockquote>
 <p><code>rect rgb(0, 255, 0)' '… содержимое …' 'endrect rgba(0, 0, 255, .1)' '… содержимое …' 'end</code></p>
 </blockquote>
 <p>К примеру:</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    rect rgb(191, 223, 255)
-    par Ваня и Петя
-        V-&gt;&gt;P: Привет, Петя
-    and Ваня и Ирина 
-        V-&gt;&gt;I: Привет, Ирина
-    end
-    end
-&quot;)</code></pre>
-<div id="htmlwidget-19dfe118ce1660f0ab2c" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-19dfe118ce1660f0ab2c">{"x":{"diagram":"\nsequenceDiagram\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    rect rgb(191, 223, 255)\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <p>Действия на диаграмме можно автоматически пронумеровать с помощью
 ключевого слова <code>autonumber</code> в начале кода:</p>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram;
-    participant V as Ваня
-    participant P as Петя
-    participant I as Ирина
-
-    autonumber
-    par Ваня и Петя
-        V-&gt;&gt;P: Привет, Петя
-    and Ваня и Ирина 
-        V-&gt;&gt;I: Привет, Ирина
-    end
-    loop Каждые полчаса
-        V-&gt;&gt;I: Сколько времени?
-    end
-&quot;)</code></pre>
-<div id="htmlwidget-4c11cd214e69cccf8b3e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4c11cd214e69cccf8b3e">{"x":{"diagram":"\nsequenceDiagram;\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    autonumber\n    par Ваня и Петя\n        V->>P: Привет, Петя\n    and Ваня и Ирина \n        V->>I: Привет, Ирина\n    end\n    loop Каждые полчаса\n        V->>I: Сколько времени?\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>mermaid(&quot;
 sequenceDiagram;
     participant V as Ваня
@@ -635,8 +556,8 @@ sequenceDiagram;
         V-&gt;&gt;I: Сколько времени?
     end
 &quot;)</code></pre>
-<div id="htmlwidget-6ca3562b3886bb6f5084" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ca3562b3886bb6f5084">{"x":{"diagram":"\nsequenceDiagram;\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    V->>P: Привет, Петя\n    V->>I: Привет, Ирина\n    loop Каждые полчаса\n        V->>I: Сколько времени?\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-afc6e32cfd947d195e52" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-afc6e32cfd947d195e52">{"x":{"diagram":"\nsequenceDiagram;\n    participant V as Ваня\n    participant P as Петя\n    participant I as Ирина\n\n    V->>P: Привет, Петя\n    V->>I: Привет, Ирина\n    loop Каждые полчаса\n        V->>I: Сколько времени?\n    end\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="basic-sequence-diagram" class="section level1">
 <h1>4.4 Basic Sequence Diagram</h1>
@@ -651,8 +572,8 @@ sequenceDiagram
     Bob--&gt;Alice: Checking with John...
     Alice-&gt;John: Yes... John, how are you?
 &quot;)</code></pre>
-<div id="htmlwidget-4606d5859f4290fde747" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4606d5859f4290fde747">{"x":{"diagram":"\nsequenceDiagram\n    Alice ->> Bob: Hello Bob, how are you?\n    Bob-->>John: How about you John?\n    Bob--x Alice: I am good thanks!\n    Bob-x John: I am good thanks!\n    Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.\n\n    Bob-->Alice: Checking with John...\n    Alice->John: Yes... John, how are you?\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-dc5fa7279635f7df7dd6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dc5fa7279635f7df7dd6">{"x":{"diagram":"\nsequenceDiagram\n    Alice ->> Bob: Hello Bob, how are you?\n    Bob-->>John: How about you John?\n    Bob--x Alice: I am good thanks!\n    Bob-x John: I am good thanks!\n    Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.\n\n    Bob-->Alice: Checking with John...\n    Alice->John: Yes... John, how are you?\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="message-to-self-in-loop" class="section level1">
 <h1>4.5 Message to Self in Loop</h1>
@@ -669,8 +590,8 @@ sequenceDiagram
     John-&gt;&gt;Bob: How about you?
     Bob--&gt;&gt;John: Jolly good!
 &quot;)</code></pre>
-<div id="htmlwidget-4de0326781115ec06bde" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4de0326781115ec06bde">{"x":{"diagram":"\nsequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop Healthcheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts<br/>prevail...\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-434dcc01fbe8af947b92" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-434dcc01fbe8af947b92">{"x":{"diagram":"\nsequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop Healthcheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts<br/>prevail...\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!\n"},"evals":[],"jsHooks":[]}</script>
 <p>2.6 Loops Express loops in a sequence diagram by the notation
 loop</p>
 <pre class="r"><code>mermaid(&quot;
@@ -680,8 +601,8 @@ sequenceDiagram
         John--&gt;Alice: Great!
     end
 &quot;)</code></pre>
-<div id="htmlwidget-96a5541be132f71c6ecd" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-96a5541be132f71c6ecd">{"x":{"diagram":"\nsequenceDiagram\n    Alice->John: Hello John, how are you?\n    loop Every minute\n        John-->Alice: Great!\n    end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a557fa160128a2131ed8" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a557fa160128a2131ed8">{"x":{"diagram":"\nsequenceDiagram\n    Alice->John: Hello John, how are you?\n    loop Every minute\n        John-->Alice: Great!\n    end\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="alt" class="section level1">
 <h1>2.7 Alt</h1>
@@ -697,39 +618,39 @@ sequenceDiagram
         John-&gt;&gt;Alice: Thanks for asking
     end
 &quot;)</code></pre>
-<div id="htmlwidget-0a4f162b83504a28dcf4" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0a4f162b83504a28dcf4">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>John: Hello John, how are you?\n    alt is sick\n        John->>Alice: Not so good :(\n    else is well\n        John->>Alice: Feeling fresh like a daisy\n    end\n    opt Extra response\n        John->>Alice: Thanks for asking\n    end\n"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="activations" class="section level1">
-<h1>2.4 Activations</h1>
-<p>Activate and deactivate an actor.</p>
+<div id="htmlwidget-add7ac59a2398b01259a" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-add7ac59a2398b01259a">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>John: Hello John, how are you?\n    alt is sick\n        John->>Alice: Not so good :(\n    else is well\n        John->>Alice: Feeling fresh like a daisy\n    end\n    opt Extra response\n        John->>Alice: Thanks for asking\n    end\n"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-participant Event as Very long name goes here
-participant API as Some API
-participant API2 as A different API
-participant Client as Another very long name goes here
+gantt
+        dateFormat  YYYY-MM-DD
+        title Adding GANTT diagram functionality to mermaid
 
-activate Event
-Event -&gt;&gt; Event: Something important happens
-Note over Event,Client: Some explanation goes here
-activate Client
-Event --x Client: Publish event
-deactivate Event
+        section A section
+        Completed task            :done,    des1, 2014-01-06,2014-01-08
+        Active task               :active,  des2, 2014-01-09, 3d
+        Future task               :         des3, after des2, 5d
+        Future task2               :         des4, after des3, 5d
 
-deactivate Client
+        section Critical tasks
+        Completed task in the critical line :crit, done, 2014-01-06,24h
+        Implement parser and jison          :crit, done, after des1, 2d
+        Create tests for parser             :crit, active, 3d
+        Future task in critical line        :crit, 5d
+        Create tests for renderer           :2d
+        Add to mermaid                      :1d
+
+        section Documentation
+        Describe gantt syntax               :active, a1, after des1, 3d
+        Add gantt diagram to demo page      :after a1  , 20h
+        Add another diagram to demo page    :doc1, after a1  , 48h
+
+        section Last section
+        Describe gantt syntax               :after doc1, 3d
+        Add gantt diagram to demo page      : 20h
+        Add another diagram to demo page    : 48h
 &quot;)</code></pre>
-<div id="htmlwidget-1729eb23f7e2c4a4f6d9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1729eb23f7e2c4a4f6d9">{"x":{"diagram":"\nsequenceDiagram\nparticipant Event as Very long name goes here\nparticipant API as Some API\nparticipant API2 as A different API\nparticipant Client as Another very long name goes here\n\nactivate Event\nEvent ->> Event: Something important happens\nNote over Event,Client: Some explanation goes here\nactivate Client\nEvent --x Client: Publish event\ndeactivate Event\n\ndeactivate Client\n"},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>mermaid(&quot;
-sequenceDiagram
-    Alice-&gt;&gt;+John: Hello John, how are you?
-    Alice-&gt;&gt;+John: John, can you hear me?
-    John--&gt;&gt;-Alice: Hi Alice, I can hear you!
-    John--&gt;&gt;-Alice: I feel great!
-&quot;)</code></pre>
-<div id="htmlwidget-0e1d82917cec68872bd8" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0e1d82917cec68872bd8">{"x":{"diagram":"\nsequenceDiagram\n    Alice->>+John: Hello John, how are you?\n    Alice->>+John: John, can you hear me?\n    John-->>-Alice: Hi Alice, I can hear you!\n    John-->>-Alice: I feel great!\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-23f96d988dcd4f1c0aab" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-23f96d988dcd4f1c0aab">{"x":{"diagram":"\ngantt\n        dateFormat  YYYY-MM-DD\n        title Adding GANTT diagram functionality to mermaid\n\n        section A section\n        Completed task            :done,    des1, 2014-01-06,2014-01-08\n        Active task               :active,  des2, 2014-01-09, 3d\n        Future task               :         des3, after des2, 5d\n        Future task2               :         des4, after des3, 5d\n\n        section Critical tasks\n        Completed task in the critical line :crit, done, 2014-01-06,24h\n        Implement parser and jison          :crit, done, after des1, 2d\n        Create tests for parser             :crit, active, 3d\n        Future task in critical line        :crit, 5d\n        Create tests for renderer           :2d\n        Add to mermaid                      :1d\n\n        section Documentation\n        Describe gantt syntax               :active, a1, after des1, 3d\n        Add gantt diagram to demo page      :after a1  , 20h\n        Add another diagram to demo page    :doc1, after a1  , 48h\n\n        section Last section\n        Describe gantt syntax               :after doc1, 3d\n        Add gantt diagram to demo page      : 20h\n        Add another diagram to demo page    : 48h\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
